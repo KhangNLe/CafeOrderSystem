@@ -16,7 +16,8 @@
         "price": 7,
         "ingredients": {
           "COFFEE_BEAN": 4,
-          "MILK": 4
+          "MILK": 4,
+          "SUGAR": 0
         }
       },
       "LARGE": {
