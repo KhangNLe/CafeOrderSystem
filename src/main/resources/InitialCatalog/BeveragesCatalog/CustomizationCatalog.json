@@ -1,0 +1,81 @@
+[
+  {
+    "id": "B-Cu01",
+    "name": "Extra shot",
+    "type": "EXTRA_SHOT",
+    "additionalPrice": 1.5,
+    "ingredients": {
+      "COFFEE_BEAN": 1
+    },
+    "applicableTo": ["COFFEE"]
+  },
+  {
+    "id": "B-Cu02",
+    "name": "Decaf",
+    "type": "DECAF",
+    "priceMultiplier": 1.2,
+    "ingredientsMultiplier": {
+      "COFFEE_BEAN": {
+        "replaceWith": "DECAF_COFFEE_BEAN",
+        "amountMultiplier": 1.2
+      },
+      "TEA_LEAVES": {
+        "TEA_BLACK": {
+          "replaceWith": "DECAF_TEA_LEAVES_BLACK",
+          "amountMultiplier": 1.3
+        },
+        "TEA_GREEN": {
+          "replaceWith": "DECAF_TEA_LEAVE_GREEN",
+          "amountMultiplier": 1.2
+        }
+      }
+    },
+    "applicableTo": ["COFFEE", "TEA_BLACK", "TEA_GREEN"]
+  },
+  {
+    "id": "B-Cu03",
+    "name": "Oat milk",
+    "type": "MILK_REPLACE",
+    "priceMultiplier": 1.1,
+    "ingredientsMultiplier": {
+      "MILK": {
+        "replaceWith": "OAT_MILK",
+        "amountMultiplier": 1
+      }
+    },
+    "applicableTo": ["COFFEE", "TEA_BLACK", "TEA_GREEN", "TEA_HERBAL"]
+  },
+  {
+    "id": "B-Cu04",
+    "name": "Almond Milk",
+    "type": "MILK_REPLACE",
+    "priceMultiplier": 1.25,
+    "ingredientsMultiplier": {
+      "MILK": {
+        "replaceWith": "ALMOND_MILK",
+        "amountMultiplier": 1
+      }
+    },
+    "applicableTo": ["COFFEE", "TEA_BLACK", "TEA_GREEN", "TEA_HERBAL"]
+  },
+  {
+    "id": "B-Cu05",
+    "name": "Sugar-free Syrup",
+    "type": "SWEETENER",
+    "additionalPrice": 1.5,
+    "ingredients": {
+      "SUGAR_FREE_SYRUP": 2
+    },
+    "applicableTo": ["COFFEE", "TAE_BLACK", "TEA_GREEN", "TEA_HERBAL"]
+  },
+  {
+    "id": "B-Cu06",
+    "name": "Sugar",
+    "type": "SWEETENER",
+    "additionalPrice": 0.5,
+    "ingredients": {
+      "SUGAR": 2
+    },
+    "applicableTo": ["COFFEE", "TEA_BLACK", "TEA_GREEN", "TEA_HERBAL"]
+  }
+]

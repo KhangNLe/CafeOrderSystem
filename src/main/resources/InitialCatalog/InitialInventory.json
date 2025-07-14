@@ -1,0 +1,107 @@
+[
+  {
+    "id": "I-01",
+    "name": "BUTTER",
+    "amount": 25
+  },
+  {
+    "id": "I-02",
+    "name": "FLOUR",
+    "amount": 25
+  },
+  {
+  "id": "I-03",
+  "name": "CHOCOLATE_CHIP",
+  "amount": 25
+  },
+  {
+    "id": "I-04",
+    "name": "ALMOND",
+    "amount": 25
+  },
+  {
+    "id": "I-05",
+    "name": "BLUEBERRY",
+    "amount": 25
+  },
+  {
+    "id": "I-06",
+    "name": "STRAWBERRY",
+    "amount": 25
+  },
+  {
+    "id": "I-07",
+    "name": "OATMEAL",
+    "amount": 25
+  },
+  {
+    "id": "I-08",
+    "name": "RAISIN",
+    "amount": 25
+  },
+  {
+    "id": "I-09",
+    "name": "SUGAR",
+    "amount": 25
+  },
+  {
+    "id": "I-10",
+    "name": "MILK",
+    "amount": 25
+  },
+  {
+    "id": "I-11",
+    "name": "OAT_MILK",
+    "amount": 25
+  },
+  {
+    "id": "I-11",
+    "name": "ALMOND_MILK",
+    "amount": 25
+  },
+  {
+    "id": "I-12",
+    "name": "SUGAR_FREE_SYRUP",
+    "amount": 25
+  },
+  {
+    "id": "I-13",
+    "name": "TEA_LEAVES_BLACK",
+    "amount": 25
+  },
+  {
+    "id": "I-14",
+    "name": "TEA_LEAVES_GREEN",
+    "amount": 25
+  },
+  {
+    "id": "I-15",
+    "name": "TEA_LEAVES_HERBAL",
+    "amount": 25
+  },
+  {
+    "id": "I-16",
+    "name": "COFFEE_BEAN",
+    "amount": 25
+  },
+  {
+    "id": "I-17",
+    "name": "DECAF_COFFEE_BEAN",
+    "amount": 25
+  },
+  {
+    "id": "I-18",
+    "name": "DECAF_TEA_LEAVES_BLACK",
+    "amount": 25
+  },
+  {
+    "id": "I-14",
+    "name": "DECAF_TEA_LEAVES_GREEN",
+    "amount": 25
+  },
+  {
+    "id": "I-15",
+    "name": "DECAF_TEA_LEAVES_HERBAL",
+    "amount": 25
+  }
+]
