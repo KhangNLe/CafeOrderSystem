@@ -18,13 +18,11 @@
       "COFFEE_BEAN": {
         "replaceWith": "DECAF_COFFEE_BEAN"
       },
-      "TEA_LEAVES": {
-        "TEA_BLACK": {
-          "replaceWith": "DECAF_TEA_LEAVES_BLACK"
-        },
-        "TEA_GREEN": {
-          "replaceWith": "DECAF_TEA_LEAVE_GREEN"
-        }
+      "TEA_LEAVES_BLACK": {
+        "replaceWith": "DECAF_TEA_LEAVES_BLACK"
+      },
+      "TEA_LEAVES_GREEN": {
+        "replaceWith": "DECAF_TEA_LEAVES_GREEN"
       }
     },
     "applicableTo": ["COFFEE", "TEA_BLACK", "TEA_GREEN"]
@@ -46,7 +44,7 @@
     "name": "Almond Milk",
     "type": "MILK_REPLACEMENT",
     "additionalPrice": 1.75,
-    "ingredientsReplacement": {
+    "ingredientReplacement": {
       "MILK": {
         "replaceWith": "ALMOND_MILK"
       }
@@ -61,7 +59,7 @@
     "ingredients": {
       "SUGAR_FREE_SYRUP": 2
     },
-    "applicableTo": ["COFFEE", "TAE_BLACK", "TEA_GREEN", "TEA_HERBAL"]
+    "applicableTo": ["COFFEE", "TEA_BLACK", "TEA_GREEN", "TEA_HERBAL"]
   },
   {
     "id": "B-Cu06",

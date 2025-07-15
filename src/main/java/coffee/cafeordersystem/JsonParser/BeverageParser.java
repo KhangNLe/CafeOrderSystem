@@ -14,19 +14,19 @@ public class BeverageParser {
     private BeverageParser() {}
 
     public static void initializeMenuBeverages(String filePath) {
-        CoffeeMenu menu = CoffeeMenu.getInstance();
+        CafeMenu menu = CafeMenu.getInstance();
         List<JsonNode> rootNodes = JsonArrayParser.parse(filePath);
         getBeverageItems(rootNodes, menu, filePath);
     }
 
-    private static void getBeverageItems(List<JsonNode> rootNode, CoffeeMenu menu, String filePath) {
+    private static void getBeverageItems(List<JsonNode> rootNode, CafeMenu menu, String filePath) {
         if (rootNode.isEmpty()) {
             throw new IllegalArgumentException("There was no beverage items in the JSON file: " + filePath);
         }
 
         for (JsonNode node : rootNode) {
             BeverageItem item = getItem(node);
-            validateBeverageItem(item);
+            validateBeverageItem(item, filePath);
             menu.addBeverages(item);
         }
     }
@@ -46,14 +46,14 @@ public class BeverageParser {
         }
     }
 
-    private static void validateBeverageItem(BeverageItem item) {
+    private static void validateBeverageItem(BeverageItem item, String filePath) {
         if (item == null){
-            throw new IllegalArgumentException("Beverage item is null");
+            throw new IllegalArgumentException("Beverage item is null for file: " + filePath);
         }
 
         if (item.name() == null || item.name().isEmpty() || item.id() == null || item.id().isEmpty() ||
             item.type() == null){
-            throw new IllegalArgumentException("Beverage item is null");
+            throw new IllegalArgumentException("Beverage item is null for file: " + filePath);
         }
 
         Map<BeverageSize, BeverageCost> cost = item.cost();
@@ -91,7 +91,7 @@ public class BeverageParser {
         }
 
         ingredients.forEach((ingredient, quantity) -> {
-            if (quantity <= 0){
+            if (quantity < 0){
                 throw new IllegalArgumentException(
                         String.format("Ingredient: %s in item id %s contain a negative quantity of %d",
                                 itemId, ingredient, quantity)

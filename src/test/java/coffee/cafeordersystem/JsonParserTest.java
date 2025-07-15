@@ -1,22 +1,22 @@
 package coffee.cafeordersystem;
 
-import coffee.cafeordersystem.CatalogItems.Beverage;
-import coffee.cafeordersystem.CatalogItems.BeverageSize;
-import coffee.cafeordersystem.CatalogItems.Ingredients;
-import coffee.cafeordersystem.CatalogItems.Pastries;
-import coffee.cafeordersystem.Menu.Items.BeverageCost;
-import coffee.cafeordersystem.Menu.Items.BeverageItem;
-import coffee.cafeordersystem.Menu.Items.PastriesCost;
-import coffee.cafeordersystem.Menu.Items.PastriesItem;
+import coffee.cafeordersystem.CatalogItems.*;
+import coffee.cafeordersystem.JsonParser.*;
+import coffee.cafeordersystem.Menu.CafeMenu;
+import coffee.cafeordersystem.Menu.Items.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
 import java.util.*;
 
 public class JsonParserTest {
-    private ObjectMapper MAPPER = new ObjectMapper();
+    private final ObjectMapper MAPPER = new ObjectMapper();
+    private final String resources = "src/main/resources/InitialCatalog/";
 
     @Test
     @DisplayName("Test for existing Pastry Item")
@@ -71,7 +71,7 @@ public class JsonParserTest {
     }
 
     @Test
-    @DisplayName("Test for existin Beverage Item")
+    @DisplayName("Test for existing Beverage Item")
     void testExistingBeverageItem() {
         String json = """
           {
@@ -137,6 +137,60 @@ public class JsonParserTest {
             assertEquals(ingredients, cost.ingredients().keySet());
             assertEquals(expectedPrices[idx++], cost.price(), 0.001);
         }
+    }
 
+    @ParameterizedTest
+    @ValueSource(strings = {"CookiesCatalog.json", "CroissantCatalog.json", "MuffinCatalog.json"})
+    @DisplayName("Test for full parsing of Pastries Items")
+    void testFullParsingOfPastriesItems(String file) {
+        String filePath = resources + "PastriesCatalog/" + file;
+
+        CafeMenu.destroyInstance();
+        PastriesParser.parsePastries(filePath);
+        CafeMenu cafe = CafeMenu.getInstance();
+
+        assertNotNull(cafe.getPastriesItems());
+
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"CoffeeCatalog.json", "TeaCatalog.json"})
+    @DisplayName("Test for full parsing of Beverages items")
+    void testFullParsingOfBeveragesItems(String file) {
+        String filePath = resources + "BeveragesCatalog/" + file;
+
+        CafeMenu.destroyInstance();
+        BeverageParser.initializeMenuBeverages(filePath);
+        CafeMenu cafe = CafeMenu.getInstance();
+
+        assertNotNull(cafe.getBeveragesItems());
+    }
+
+    @Test
+    @DisplayName("Test for parsing beverage add-on")
+    void testParseBeverageAddOn() {
+        String filePath = resources + "BeveragesCatalog/CustomizationCatalog.json";
+        CafeMenu.destroyInstance();
+
+        BeverageCustomizeParser.initializeBeverageAddOn(filePath);
+        CafeMenu cafe = CafeMenu.getInstance();
+
+        assertNotNull(cafe.getBeveragesItems());
+    }
+
+    @Test
+    @DisplayName("Test for full menu initialization")
+    void testFullMenuInitialization() {
+        CafeMenu.destroyInstance();
+        MenuParser.initializeMenuCatalog();
+        CafeMenu cafe = CafeMenu.getInstance();
+
+        assertNotNull(cafe.getBeveragesItems());
+        assertNotNull(cafe.getPastriesItems());
+        assertNotNull(cafe.getBeverageAddOn());
+
+        assertFalse(cafe.getBeverageAddOn().isEmpty());
+        assertFalse(cafe.getPastriesItems().isEmpty());
+        assertFalse(cafe.getBeverageAddOn().isEmpty());
     }
 }

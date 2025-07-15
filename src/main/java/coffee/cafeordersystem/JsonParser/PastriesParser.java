@@ -10,12 +10,12 @@ public class PastriesParser {
     private PastriesParser() {}
 
     public static void parsePastries(String filePath) {
-        CoffeeMenu menu = CoffeeMenu.getInstance();
+        CafeMenu menu = CafeMenu.getInstance();
         List<JsonNode> items = JsonArrayParser.parse(filePath);
         parseItems(menu, items);
     }
 
-    private static void parseItems(CoffeeMenu menu, List<JsonNode> items){
+    private static void parseItems(CafeMenu menu, List<JsonNode> items){
         if (items.isEmpty()){
             throw new IllegalArgumentException("Json file does not contain any items");
         }

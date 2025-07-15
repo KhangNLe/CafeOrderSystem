@@ -40,11 +40,11 @@ public class JsonArrayParser {
         File file = new File(filePath);
 
         if (!file.exists()){
-            throw new IllegalArgumentException("File does not exist");
+            throw new IllegalArgumentException("File does not exist for path: " + filePath);
         }
 
         if (!file.canRead()){
-            throw new IllegalArgumentException("File is not readable");
+            throw new IllegalArgumentException("File is not readable for path: " + filePath);
         }
 
         return file;

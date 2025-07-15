@@ -1,9 +1,12 @@
 package coffee.cafeordersystem.Ingredients;
 
 import coffee.cafeordersystem.CatalogItems.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.Objects;
-public record IngredientItem (Ingredients ingredient, double amount) {
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+public record IngredientItem (String id, Ingredients ingredient, double amount) {
 
     @Override
     public String toString() {
