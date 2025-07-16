@@ -55,53 +55,43 @@
     "amount": 25
   },
   {
-    "id": "I-11",
+    "id": "I-12",
     "ingredient": "ALMOND_MILK",
     "amount": 25
   },
   {
-    "id": "I-12",
+    "id": "I-13",
     "ingredient": "SUGAR_FREE_SYRUP",
     "amount": 25
   },
   {
-    "id": "I-13",
+    "id": "I-14",
     "ingredient": "TEA_LEAVES_BLACK",
     "amount": 25
   },
   {
-    "id": "I-14",
+    "id": "I-15",
     "ingredient": "TEA_LEAVES_GREEN",
     "amount": 25
   },
   {
-    "id": "I-15",
+    "id": "I-16",
     "ingredient": "TEA_LEAVES_HERBAL",
     "amount": 25
   },
   {
-    "id": "I-16",
+    "id": "I-17",
     "ingredient": "COFFEE_BEAN",
     "amount": 25
   },
   {
-    "id": "I-17",
+    "id": "I-18",
     "ingredient": "DECAF_COFFEE_BEAN",
     "amount": 25
   },
   {
-    "id": "I-18",
+    "id": "I-19",
     "ingredient": "DECAF_TEA_LEAVES_BLACK",
-    "amount": 25
-  },
-  {
-    "id": "I-14",
-    "ingredient": "DECAF_TEA_LEAVES_GREEN",
-    "amount": 25
-  },
-  {
-    "id": "I-15",
-    "ingredient": "DECAF_TEA_LEAVES_HERBAL",
     "amount": 25
   }
 ]
