@@ -22,6 +22,11 @@ public class CafeInventory {
         return instance;
     }
 
+    //This will be removed when deploy
+    public static void destroyInstance(){
+        instance = null;
+    }
+
     protected boolean addIngredient(IngredientItem ingredient){
         if (inventory.containsKey(ingredient.ingredient())){
             throw new IllegalArgumentException(

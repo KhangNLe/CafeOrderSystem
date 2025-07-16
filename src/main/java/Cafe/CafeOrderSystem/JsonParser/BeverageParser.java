@@ -52,8 +52,8 @@ public class BeverageParser {
             throw new IllegalArgumentException("Beverage item is null for file: " + filePath);
         }
 
-        if (item.name() == null || item.name().isEmpty() || item.id() == null || item.id().isEmpty() ||
-            item.type() == null){
+        if (item.name() == null || item.name().isEmpty() || item.id() == null || item.id().isEmpty()
+        || item.type() == null){
             throw new IllegalArgumentException("Beverage item is null for file: " + filePath);
         }
 

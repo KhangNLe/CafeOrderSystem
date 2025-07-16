@@ -17,12 +17,14 @@ import java.io.IOException;
 import java.util.*;
 import java.util.logging.Logger;
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class JsonParserTest {
     private final ObjectMapper MAPPER = new ObjectMapper();
     private static Logger LOGGER = Logger.getLogger(JsonParserTest.class.getName());
     private final String resources = "src/main/resources/InitialCatalog/";
 
     @Test
+    @Order(1)
     @DisplayName("Test for existing Pastry Item")
     void testExistingPastryItem() {
         String json = """
@@ -57,7 +59,7 @@ public class JsonParserTest {
 
         assertEquals(expectedId, item.id());
         assertEquals(expectedName, item.name());
-        assertEquals(Pastries.COOKIE, item.type());
+        assertEquals(MenuType.COOKIE, item.type());
 
         PastriesCost cost = item.cost();
         if (cost == null){
@@ -75,6 +77,7 @@ public class JsonParserTest {
     }
 
     @Test
+    @Order(2)
     @DisplayName("Test for existing Beverage Item")
     void testExistingBeverageItem() {
         String json = """
@@ -129,7 +132,7 @@ public class JsonParserTest {
 
         assertEquals(expectedId, item.id());
         assertEquals(expectedName, item.name());
-        assertEquals(Beverage.COFFEE, item.type());
+        assertEquals(MenuType.COFFEE, item.type());
 
         Set<BeverageSize> expectedSizes = Set.of(BeverageSize.SMALL, BeverageSize.MEDIUM, BeverageSize.LARGE);
         Set<Ingredients> ingredients = Set.of(Ingredients.COFFEE_BEAN, Ingredients.MILK, Ingredients.SUGAR);
@@ -144,6 +147,7 @@ public class JsonParserTest {
     }
 
     @ParameterizedTest
+    @Order(3)
     @ValueSource(strings = {"CookiesCatalog.json", "CroissantCatalog.json", "MuffinCatalog.json"})
     @DisplayName("Test for full parsing of Pastries Items")
     void testFullParsingOfPastriesItems(String file) {
@@ -158,6 +162,7 @@ public class JsonParserTest {
     }
 
     @ParameterizedTest
+    @Order(4)
     @ValueSource(strings = {"CoffeeCatalog.json", "TeaCatalog.json"})
     @DisplayName("Test for full parsing of Beverages items")
     void testFullParsingOfBeveragesItems(String file) {
@@ -171,6 +176,7 @@ public class JsonParserTest {
     }
 
     @Test
+    @Order(5)
     @DisplayName("Test for parsing beverage add-on")
     void testParseBeverageAddOn() {
         String filePath = resources + "BeveragesCatalog/CustomizationCatalog.json";
@@ -183,6 +189,7 @@ public class JsonParserTest {
     }
 
     @Test
+    @Order(6)
     @DisplayName("Test for full menu initialization")
     void testFullMenuInitialization() {
         CafeMenu.destroyInstance();
@@ -199,6 +206,7 @@ public class JsonParserTest {
     }
 
     @Test
+    @Order(7)
     @DisplayName("Test for initiate inventory")
     void testInitiateInventory() {
         CafeInventory cafe = CafeInventory.getInstance();
@@ -212,6 +220,7 @@ public class JsonParserTest {
     }
 
     @Test
+    @Order(8)
     @DisplayName("Test for initiate employee authentication")
     void testInitiateEmployeeAuthentication() {
         EmployeesAuthentication employees = EmployeesAuthentication.getInstance();
@@ -238,8 +247,13 @@ public class JsonParserTest {
     }
 
     @Test
+    @Order(9)
     @DisplayName("Test for initialize the Cafe Shop")
     void testInitializeCafeShop() {
+        CafeMenu.destroyInstance();
+        CafeInventory.destroyInstance();
+        EmployeesAuthentication.destroyInstance();
+
         try {
             CafeParser.openCafeShop();
         } catch (IllegalStateException e) {

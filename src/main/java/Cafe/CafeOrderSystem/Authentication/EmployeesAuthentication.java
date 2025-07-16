@@ -20,6 +20,11 @@ public class EmployeesAuthentication {
         return instance;
     }
 
+    //this will be removed during deployment
+    public static void destroyInstance() {
+        instance = null;
+    }
+
     public void addBaristaAccount(String username, String password) {
         verifyAccount(username, baristaAccounts, "barista accounts");
         baristaAccounts.put(username, password);
