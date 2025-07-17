@@ -1,7 +1,8 @@
 package Cafe.CafeOrderSystem;
 
 import Cafe.CafeOrderSystem.Authentication.EmployeesAuthentication;
-import Cafe.CafeOrderSystem.JsonParser.*;
+import Cafe.CafeOrderSystem.JsonParser.Authentication.AuthenticationParser;
+import Cafe.CafeOrderSystem.JsonParser.CafeMenu.*;
 import Cafe.CafeOrderSystem.Menu.Items.*;
 import Cafe.CafeOrderSystem.Menu.CafeMenu;
 import Cafe.CafeOrderSystem.Inventory.*;

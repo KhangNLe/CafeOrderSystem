@@ -1,4 +1,4 @@
-package Cafe.CafeOrderSystem.JsonParser;
+package Cafe.CafeOrderSystem.JsonParser.CafeMenu;
 
 import java.util.*;
 public class MenuParser {

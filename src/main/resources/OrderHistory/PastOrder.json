@@ -1,0 +1,3 @@
+[
+{"orderDate":"2025-07-17T15:51:34.863593081","orderID":"abc","orderItems":[{"item":{"itemID":"123","itemName":"stuffs","itemType":"COFFEE","ingredientsCost":{"MILK":3,"FLOUR":1000,"SUGAR":4},"price":10.0},"quantity":3},{"item":{"itemID":"456","itemName":"other stuffs","itemType":"COFFEE","ingredientsCost":{"MILK":3,"FLOUR":1000,"SUGAR":4},"price":10.0},"quantity":2}],"orderStatus":"PENDING","totalPrice":50.0}
+]

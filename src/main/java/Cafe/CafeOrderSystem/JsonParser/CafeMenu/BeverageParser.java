@@ -1,7 +1,8 @@
-package Cafe.CafeOrderSystem.JsonParser;
+package Cafe.CafeOrderSystem.JsonParser.CafeMenu;
 
 import Cafe.CafeOrderSystem.CatalogItems.BeverageSize;
 import Cafe.CafeOrderSystem.CatalogItems.Ingredients;
+import Cafe.CafeOrderSystem.JsonParser.JsonArrayParser;
 import Cafe.CafeOrderSystem.Menu.CafeMenu;
 import Cafe.CafeOrderSystem.Menu.Items.BeverageCost;
 import Cafe.CafeOrderSystem.Menu.Items.BeverageItem;

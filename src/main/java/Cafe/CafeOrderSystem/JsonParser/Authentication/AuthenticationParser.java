@@ -1,6 +1,7 @@
-package Cafe.CafeOrderSystem.JsonParser;
+package Cafe.CafeOrderSystem.JsonParser.Authentication;
 
 import Cafe.CafeOrderSystem.Authentication.EmployeesAuthentication;
+import Cafe.CafeOrderSystem.JsonParser.JsonArrayParser;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.List;

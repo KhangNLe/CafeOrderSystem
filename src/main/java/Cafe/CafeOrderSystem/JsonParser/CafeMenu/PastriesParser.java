@@ -1,6 +1,6 @@
-package Cafe.CafeOrderSystem.JsonParser;
+package Cafe.CafeOrderSystem.JsonParser.CafeMenu;
 
-import Cafe.CafeOrderSystem.CatalogItems.MenuType;
+import Cafe.CafeOrderSystem.JsonParser.JsonArrayParser;
 import Cafe.CafeOrderSystem.Menu.CafeMenu;
 import Cafe.CafeOrderSystem.Menu.Items.PastriesItem;
 import com.fasterxml.jackson.databind.*;

@@ -1,0 +1,52 @@
+[ {
+  "orderDate" : "2025-07-17T15:51:34.736816786",
+  "orderID" : "abc",
+  "orderItems" : [ {
+    "item" : {
+      "itemID" : "123",
+      "itemName" : "stuffs",
+      "itemType" : "COFFEE",
+      "ingredientsCost" : {
+        "MILK" : 3,
+        "FLOUR" : 1000,
+        "SUGAR" : 4
+      },
+      "price" : 10.0
+    },
+    "quantity" : 1
+  }, {
+    "item" : {
+      "itemID" : "456",
+      "itemName" : "other stuffs",
+      "itemType" : "COFFEE",
+      "ingredientsCost" : {
+        "MILK" : 3,
+        "FLOUR" : 1000,
+        "SUGAR" : 4
+      },
+      "price" : 10.0
+    },
+    "quantity" : 1
+  } ],
+  "orderStatus" : "PENDING",
+  "totalPrice" : 20.0
+}, {
+  "orderDate" : "2025-07-17T15:51:34.748657051",
+  "orderID" : "def",
+  "orderItems" : [ {
+    "item" : {
+      "itemID" : "123",
+      "itemName" : "stuffs",
+      "itemType" : "COFFEE",
+      "ingredientsCost" : {
+        "MILK" : 3,
+        "FLOUR" : 1000,
+        "SUGAR" : 4
+      },
+      "price" : 10.0
+    },
+    "quantity" : 3
+  } ],
+  "orderStatus" : "PENDING",
+  "totalPrice" : 30.0
+} ]

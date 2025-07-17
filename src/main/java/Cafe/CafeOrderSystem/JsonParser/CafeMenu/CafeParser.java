@@ -1,4 +1,6 @@
-package Cafe.CafeOrderSystem.JsonParser;
+package Cafe.CafeOrderSystem.JsonParser.CafeMenu;
+
+import Cafe.CafeOrderSystem.JsonParser.Authentication.AuthenticationParser;
 
 public class CafeParser {
     private CafeParser() {}
