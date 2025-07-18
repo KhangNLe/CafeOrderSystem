@@ -28,13 +28,13 @@ public class CafeInventory {
     }
 
     protected boolean addIngredient(IngredientItem ingredient){
-        if (inventory.containsKey(ingredient.ingredient())){
+        if (inventory.containsKey(ingredient.getIngredient())){
             throw new IllegalArgumentException(
                     String.format("Ingredient %s already exists in the inventory", ingredient)
             );
         }
-        inventory.put(ingredient.ingredient(), ingredient.amount());
-        ingredientCatalog.put(ingredient.id(), ingredient.ingredient());
+        inventory.put(ingredient.getIngredient(), ingredient.getAmount());
+        ingredientCatalog.put(ingredient.getId(), ingredient.getIngredient());
         return true;
     }
 

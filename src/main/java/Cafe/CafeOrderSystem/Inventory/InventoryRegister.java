@@ -17,12 +17,12 @@ public class InventoryRegister {
 
     public boolean reduceIngredientAmount(IngredientItem ingredient){
         validateIngredient(ingredient);
-        return inventory.updateIngredientAmount(ingredient.id(), -ingredient.amount());
+        return inventory.updateIngredientAmount(ingredient.getId(), -ingredient.getAmount());
     }
 
     public boolean restockIngredientAmount(IngredientItem ingredient){
         validateIngredient(ingredient);
-        return inventory.updateIngredientAmount(ingredient.id(), ingredient.amount());
+        return inventory.updateIngredientAmount(ingredient.getId(), ingredient.getAmount());
     }
 
     public boolean removeIngredient(Ingredients ingredient){
@@ -37,14 +37,14 @@ public class InventoryRegister {
             throw new IllegalArgumentException("Cannot add null ingredient to the inventory");
         }
 
-        if (ingredient.ingredient() == null) {
+        if (ingredient.getIngredient() == null) {
             throw new IllegalArgumentException("Cannot add null ingredient to the inventory");
         }
 
-        if (ingredient.amount() <= 0){
+        if (ingredient.getAmount() <= 0){
             throw new IllegalArgumentException(
                     String.format("Ingredient %s cannot have an amount less than or equal to 0 of %d",
-                            ingredient.ingredient(), ingredient.amount()
+                            ingredient.getIngredient(), ingredient.getAmount()
             ));
         }
     }
