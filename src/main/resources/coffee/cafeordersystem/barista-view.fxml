@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+ fx:controller="coffee.cafeordersystem.BaristaUiController">
+    <top>
+        <Label text="Place Your Order" style="-fx-font-size: 20; -fx-padding: 10;"/>
+    </top>
+    <center>
+        <ListView fx:id="menuListView"/>
+    </center>
+    <bottom>
+        <HBox spacing="10" alignment="CENTER"> <!-- 10px between buttons -->
+    <Button text="Checkout" fx:id="checkoutButton" onAction="#handleCheckout"/>
+    <Button text="LOG OUT" fx:id="logoutButton" onAction="#handleLogOut"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>
