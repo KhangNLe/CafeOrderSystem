@@ -1,46 +1,49 @@
 package Cafe.CafeOrderSystem.JsonParser.CafeMenu;
 
 import Cafe.CafeOrderSystem.Ingredients.IngredientItem;
-import Cafe.CafeOrderSystem.Inventory.InventoryRegister;
+import Cafe.CafeOrderSystem.JsonParser.CafeObjectParser;
 import Cafe.CafeOrderSystem.JsonParser.JsonArrayParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
-public class InventoryParser {
-    private InventoryParser() {}
+public class InventoryParser implements CafeObjectParser<IngredientItem> {
     private static final ObjectMapper MAPPER = new ObjectMapper();
-    private static final String RESOURCE = "src/main/resources/InitialCatalog/InitialInventory.json";
+    private String resource;
 
-    public static void initializeCafeInventory() {
-        List<JsonNode> rootNode = JsonArrayParser.parse(RESOURCE);
-        InventoryRegister manager = new InventoryRegister();
-        manager.initializeInventory();
-        getIngredients(rootNode, manager);
+    public InventoryParser() {}
 
+    @Override
+    public List<IngredientItem> getItems(File jsonFile) {
+        List<JsonNode> rootNode = JsonArrayParser.parse(jsonFile);
+        this.resource = jsonFile.getAbsolutePath();
+        return getIngredients(rootNode, jsonFile);
     }
 
-    private static void getIngredients(List<JsonNode> rootNode, InventoryRegister manager) {
+    private List<IngredientItem> getIngredients(List<JsonNode> rootNode, File file) {
         if (rootNode.isEmpty()) {
             throw new IllegalArgumentException(
-                    String.format("File at %s does not contain any Json information.", RESOURCE)
+                    String.format("File at %s does not contain any Json information.", resource)
             );
         }
+
+        List<IngredientItem> ingredients = new ArrayList<>();
 
         for (JsonNode node : rootNode) {
             IngredientItem item = getIngredient(node);
             validateIngredient(item);
-            manager.addIngredient(item);
+            ingredients.add(item);
         }
+        return ingredients;
     }
 
-    private static IngredientItem getIngredient(JsonNode node) {
+    private IngredientItem getIngredient(JsonNode node) {
         if (node == null || node.isEmpty()){
             throw new IllegalArgumentException(
                     String.format("Could not get Ingredient Item from %s. Node was null or empty",
-                            RESOURCE
+                            resource
             ));
         }
 
@@ -50,26 +53,26 @@ public class InventoryParser {
             String itemID = (node.hasNonNull("id"))? node.get("id").asText() : "unknown";
             throw new IllegalArgumentException(
                     String.format("Item with %s could not be parse into an Ingredient Item from file %s. Reason %s",
-                            itemID, RESOURCE, e.getMessage()
+                            itemID, resource, e.getMessage()
             ));
         }
     }
 
-    private static void validateIngredient(IngredientItem item) {
+    private void validateIngredient(IngredientItem item) {
         if (item == null) {
             throw new IllegalArgumentException("Ingredient item cannot be null.");
         }
 
         if (item.getId() == null || item.getId().isEmpty()) {
             throw new IllegalArgumentException(
-                    String.format("Ingredient item in %s contain a null or empty id.", RESOURCE)
+                    String.format("Ingredient item in %s contain a null or empty id.", resource)
             );
         }
 
         if (item.getIngredient() == null) {
             throw new IllegalArgumentException(
                String.format("Ingredient item with id %s at file %s contain a null ingredient",
-                       item.getId(), RESOURCE
+                       item.getId(), resource
             ));
         }
 

@@ -1,43 +1,47 @@
 package Cafe.CafeOrderSystem.JsonParser.CafeMenu;
 
 import Cafe.CafeOrderSystem.CatalogItems.*;
+import Cafe.CafeOrderSystem.JsonParser.CafeObjectParser;
 import Cafe.CafeOrderSystem.JsonParser.JsonArrayParser;
-import Cafe.CafeOrderSystem.Menu.CafeMenu;
 import Cafe.CafeOrderSystem.Menu.Items.*;
 import com.fasterxml.jackson.databind.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-public class BeverageCustomizeParser {
+public class BeverageCustomizeParser implements CafeObjectParser<CustomItem> {
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
     private BeverageCustomizeParser() {}
 
-    public static void initializeBeverageAddOn(String filePath){
-        CafeMenu cafe = CafeMenu.getInstance();
+    @Override
+    public List<CustomItem> getItems(File filePath){
         List<JsonNode> rootNodes = JsonArrayParser.parse(filePath);
-        getAddOnItems(rootNodes, cafe, filePath);
+        return getAddOnItems(rootNodes, filePath);
     }
 
-    private static void getAddOnItems(List<JsonNode> rootNode, CafeMenu cafe, String filePath){
+    private List<CustomItem> getAddOnItems(List<JsonNode> rootNode, File filePath){
         if (rootNode == null || rootNode.isEmpty()) {
             throw new IllegalArgumentException(
                     String.format("File: %s does not contain any Json datas", filePath)
             );
         }
 
+        List<CustomItem> items = new ArrayList<>();
         for (JsonNode node : rootNode) {
-            CustomItem item = getAddOnItem(node, cafe, filePath);
+            CustomItem item = getAddOnItem(node, filePath);
             validateCustomItem(item);
-            cafe.addBeverageAddOn(item);
+            items.add(item);
         }
+
+        return items;
     }
 
-    private static CustomItem getAddOnItem(JsonNode node, CafeMenu cafe, String filePath){
+    private CustomItem getAddOnItem(JsonNode node, File filePath){
         if (node == null) {
             throw new IllegalArgumentException(
-                    String.format("File: %s contain a null Json node", filePath)
+                    String.format("File: %s contain a null Json node", filePath.getAbsolutePath())
             );
         }
 
@@ -47,12 +51,12 @@ public class BeverageCustomizeParser {
             String itemId = (node.hasNonNull("id"))? node.get("id").asText() : "unknown";
             throw new IllegalArgumentException(
                     String.format("Could not get a Custom Item from id %s at %s. Reason %s",
-                            itemId, filePath, e.getMessage()
+                            itemId, filePath.getAbsolutePath(), e.getMessage()
             ));
         }
     }
 
-    private static void validateCustomItem(CustomItem item){
+    private void validateCustomItem(CustomItem item){
         if (item.id() == null || item.id().isEmpty() || item.name() == null || item.name().isEmpty()) {
             throw new IllegalArgumentException("Custom item contains a null or empty id or name");
         }
@@ -72,7 +76,7 @@ public class BeverageCustomizeParser {
         }
     }
 
-    private static void validateIngredients(CustomItem item){
+    private void validateIngredients(CustomItem item){
         if ((item.ingredients() == null || item.ingredients().isEmpty()) &&
                 (item.ingredientReplacement() == null || item.ingredientReplacement().isEmpty())) {
             throw new IllegalArgumentException(
@@ -86,7 +90,7 @@ public class BeverageCustomizeParser {
         }
     }
 
-    private static void validateAddOnIngredient(Map<Ingredients, Integer> ingredients, String itemId){
+    private void validateAddOnIngredient(Map<Ingredients, Integer> ingredients, String itemId){
         ingredients.forEach((stuff, amount) -> {
             if (stuff == null){
                 throw new IllegalArgumentException(
@@ -101,7 +105,7 @@ public class BeverageCustomizeParser {
         });
     }
 
-    private static void validateReplacementIngredient(Map<Ingredients, ReplaceIngredients> replacement, String itemId){
+    private void validateReplacementIngredient(Map<Ingredients, ReplaceIngredients> replacement, String itemId){
         replacement.forEach((ingredient, newIngredient) -> {
             if (ingredient == null || newIngredient == null) {
                 throw new IllegalArgumentException(

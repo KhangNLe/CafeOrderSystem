@@ -1,37 +1,45 @@
 package Cafe.CafeOrderSystem.JsonParser.CafeMenu;
 
+import Cafe.CafeOrderSystem.JsonParser.CafeObjectParser;
 import Cafe.CafeOrderSystem.JsonParser.JsonArrayParser;
-import Cafe.CafeOrderSystem.Menu.CafeMenu;
 import Cafe.CafeOrderSystem.Menu.Items.PastriesItem;
 import com.fasterxml.jackson.databind.*;
 
 import java.util.*;
+import java.io.*;
 
-public class PastriesParser {
+public class PastriesParser implements CafeObjectParser<PastriesItem> {
     private static final ObjectMapper MAPPER = new ObjectMapper();
-    private PastriesParser() {}
+    public PastriesParser() {}
 
-    public static void parsePastries(String filePath) {
-        CafeMenu menu = CafeMenu.getInstance();
-        List<JsonNode> items = JsonArrayParser.parse(filePath);
-        parseItems(menu, items);
+    @Override
+    public List<PastriesItem> getItems(File jsonFile) {
+        List<JsonNode> items = JsonArrayParser.parse(jsonFile);
+        return parseItems(items, jsonFile);
     }
 
-    private static void parseItems(CafeMenu menu, List<JsonNode> items){
-        if (items.isEmpty()){
-            throw new IllegalArgumentException("Json file does not contain any items");
+    private List<PastriesItem> parseItems(List<JsonNode> rootNode, File file){
+        if (rootNode.isEmpty()){
+            throw new IllegalArgumentException(
+                    String.format("Json file %s does not contain any rootNode", file.getAbsolutePath()
+                    ));
         }
 
-        for (JsonNode node : items) {
-            PastriesItem item = getItem(node);
+        List<PastriesItem> pastriesItems = new ArrayList<>();
+        for (JsonNode node : rootNode) {
+            PastriesItem item = getItem(node, file);
             validatePastries(item);
-            menu.addPastries(item);
+            pastriesItems.add(item);
         }
+
+        return pastriesItems;
     }
 
-    private static PastriesItem getItem(JsonNode node){
+    private PastriesItem getItem(JsonNode node, File file){
         if (node == null){
-            throw new IllegalArgumentException("Json file contains a null node");
+            throw new IllegalArgumentException(
+                    String.format("Json file %s contains a null node", file.getAbsolutePath()
+                    ));
         }
 
         try {
@@ -43,7 +51,7 @@ public class PastriesParser {
         }
     }
 
-    private static void validatePastries(PastriesItem item){
+    private void validatePastries(PastriesItem item){
         if (item == null){
             throw new IllegalArgumentException("Json parsed a null pastries item");
         }

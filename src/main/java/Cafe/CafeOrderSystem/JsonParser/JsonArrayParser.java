@@ -14,7 +14,10 @@ public class JsonArrayParser {
 
     public static List<JsonNode> parse(String filePath){
         File file = validateFile(filePath);
+        return parse(file);
+    }
 
+    public static List<JsonNode> parse(File file){
         try {
             JsonNode rootNode = MAPPER.readTree(file);
 
@@ -26,7 +29,7 @@ public class JsonArrayParser {
 
         } catch (IOException e){
             throw new IllegalArgumentException(
-                    String.format("Failed to parse json file: %s. Reason: %s", filePath, e.getMessage()), e
+                    String.format("Failed to parse json file: %s. Reason: %s", file, e.getMessage()), e
             );
         }
     }

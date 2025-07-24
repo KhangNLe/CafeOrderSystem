@@ -2,38 +2,41 @@ package Cafe.CafeOrderSystem.JsonParser.CafeMenu;
 
 import Cafe.CafeOrderSystem.CatalogItems.BeverageSize;
 import Cafe.CafeOrderSystem.CatalogItems.Ingredients;
+import Cafe.CafeOrderSystem.JsonParser.CafeObjectParser;
 import Cafe.CafeOrderSystem.JsonParser.JsonArrayParser;
-import Cafe.CafeOrderSystem.Menu.CafeMenu;
 import Cafe.CafeOrderSystem.Menu.Items.BeverageCost;
 import Cafe.CafeOrderSystem.Menu.Items.BeverageItem;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.*;
+import java.io.*;
 
-public class BeverageParser {
+public class BeverageParser implements CafeObjectParser<BeverageItem> {
     private static final ObjectMapper MAPPER = new ObjectMapper();
-    private BeverageParser() {}
+    public BeverageParser() {}
 
-    public static void initializeMenuBeverages(String filePath) {
-        CafeMenu menu = CafeMenu.getInstance();
-        List<JsonNode> rootNodes = JsonArrayParser.parse(filePath);
-        getBeverageItems(rootNodes, menu, filePath);
+    @Override
+    public List<BeverageItem> getItems(File jsonFile){
+        List<JsonNode> rootNodes = JsonArrayParser.parse(jsonFile);
+        return getBeverageItems(rootNodes, jsonFile);
     }
 
-    private static void getBeverageItems(List<JsonNode> rootNode, CafeMenu menu, String filePath) {
+    private List<BeverageItem> getBeverageItems(List<JsonNode> rootNode, File jsonFile) {
         if (rootNode.isEmpty()) {
-            throw new IllegalArgumentException("There was no beverage items in the JSON file: " + filePath);
+            throw new IllegalArgumentException("There was no beverage items in the JSON file: " + jsonFile);
         }
-
+        List<BeverageItem> items = new ArrayList<>();
         for (JsonNode node : rootNode) {
             BeverageItem item = getItem(node);
-            validateBeverageItem(item, filePath);
-            menu.addBeverages(item);
+            validateBeverageItem(item, jsonFile);
+            items.add(item);
         }
+
+        return items;
     }
 
-    private static BeverageItem getItem(JsonNode node){
+    private BeverageItem getItem(JsonNode node){
         if (node == null || node.isEmpty()){
             throw new IllegalArgumentException("Json File contains a null node");
         }
@@ -48,14 +51,14 @@ public class BeverageParser {
         }
     }
 
-    private static void validateBeverageItem(BeverageItem item, String filePath) {
+    private void validateBeverageItem(BeverageItem item, File file) {
         if (item == null){
-            throw new IllegalArgumentException("Beverage item is null for file: " + filePath);
+            throw new IllegalArgumentException("Beverage item is null for file: " + file.getAbsolutePath());
         }
 
         if (item.name() == null || item.name().isEmpty() || item.id() == null || item.id().isEmpty()
         || item.type() == null){
-            throw new IllegalArgumentException("Beverage item is null for file: " + filePath);
+            throw new IllegalArgumentException("Beverage item is null for file: " + file.getAbsolutePath());
         }
 
         Map<BeverageSize, BeverageCost> cost = item.cost();
@@ -63,7 +66,7 @@ public class BeverageParser {
 
     }
 
-    private static void validateItemCost(Map<BeverageSize, BeverageCost> cost, String itemId){
+    private void validateItemCost(Map<BeverageSize, BeverageCost> cost, String itemId){
         if (cost == null || cost.isEmpty()) {
             throw new IllegalArgumentException(
                     String.format("Beverage item id %s does not contain any listing price", itemId)
@@ -84,7 +87,7 @@ public class BeverageParser {
         });
     }
 
-    private static void validateIngredients(Map<Ingredients, Integer> ingredients, String itemId, BeverageSize size) {
+    private void validateIngredients(Map<Ingredients, Integer> ingredients, String itemId, BeverageSize size) {
         if (ingredients == null || ingredients.isEmpty()) {
             throw new IllegalArgumentException(
                     String.format("Beverage item id %s , size %s does not contain any ingredients",

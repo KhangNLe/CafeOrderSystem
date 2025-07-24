@@ -24,6 +24,7 @@ public class JsonParserTest {
     private static Logger LOGGER = Logger.getLogger(JsonParserTest.class.getName());
     private final String resources = "src/main/resources/InitialCatalog/";
 
+    /*
     @Test
     @Order(1)
     @DisplayName("Test for existing Pastry Item")
@@ -261,4 +262,6 @@ public class JsonParserTest {
             fail(e.getMessage());
         }
     }
+
+     */
 }

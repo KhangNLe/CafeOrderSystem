@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class JsonCollection<T> {
-    //private JsonParser parser;
+    private CafeObjectParser<T> parser;
     private File folderLoc;
     private File[] folderFiles;
     private ArrayList<T> collectionList;
@@ -15,8 +15,8 @@ public class JsonCollection<T> {
      * @param fileParser The relevant parser for the object
      * @param folderPath The folder from which the collection fills and writes to
      */
-    public JsonCollection (Object fileParser, String folderPath){
-        //this.parser = fileParser;
+    public JsonCollection (CafeObjectParser<T> fileParser, String folderPath){
+        this.parser = fileParser;
         this.folderLoc = new File(folderPath);
         this.folderFiles = folderLoc.listFiles();
         this.collectionList = new ArrayList<T>();
