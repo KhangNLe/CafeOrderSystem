@@ -1,6 +1,6 @@
 package Cafe.CafeOrderSystem.JsonParser;
 
-import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SequenceWriter;
 
@@ -8,15 +8,15 @@ import java.io.*;
 import java.util.*;
 
 public class ItemsParser {
-    private final ObjectMapper MAPPER;
+    private final ObjectMapper mapper;
 
     public ItemsParser() {
-        MAPPER = new ObjectMapper();
+        mapper = new ObjectMapper();
     }
 
-    public <T> List<T> readFile(File file, TypeReference<List<T>> reference){
+    public <T> List<T> readFile(File file, Class<T> type){
         try{
-            return MAPPER.readValue(file, reference);
+            return mapper.readValue(file, mapper.getTypeFactory().constructCollectionType(List.class, type));
         } catch (IOException e) {
             throw new IllegalArgumentException(
                     String.format("Error while reading file '%s', reason: %s", file.getAbsolutePath(), e.getMessage()
@@ -26,7 +26,7 @@ public class ItemsParser {
 
     public <T> void writeFile(File file, List<T> items){
         try {
-            SequenceWriter writer = MAPPER.writerWithDefaultPrettyPrinter().writeValues(file);
+            SequenceWriter writer = mapper.writerWithDefaultPrettyPrinter().writeValues(file);
             writer.write(items);
             writer.close();
         } catch (IOException e) {
@@ -37,25 +37,23 @@ public class ItemsParser {
         }
     }
 
-    public <T> void appendToFile(File file, T item){
-        try (RandomAccessFile raf = new RandomAccessFile(file, "rw")) {
-            String jsonData = MAPPER.writeValueAsString(item);
+    public <T> void appendToFile(File file, T item, Class<T> classType){
+       List<T> current;
 
-            if (file.length() == 0) {
-                raf.writeBytes("[\n" + jsonData + "\n]");
-            } else {
-                raf.seek(file.length() - 2);
-                raf.writeBytes("\n," + jsonData + "\n]");
-            }
-
-        } catch (FileNotFoundException e){
-            throw new IllegalArgumentException(
-                    String.format("File %s not found", file.getAbsolutePath())
-            );
-        } catch (IOException e){
-            throw new IllegalArgumentException(
-                    "Error while writing order to json file: " + e.getMessage()
-            );
-        }
+       if (file.length() > 0){
+           try {
+               JavaType type = mapper.getTypeFactory().constructType(List.class, classType);
+               current = mapper.readValue(file, type);
+           } catch (IOException e) {
+               throw new IllegalArgumentException(
+                       String.format("Failed to read file %s before appending. Reason: %s",
+                               file.getAbsolutePath(), e.getMessage())
+               );
+           }
+       } else {
+           current = new ArrayList<>();
+       }
+       current.add(item);
+       writeFile(file, current);
     }
 }

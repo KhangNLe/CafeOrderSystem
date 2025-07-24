@@ -1,13 +1,15 @@
 package Cafe.CafeOrderSystem.JsonParser;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.time.LocalTime;
+import java.util.*;
 
 public class JsonCollection<T> {
-    private CafeObjectParser<T> parser;
-    private File folderLoc;
-    private File[] folderFiles;
-    private ArrayList<T> collectionList;
+    private final ItemsParser parser;
+    private final Class<T> type;
+    private final File folderLoc;
+    private final File[] folderFiles;
+    private final List<T> collectionList;
 
     /**
      * This class is responsible for creating and managing a collection of Json Objects
@@ -15,11 +17,12 @@ public class JsonCollection<T> {
      * @param fileParser The relevant parser for the object
      * @param folderPath The folder from which the collection fills and writes to
      */
-    public JsonCollection (CafeObjectParser<T> fileParser, String folderPath){
+    public JsonCollection (ItemsParser fileParser, String folderPath, Class<T> type) {
         this.parser = fileParser;
-        this.folderLoc = new File(folderPath);
-        this.folderFiles = folderLoc.listFiles();
-        this.collectionList = new ArrayList<T>();
+        this.type = type;
+        this.folderLoc = getFolderLocation(folderPath);
+        this.folderFiles = getFolderFiles();
+        this.collectionList = new ArrayList<>();
     }
 
     /**
@@ -29,7 +32,7 @@ public class JsonCollection<T> {
     public void startCollection (){
         if(this.collectionList.isEmpty()){
             for(File curFile : folderFiles){
-                //collectionList.add(this.parser.readFile(curFile)); needs parser object to function
+                collectionList.addAll(parser.readFile(curFile, type));
             }
         }
     }
@@ -40,24 +43,19 @@ public class JsonCollection<T> {
      */
     public void endCollection (){
         if(!this.collectionList.isEmpty()){
-            for(T curObject : collectionList){
-                File tempName = new File(generateFileName(curObject));
-                //this.parser.writeFile(tempName, curObject);
-            }
+            File file = new File(generateFileName());
+            parser.writeFile(file, collectionList);
         }
     }
 
     /**
      * Default Function to create filenames, Overrided by the collection class
      * for each object
-     * @param object The Json object for the filename
      * @return returns a string which can be used as a filename
      */
-    public String generateFileName (T object){
-        String tempName = "";
-        tempName = object.toString();
-
-        return tempName;
+    public String generateFileName (){
+        return String.format("%s/%s-%s.json",
+                folderLoc.getAbsolutePath(), type.getName(), LocalTime.now());
     }
 
     /**
@@ -103,5 +101,30 @@ public class JsonCollection<T> {
             }
         }
         return -1;
+    }
+
+    public List<T> getCollection(){
+        return this.collectionList;
+    }
+
+    private File getFolderLocation(String folderPath){
+        File folder = new File(folderPath);
+        if(!folder.exists()){
+            throw new IllegalArgumentException(
+                    String.format("Folder %s does not exist", folderPath)
+                    );
+        }
+
+        if(!folder.isDirectory()){
+            throw new IllegalArgumentException(
+                    String.format("Folder %s is not a directory", folderPath)
+            );
+        }
+
+        return folder;
+    }
+
+    private File[] getFolderFiles(){
+        return folderLoc.listFiles((dir, name) -> name.endsWith(".json"));
     }
 }
