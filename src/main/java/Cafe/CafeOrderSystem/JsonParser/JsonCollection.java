@@ -31,9 +31,7 @@ public class JsonCollection<T> {
      */
     public void startCollection (){
         if(this.collectionList.isEmpty()){
-            for(File curFile : folderFiles){
-                collectionList.addAll(parser.readFile(curFile, type));
-            }
+            collectionList.addAll(parser.readFile(this.folderLoc, type));
         }
     }
 

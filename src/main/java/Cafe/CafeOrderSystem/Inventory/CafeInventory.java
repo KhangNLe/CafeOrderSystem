@@ -8,25 +8,17 @@ import java.util.*;
 public class CafeInventory {
     private final Map<Ingredients, Integer> inventory;
     private final Map<String,Ingredients> ingredientCatalog;
-    private static CafeInventory instance;
 
-    private CafeInventory(){
+    public CafeInventory(){
         inventory = new HashMap<>();
         ingredientCatalog = new HashMap<>();
     }
 
-    public static CafeInventory getInstance(){
-        if (instance == null){
-            instance = new CafeInventory();
-        }
-        return instance;
-    }
-
-    //This will be removed when deploy
-    public static void destroyInstance(){
-        instance = null;
-    }
-
+    /**
+     * This function adds an ingredient to the
+     * @param ingredient
+     * @return
+     */
     protected boolean addIngredient(IngredientItem ingredient){
         if (inventory.containsKey(ingredient.getIngredient())){
             throw new IllegalArgumentException(
