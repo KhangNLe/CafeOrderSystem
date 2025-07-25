@@ -19,10 +19,14 @@ public class IngredientList extends JsonCollection<Ingredient> {
             return false; //item doesn't exist
         }
 
-        Ingredient tempIngr = (getObject(ingrLoc));// creates temp ingredient
+        Ingredient tempIngr = (getObject(ingrLoc));// creates temp ingredients
         int tempQuant = tempIngr.getQuantity(); // gets its quantity
         tempQuant += amount; // increments it by input
-        tempIngr.setQuantity(tempQuant);// sets new quant
+        if (tempQuant >= 0) {//validating modification amount
+            tempIngr.setQuantity(tempQuant);// sets new quant
+        }else {
+            return false; //error message
+        }
 
         return true; //function succeeded
     }

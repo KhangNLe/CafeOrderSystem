@@ -4,6 +4,11 @@ public class Ingredient {
     private String ingredientName;
     private int quantity;
 
+    /**
+     * Simple Data Class
+     * @param name name of ingredient
+     * @param startingQuant initial quantity
+     */
     public Ingredient(String name, int startingQuant){
         this.ingredientName = name;
         this.quantity = startingQuant;
@@ -20,4 +25,6 @@ public class Ingredient {
     public void setQuantity(int newQuant){
         this.quantity = newQuant;
     }
+
+
 }
