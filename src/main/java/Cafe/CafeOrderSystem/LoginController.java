@@ -1,4 +1,4 @@
-package coffee.cafeordersystem;
+package Cafe.CafeOrderSystem;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

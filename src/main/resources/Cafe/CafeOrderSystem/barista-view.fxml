@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 
 <BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="coffee.cafeordersystem.BaristaUiController"
+            fx:controller="Cafe.CafeOrderSystem.BaristaUiController"
             prefWidth="400" prefHeight="600">
 
     <!-- Top - Simple header -->
