@@ -1,5 +1,10 @@
 package Cafe.CafeOrderSystem.Ingredients;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.Objects;
+
 public class Ingredient {
     private String ingredientName;
     private int quantity;
@@ -9,7 +14,10 @@ public class Ingredient {
      * @param name name of ingredient
      * @param startingQuant initial quantity
      */
-    public Ingredient(String name, int startingQuant){
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public Ingredient(
+            @JsonProperty("ingredient")String name,
+            @JsonProperty("amount")int startingQuant){
         this.ingredientName = name;
         this.quantity = startingQuant;
     }
@@ -24,6 +32,20 @@ public class Ingredient {
 
     public void setQuantity(int newQuant){
         this.quantity = newQuant;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Ingredient other)) return false;
+        if(o == null) return false;
+        Ingredient tempIngr = (Ingredient)o;
+        return this.ingredientName.equals(tempIngr.getName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(ingredientName);
     }
 
 
