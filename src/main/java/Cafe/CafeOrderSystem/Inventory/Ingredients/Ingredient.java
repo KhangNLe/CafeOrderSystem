@@ -1,4 +1,4 @@
-package Cafe.CafeOrderSystem.Ingredients;
+package Cafe.CafeOrderSystem.Inventory.Ingredients;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;

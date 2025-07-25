@@ -1,6 +1,6 @@
 package Cafe.CafeOrderSystem.JsonParser.CafeMenu;
 
-import Cafe.CafeOrderSystem.Ingredients.IngredientItem;
+import Cafe.CafeOrderSystem.Inventory.Ingredients.IngredientItem;
 import Cafe.CafeOrderSystem.JsonParser.CafeObjectParser;
 import Cafe.CafeOrderSystem.JsonParser.JsonArrayParser;
 import com.fasterxml.jackson.databind.JsonNode;

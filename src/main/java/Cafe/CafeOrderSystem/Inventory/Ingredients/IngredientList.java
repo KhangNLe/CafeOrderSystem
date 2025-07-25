@@ -1,4 +1,4 @@
-package Cafe.CafeOrderSystem.Ingredients;
+package Cafe.CafeOrderSystem.Inventory.Ingredients;
 
 import Cafe.CafeOrderSystem.JsonParser.ItemsParser;
 import Cafe.CafeOrderSystem.JsonParser.JsonCollection;

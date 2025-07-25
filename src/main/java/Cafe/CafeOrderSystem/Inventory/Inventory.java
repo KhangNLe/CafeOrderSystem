@@ -1,7 +1,7 @@
 package Cafe.CafeOrderSystem.Inventory;
 
-import Cafe.CafeOrderSystem.Ingredients.Ingredient;
-import Cafe.CafeOrderSystem.Ingredients.IngredientList;
+import Cafe.CafeOrderSystem.Inventory.Ingredients.Ingredient;
+import Cafe.CafeOrderSystem.Inventory.Ingredients.IngredientList;
 import Cafe.CafeOrderSystem.JsonParser.ItemsParser;
 
 public class Inventory {

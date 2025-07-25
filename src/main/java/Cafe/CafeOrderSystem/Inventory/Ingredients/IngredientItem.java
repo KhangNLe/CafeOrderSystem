@@ -1,4 +1,4 @@
-package Cafe.CafeOrderSystem.Ingredients;
+package Cafe.CafeOrderSystem.Inventory.Ingredients;
 
 import Cafe.CafeOrderSystem.CatalogItems.Ingredients;
 import com.fasterxml.jackson.annotation.JsonCreator;
