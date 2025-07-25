@@ -1,0 +1,67 @@
+[
+  {
+    "id": "P-M01",
+    "name": "Sugar Muffin",
+    "type": "MUFFIN",
+    "cost": {
+      "price": 8,
+      "ingredients": {
+        "BUTTER": 4,
+        "FLOUR": 5,
+        "SUGAR": 3
+      }
+    }
+  },
+  {
+    "id": "P-M02",
+    "name": "Chocolate Muffin",
+    "type": "MUFFIN",
+    "cost": {
+      "price": 10,
+      "ingredients": {
+        "BUTTER": 4,
+        "FLOUR": 5,
+        "CHOCOLATE_CHIP": 4
+      }
+    }
+  },
+  {
+    "id": "P-M03",
+    "name": "Almond Muffin",
+    "type": "MUFFIN",
+    "cost": {
+      "price": 10,
+      "ingredients": {
+        "BUTTER": 4,
+        "FLOUR": 5,
+        "ALMOND": 4
+      }
+    }
+  },
+  {
+    "id": "P-M04",
+    "name": "Blueberry Muffin",
+    "type": "MUFFIN",
+    "cost": {
+      "price": 11,
+      "ingredients": {
+        "BUTTER": 4,
+        "FLOUR": 5,
+        "BLUEBERRY": 4
+      }
+    }
+  },
+  {
+    "id": "P-M05",
+    "name": "Strawberry Muffin",
+    "type": "MUFFIN",
+    "cost": {
+      "price": 10,
+      "ingredients": {
+        "BUTTER": 4,
+        "FLOUR": 5,
+        "STRAWBERRY": 4
+      }
+    }
+  }
+]

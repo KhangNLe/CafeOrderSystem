@@ -1,0 +1,126 @@
+[
+  {
+    "id": "B-C01",
+    "name": "Latte",
+    "type": "COFFEE",
+    "cost": {
+      "SMALL": {
+        "price": 5,
+        "ingredients": {
+          "COFFEE_BEAN": 3,
+          "MILK": 3,
+          "SUGAR": 0
+        }
+      },
+      "MEDIUM": {
+        "price": 7,
+        "ingredients": {
+          "COFFEE_BEAN": 4,
+          "MILK": 4,
+          "SUGAR": 0
+        }
+      },
+      "LARGE": {
+        "price": 8,
+        "ingredients": {
+          "COFFEE_BEAN": 5,
+          "MILK": 4,
+          "SUGAR": 0
+        }
+      }
+    }
+  },
+  {
+    "id": "B-C02",
+    "name": "Cappuccino",
+    "type": "COFFEE",
+    "cost": {
+      "SMALL": {
+        "price": 8,
+        "ingredients": {
+          "COFFEE_BEAN": 3,
+          "MILK": 5,
+          "SUGAR": 0
+        }
+      },
+      "MEDIUM": {
+        "price": 11,
+        "ingredients": {
+          "COFFEE_BEAN": 4,
+          "MILK": 6,
+          "SUGAR": 0
+        }
+      },
+      "LARGE": {
+        "price": 13,
+        "ingredients": {
+          "COFFEE_BEAN": 5,
+          "MILK": 7,
+          "SUGAR": 0
+        }
+      }
+    }
+  },
+  {
+    "id": "B-C03",
+    "name": "Espresso",
+    "type": "COFFEE",
+    "cost": {
+      "SMALL": {
+        "price": 3,
+        "ingredients": {
+          "COFFEE_BEAN": 3,
+          "MILK": 0,
+          "SUGAR": 0
+        }
+      },
+      "MEDIUM": {
+        "price": 4,
+        "ingredients": {
+          "COFFEE_BEAN": 4,
+          "MILK": 0,
+          "SUGAR": 0
+        }
+      },
+      "LARGE": {
+        "price": 5,
+        "ingredients": {
+          "COFFEE_BEAN": 5,
+          "MILK": 0,
+          "SUGAR": 0
+        }
+      }
+    }
+  },
+  {
+    "id": "B-C04",
+    "name": "Americano",
+    "type": "COFFEE",
+    "cost": {
+      "SMALL": {
+        "price": 6,
+        "ingredients": {
+          "COFFEE_BEAN": 4,
+          "MILK": 0,
+          "SUGAR": 0
+        }
+      },
+      "MEDIUM": {
+        "price": 7,
+        "ingredients": {
+          "COFFEE_BEAN": 5,
+          "MILK": 0,
+          "SUGAR": 0
+        }
+      },
+      "LARGE": {
+        "price": 8,
+        "ingredients": {
+          "COFFEE_BEAN": 6,
+          "MILK": 0,
+          "SUGAR": 0
+        }
+      }
+    }
+  }
+]
