@@ -26,7 +26,6 @@ public class CafeOrders {
     }
 
     public void completeOrder(CustomerOrder order) {
-        OrderHistoryParser.addOrderToHistory(order);
         fulfilledOrders.add(order);
     }
 

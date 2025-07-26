@@ -8,13 +8,11 @@ import java.util.UUID;
 
 public class OrdersManagement {
     private final CafeMenu cafeMenu;
-    private final InventoryRegister inventory;
     private final CafeOrders orders;
     private static OrdersManagement ordersManagement;
 
     private OrdersManagement(){
         cafeMenu = CafeMenu.getInstance();
-        inventory = new InventoryRegister();
         orders = CafeOrders.getInstance();
     }
 
