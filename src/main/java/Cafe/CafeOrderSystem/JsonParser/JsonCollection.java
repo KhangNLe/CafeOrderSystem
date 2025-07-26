@@ -4,11 +4,11 @@ import java.io.File;
 import java.time.LocalTime;
 import java.util.*;
 
-public class JsonCollection<T> {
+public class JsonCollection<T> implements Parsers {
     private final ItemsParser parser;
     private final Class<T> type;
-    private final File folderLoc;
-    private final File[] folderFiles;
+    private final File directory;
+    private final List<File> dirFiles;
     private final List<T> collectionList;
 
     /**
@@ -20,8 +20,8 @@ public class JsonCollection<T> {
     public JsonCollection (ItemsParser fileParser, String folderPath, Class<T> type) {
         this.parser = fileParser;
         this.type = type;
-        this.folderLoc = getFolderLocation(folderPath);
-        this.folderFiles = getFolderFiles();
+        this.directory = getFolderLocation(folderPath);
+        this.dirFiles = getDirFiles();
         this.collectionList = new ArrayList<>();
     }
 
@@ -29,9 +29,12 @@ public class JsonCollection<T> {
      * This Function Converts all files from the folderLoc folder and transforms them
      * from json files into the object type of the parser
      */
+    @Override
     public void startCollection (){
         if(this.collectionList.isEmpty()){
-            collectionList.addAll(parser.readFile(this.folderLoc, type));
+            dirFiles.forEach(file -> {
+                collectionList.addAll(parser.readFile(file, type));
+            });
         }
     }
 
@@ -39,6 +42,7 @@ public class JsonCollection<T> {
      * This Function Converts all the objects from the collection array list and writes them
      * into json files in the folderLoc file location
      */
+    @Override
     public void endCollection (){
         if(!this.collectionList.isEmpty()){
             File file = new File(generateFileName());
@@ -53,7 +57,7 @@ public class JsonCollection<T> {
      */
     public String generateFileName (){
         return String.format("%s/%s-%s.json",
-                folderLoc.getAbsolutePath(), type.getName(), LocalTime.now());
+                directory.getAbsolutePath(), type.getName(), LocalTime.now());
     }
 
     /**
@@ -72,10 +76,10 @@ public class JsonCollection<T> {
      * @return desired object
      */
     public T getObject(int index){
-        T tempObject = null;
-        tempObject = this.collectionList.get(index);
-
-        return tempObject;
+        if (index < 0 || index >= collectionList.size()){
+            throw new IndexOutOfBoundsException("Index out of bounds!");
+        }
+        return collectionList.get(index);
     }
 
     /**
@@ -93,12 +97,7 @@ public class JsonCollection<T> {
      * @return
      */
     public int findObject(T queryObject){
-        for (int i = 0; i < collectionList.size(); i++){ //loops through all objects in the collection
-            if(getObject(i).equals(queryObject)){ //Returns the index of a matching Object
-                return i;
-            }
-        }
-        return -1;
+        return collectionList.indexOf(queryObject);
     }
 
     public List<T> getCollection(){
@@ -122,7 +121,8 @@ public class JsonCollection<T> {
         return folder;
     }
 
-    private File[] getFolderFiles(){
-        return folderLoc.listFiles((dir, name) -> name.endsWith(".json"));
+    private List<File> getDirFiles(){
+        return Arrays.stream(Objects.requireNonNull(directory.listFiles())).
+                filter(file -> file.getName().endsWith(".json")).toList();
     }
 }

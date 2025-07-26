@@ -16,7 +16,7 @@ public class RoleTest {
         Role loggedinrole = null;
 
         for(Role role : roles) {
-            if (role.validatecredentials(roleName, passwordinput)) {
+            if (role.validateCredentials(roleName, passwordinput)) {
                 loggedinrole = role;
                 break;
             }
