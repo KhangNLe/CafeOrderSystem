@@ -2,11 +2,13 @@ package Cafe.CafeOrderSystem.CatalogItems;
 
 import Cafe.CafeOrderSystem.JsonParser.JsonKey;
 
+import java.util.Locale;
+
 public class BeverageType implements JsonKey {
     private final String beverageType;
 
     public BeverageType(String beverageType){
-        this.beverageType = beverageType;
+        this.beverageType = beverageType.toUpperCase(Locale.ROOT);
     }
 
     @Override
@@ -29,6 +31,11 @@ public class BeverageType implements JsonKey {
     @Override
     public int hashCode(){
         return this.beverageType.hashCode();
+    }
+
+    @Override
+    public String toString(){
+        return this.beverageType;
     }
 
 }

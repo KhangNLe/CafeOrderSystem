@@ -1,6 +1,7 @@
 package Cafe.CafeOrderSystem;
 
 import Cafe.CafeOrderSystem.Roles.BaristaRole;
+import Cafe.CafeOrderSystem.Roles.EmployeesAuthentication;
 import Cafe.CafeOrderSystem.Roles.ManagerRole;
 import Cafe.CafeOrderSystem.Roles.Role;
 import org.junit.jupiter.api.*;
@@ -36,5 +37,25 @@ public class RoleTest {
         assertTrue(isExist(roles, user1));
         assertFalse(isExist(roles, user2));
 
+    }
+
+    @Test
+    @DisplayName("Test for Employee Authentification")
+    void testForEmployeeAuthentication(){
+        Cafe cafeShop = new Cafe();
+        cafeShop.startShop();
+
+        EmployeesAuthentication auth = cafeShop.getEmployeesAuthentication();
+
+        UserTest barista1 = new UserTest("barista1", "barista1");
+        UserTest barista2 = new UserTest("barista", "barista");
+        UserTest manager1 = new UserTest("manager1", "manager1");
+        UserTest manager2 = new UserTest("manager", "manager");
+
+        assertTrue(auth.baristaLogin(barista1.name(), barista1.pass()));
+        assertFalse(auth.baristaLogin(barista2.name(), barista2.pass()));
+
+        assertTrue(auth.managerLogin(manager1.name(), manager1.pass()));
+        assertFalse(auth.managerLogin(manager2.name(), manager2.pass()));
     }
 }

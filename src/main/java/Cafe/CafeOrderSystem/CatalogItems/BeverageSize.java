@@ -2,6 +2,8 @@ package Cafe.CafeOrderSystem.CatalogItems;
 
 import Cafe.CafeOrderSystem.JsonParser.JsonKey;
 
+import java.util.Locale;
+
 public class BeverageSize implements JsonKey {
     private final String size;
 
@@ -11,7 +13,7 @@ public class BeverageSize implements JsonKey {
 
     @Override
     public String getJsonKey(){
-        return this.size;
+        return this.size.toUpperCase(Locale.ROOT);
     }
 
     @Override
@@ -23,6 +25,16 @@ public class BeverageSize implements JsonKey {
     }
 
     public String getSize(){
+        return this.size;
+    }
+
+    @Override
+    public int hashCode(){
+        return this.size.hashCode();
+    }
+
+    @Override
+    public String toString(){
         return this.size;
     }
 }

@@ -24,5 +24,7 @@ public class JsonParserTest {
         assertFalse(cafeMenu.getPastriesItems().isEmpty());
         assertFalse(cafeMenu.getBeverageItems().isEmpty());
         assertFalse(cafeMenu.getBeverageAddOn().isEmpty());
+
+        LOGGER.info(cafeMenu.getBeverageItems().toString());
     }
 }

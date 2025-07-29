@@ -3,10 +3,11 @@ package Cafe.CafeOrderSystem.Roles;
 import java.util.*;
 
 public class EmployeesAuthentication {
-    private final RolesList baristaAccounts;
-    private final RolesList managerAccounts;
+    private final RolesList<BaristaRole> baristaAccounts;
+    private final RolesList<ManagerRole> managerAccounts;
 
-    public EmployeesAuthentication(RolesList baristaAccounts, RolesList managerAccounts) {
+    public EmployeesAuthentication(RolesList<BaristaRole> baristaAccounts,
+                                   RolesList<ManagerRole> managerAccounts) {
         this.baristaAccounts = baristaAccounts;
         this.managerAccounts = managerAccounts;
     }
@@ -19,8 +20,9 @@ public class EmployeesAuthentication {
         return verifyLogin(username, password, managerAccounts.getCollection());
     }
 
-    private boolean verifyLogin(String username, String password, List<Role> role) {
-        for (Role acc : role) {
+    private <T extends Role> boolean verifyLogin(String username, String password,
+                                       List<T> role) {
+        for (T acc : role) {
             if (acc.validateCredentials(username, password)) {
                 return true;
             }

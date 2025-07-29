@@ -30,4 +30,9 @@ public class MenuType implements JsonKey {
     public int hashCode(){
         return type.hashCode();
     }
+
+    @Override
+    public String toString(){
+        return this.type;
+    }
 }

@@ -34,6 +34,10 @@ public class Cafe {
         return ordersManagement;
     }
 
+    public EmployeesAuthentication getEmployeesAuthentication(){
+        return employees;
+    }
+
     private CafeMenu getMenu(){
         BeverageParser beverageParser = cafeShop.getParserType(BeverageParser.class);
         PastriesParser pastriesParser = cafeShop.getParserType(PastriesParser.class);
