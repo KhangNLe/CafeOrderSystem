@@ -42,4 +42,24 @@ public class CafeMenu {
 
         return item;
     }
+
+    public PastriesItem retrievePastriesItem(int index){
+        PastriesItem item = pastryItems.getObject(index);
+        if (item == null){
+            throw new IllegalArgumentException(
+                    String.format("Pastries item of index %d does not exist!", index)
+            );
+        }
+        return item;
+    }
+
+    public CustomItem retrieveCustomItem(int index){
+        CustomItem item = beverageAddOn.getObject(index);
+        if (item == null){
+            throw new IllegalArgumentException(
+                    String.format("Custom item of index %d does not exist!", index)
+            );
+        }
+        return item;
+    }
 }
