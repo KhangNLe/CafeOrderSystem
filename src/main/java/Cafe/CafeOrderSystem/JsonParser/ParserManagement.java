@@ -3,6 +3,8 @@ package Cafe.CafeOrderSystem.JsonParser;
 import Cafe.CafeOrderSystem.JsonParser.Authentication.AuthenticationParser;
 import Cafe.CafeOrderSystem.JsonParser.CafeMenu.*;
 import Cafe.CafeOrderSystem.JsonParser.OrderItem.*;
+import Cafe.CafeOrderSystem.Roles.BaristaRole;
+import Cafe.CafeOrderSystem.Roles.ManagerRole;
 import Cafe.CafeOrderSystem.Roles.RolesList;
 
 public class ParserManagement {
@@ -42,9 +44,9 @@ public class ParserManagement {
     }
 
     private static void addAccounts(CafeParser parser){
-        RolesList barista = RolesList.newBaristaRoleList(BARISTA_DIR);
-        RolesList manager = RolesList.newManagerRoleList(MANAGER_DIR);
-        AuthenticationParser accountsParser = new AuthenticationParser(barista, manager);
+        RolesList<BaristaRole> barista = RolesList.newBaristaRoleList(BARISTA_DIR);
+        RolesList<ManagerRole> manager = RolesList.newManagerRoleList(MANAGER_DIR);
+        AuthenticationParser accountsParser = new AuthenticationParser(manager, barista);
 
         parser.addParser(accountsParser);
     }
