@@ -9,8 +9,10 @@ public class BeverageParser extends JsonCollection<BeverageItem> {
         super(parser, dirPath, itemClass);
     }
 
-    public static BeverageParser create(ItemsParser parser, String dirPath,
-                                        Class<BeverageItem> itemClass) {
-        return new BeverageParser(parser, dirPath, itemClass);
+    public static BeverageParser create(String dirPath) {
+        return new BeverageParser(new ItemsParser(), dirPath, BeverageItem.class);
     }
+
+    @Override
+    public void endCollection(){}
 }

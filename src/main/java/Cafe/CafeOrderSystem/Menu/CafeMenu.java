@@ -1,54 +1,45 @@
 package Cafe.CafeOrderSystem.Menu;
 
+import Cafe.CafeOrderSystem.JsonParser.CafeMenu.AddOnParser;
+import Cafe.CafeOrderSystem.JsonParser.CafeMenu.BeverageParser;
+import Cafe.CafeOrderSystem.JsonParser.CafeMenu.PastriesParser;
+import Cafe.CafeOrderSystem.JsonParser.JsonCollection;
 import Cafe.CafeOrderSystem.Menu.Items.*;
 
 import java.util.*;
 
 public class CafeMenu {
-    private static CafeMenu instance;
-    private final Map<String, BeverageItem> beveragesItems;
-    private final Map<String, PastriesItem> pastryItems;
-    private final Map<String, CustomItem> beverageAddOn;
+    private final BeverageParser beverageItems;
+    private final PastriesParser pastryItems;
+    private final AddOnParser beverageAddOn;
 
-    private CafeMenu(){
-        this.beveragesItems = new HashMap<>();
-        this.pastryItems = new HashMap<>();
-        this.beverageAddOn = new HashMap<>();
+    public CafeMenu(BeverageParser beverageItems,
+                     PastriesParser pastryItems, AddOnParser beverageAddOn){
+        this.beverageItems = beverageItems;
+        this.pastryItems =  pastryItems;
+        this.beverageAddOn = beverageAddOn;
     }
 
-    public static CafeMenu getInstance(){
-        if (instance == null){
-            instance = new CafeMenu();
+    public List<BeverageItem> getBeverageItems() {
+        return beverageItems.getCollection();
+    }
+
+    public List<PastriesItem> getPastriesItems() {
+        return pastryItems.getCollection();
+    }
+
+    public List<CustomItem> getBeverageAddOn() {
+        return beverageAddOn.getCollection();
+    }
+
+    public BeverageItem retrieveBeverageItem(int index){
+        BeverageItem item = beverageItems.getObject(index);
+        if (item == null){
+            throw new IllegalArgumentException(
+                    String.format("Beverage item of index %d does not exist!", index)
+            );
         }
-        return instance;
-    }
 
-    //This method is written in for a test
-    public static void destroyInstance(){
-        instance = null;
-    }
-
-    public Map<String, BeverageItem> getBeveragesItems() {
-        return beveragesItems;
-    }
-
-    public Map<String, PastriesItem> getPastriesItems() {
-        return pastryItems;
-    }
-
-    public Map<String, CustomItem> getBeverageAddOn() {
-        return beverageAddOn;
-    }
-
-    public void addPastries(PastriesItem pastry){
-        pastryItems.put(pastry.id(), pastry);
-    }
-
-    public void addBeverages(BeverageItem beverage){
-        beveragesItems.put(beverage.id(), beverage);
-    }
-
-    public void addBeverageAddOn (CustomItem addOn){
-        beverageAddOn.put(addOn.id(), addOn);
+        return item;
     }
 }

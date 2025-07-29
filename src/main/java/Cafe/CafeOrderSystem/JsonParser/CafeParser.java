@@ -1,15 +1,12 @@
 package Cafe.CafeOrderSystem.JsonParser;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class CafeParser {
     List<Parsers> cafeMenuParser;
-    ItemsParser parser;
 
     public CafeParser(){
-        parser = new ItemsParser();
         cafeMenuParser = new ArrayList<>();
     }
 
@@ -21,4 +18,17 @@ public class CafeParser {
         cafeMenuParser.add(parser);
     }
 
+    public void closeShop(){
+        cafeMenuParser.forEach(Parsers::endCollection);
+    }
+
+    public <T extends Parsers> T getParserType(Class<T> type){
+        return cafeMenuParser.stream()
+                .filter(type::isInstance)
+                .map(type::cast)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(
+                        String.format("No parser found for type %s", type.getSimpleName())
+                ));
+    }
 }

@@ -16,8 +16,7 @@ public class InventoryParser extends JsonCollection<IngredientItem> {
         super(parser, dirPath, itemClass);
     }
 
-    public static InventoryParser create(ItemsParser parser, String dirPath,
-                                         Class<IngredientItem> itemClass) {
-        return new InventoryParser(parser, dirPath, itemClass);
+    public static InventoryParser create(String dirPath){
+        return new InventoryParser(new ItemsParser(), dirPath, IngredientItem.class);
     }
 }

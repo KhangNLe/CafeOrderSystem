@@ -1,6 +1,8 @@
 package Cafe.CafeOrderSystem;
 
-import Roles.*;
+import Cafe.CafeOrderSystem.Roles.BaristaRole;
+import Cafe.CafeOrderSystem.Roles.ManagerRole;
+import Cafe.CafeOrderSystem.Roles.Role;
 import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;

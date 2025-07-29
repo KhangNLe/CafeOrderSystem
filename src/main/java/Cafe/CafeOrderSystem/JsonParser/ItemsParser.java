@@ -1,8 +1,10 @@
 package Cafe.CafeOrderSystem.JsonParser;
 
+import Cafe.CafeOrderSystem.Inventory.Ingredients.Ingredient;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SequenceWriter;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 
 import java.io.*;
 import java.util.*;
@@ -11,7 +13,7 @@ public class ItemsParser {
     private final ObjectMapper mapper;
 
     public ItemsParser() {
-        mapper = new ObjectMapper();
+        mapper = MapperFactory.createMapper();
     }
 
     public <T> List<T> readFile(File file, Class<T> type){
@@ -42,7 +44,8 @@ public class ItemsParser {
 
        if (file.length() > 0){
            try {
-               JavaType type = mapper.getTypeFactory().constructType(List.class, classType);
+               JavaType type = mapper.getTypeFactory()
+                       .constructCollectionType(List.class, classType);
                current = mapper.readValue(file, type);
            } catch (IOException e) {
                throw new IllegalArgumentException(

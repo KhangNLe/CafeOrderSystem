@@ -4,14 +4,12 @@ import java.util.*;
 
 public class CafeOrders {
     private final Queue<CustomerOrder> pendingOrders;
-    private final Map<String, CustomerOrder> activeOrders;
     private final List<CustomerOrder> fulfilledOrders;
     private static CafeOrders instance;
 
     private CafeOrders() {
         pendingOrders = new LinkedList<>();
         fulfilledOrders = new ArrayList<>();
-        activeOrders = new HashMap<>();
     }
 
     public static CafeOrders getInstance() {
@@ -22,11 +20,21 @@ public class CafeOrders {
     }
 
     public CustomerOrder getNextPendingOrder() {
-        return pendingOrders.poll();
+        if (!pendingOrders.isEmpty()) {
+            return pendingOrders.poll();
+        }
+
+        return null;
     }
 
-    public void completeOrder(CustomerOrder order) {
-        fulfilledOrders.add(order);
+    public void completeOrder(String orderID) {
+        CustomerOrder order = lookUpPendingOrder(orderID);
+        if (order != null) {
+            pendingOrders.add(order);
+        }
+        throw new IllegalArgumentException(
+                String.format("There no pending order with ID %s", orderID)
+        );
     }
 
     public void putInPendingOrder(CustomerOrder order) {
@@ -36,16 +44,15 @@ public class CafeOrders {
             ));
         }
         pendingOrders.add(order);
-        activeOrders.put(order.getOrderID(), order);
     }
 
-    public CustomerOrder getActiveOrder(String orderID) {
-        if (!activeOrders.containsKey(orderID)) {
-            throw new IllegalArgumentException(
-                    String.format("Order id %s not found on current pending orders", orderID)
-            );
+    public CustomerOrder lookUpPendingOrder(String orderID) {
+        for (CustomerOrder order : pendingOrders) {
+            if (order.getOrderID().equals(orderID)) {
+                return order;
+            }
         }
-        return activeOrders.get(orderID);
+        return null;
     }
 
     public List<CustomerOrder> getTodayOrders(){

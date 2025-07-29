@@ -57,6 +57,10 @@ public class CustomerOrder {
         totalPrice += orderItem.getPrice();
     }
 
+    public void removeOrderItem(OrderItem orderItem){
+        orderItems.removeIf(item -> item.getItem().equals(orderItem));
+    }
+
     public void customizeOrderItem(String itemID, CustomItem customItem) {
         OrderItem item = getOrderItem(itemID);
         item.modifyOrderItem(customItem);

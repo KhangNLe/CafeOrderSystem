@@ -9,8 +9,10 @@ public class PastriesParser extends JsonCollection<PastriesItem> {
         super(parser, dirPath, itemClass);
     }
 
-    public static PastriesParser create(ItemsParser parser, String dirPath,
-                                        Class<PastriesItem> itemClass) {
-        return new PastriesParser(parser, dirPath, itemClass);
+    public static PastriesParser create(String dirPath){
+        return new PastriesParser(new ItemsParser(), dirPath, PastriesItem.class);
     }
+
+    @Override
+    public void endCollection() {}
 }

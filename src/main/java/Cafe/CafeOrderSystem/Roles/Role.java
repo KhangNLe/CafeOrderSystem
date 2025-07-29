@@ -1,10 +1,10 @@
-package Roles;
+package Cafe.CafeOrderSystem.Roles;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
 
 import java.util.Objects;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class Role {
 
     protected String userName;
@@ -39,7 +39,7 @@ public abstract class Role {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || !(o instanceof Role role)){ return false; }
+        if (!(o instanceof Role role)){ return false; }
 
         return validateCredentials(role.getUserName(), role.getPassword());
     }
@@ -53,5 +53,4 @@ public abstract class Role {
     public String toString() {
         return getDisplayName();
     }
-
 }

@@ -38,9 +38,7 @@ public class Ingredient {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Ingredient other)) return false;
-        if(o == null) return false;
-        Ingredient tempIngr = (Ingredient)o;
-        return this.ingredientName.equals(tempIngr.getName());
+        return this.ingredientName.equals(other.getName());
     }
 
     @Override

@@ -9,9 +9,8 @@ public class CustomerOrderParser extends JsonCollection<CustomerOrder> {
         super(parser, dirPath, itemClass);
     }
 
-    public static CustomerOrderParser create(ItemsParser parser, String dirPath,
-                                             Class<CustomerOrder> itemClass) {
-        return new CustomerOrderParser(parser, dirPath, itemClass);
+    public static CustomerOrderParser create(String dirPath){
+        return new CustomerOrderParser(new ItemsParser(), dirPath, CustomerOrder.class);
     }
 
     public void completeOrder(CustomerOrder order){
