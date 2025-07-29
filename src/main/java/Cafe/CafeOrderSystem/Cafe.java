@@ -12,8 +12,8 @@ import Cafe.CafeOrderSystem.JsonParser.*;
 public class Cafe {
     private final CafeParser cafeShop;
     private final CafeMenu menu;
-    private EmployeesAuthentication  employees;
-    private OrdersManagement ordersManagement;
+    private final EmployeesAuthentication  employees;
+    private final OrdersManagement ordersManagement;
 
     public Cafe(){
         cafeShop = ParserManagement.initializeCafeParser();
@@ -24,6 +24,14 @@ public class Cafe {
 
     public void startShop(){
         cafeShop.openCafeShop();
+    }
+
+    public CafeMenu getCafeMenu(){
+        return menu;
+    }
+
+    public OrdersManagement getOrdersManagement(){
+        return ordersManagement;
     }
 
     private CafeMenu getMenu(){

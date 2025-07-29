@@ -32,5 +32,4 @@ public class Ingredients implements JsonKey {
     public String getName(){
         return this.name;
     }
-
 }
