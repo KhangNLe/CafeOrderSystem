@@ -1,6 +1,5 @@
 package Cafe.CafeOrderSystem.Orders;
 
-import Cafe.CafeOrderSystem.Exceptions.CafeSystemException;
 import Cafe.CafeOrderSystem.Exceptions.InvalidInputException;
 import Cafe.CafeOrderSystem.Menu.Items.*;
 

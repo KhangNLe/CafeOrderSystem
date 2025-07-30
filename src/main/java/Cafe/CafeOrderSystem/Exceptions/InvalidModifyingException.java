@@ -1,6 +1,6 @@
 package Cafe.CafeOrderSystem.Exceptions;
 
-public class InvalidModifyingException extends CafeSystemException {
+public class InvalidModifyingException extends IllegalArgumentException {
     public InvalidModifyingException(String message) {
         super(message);
     }

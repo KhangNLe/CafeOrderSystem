@@ -93,7 +93,7 @@ public class CustomerOrder {
         }
     }
 
-    private OrderedItem getOrderItem(String itemID) throws CafeSystemException {
+    private OrderedItem getOrderItem(String itemID) {
         if (itemID == null || itemID.isEmpty()) {
             throw new InvalidInputException("ItemID cannot be null or empty");
         }

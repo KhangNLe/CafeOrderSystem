@@ -1,6 +1,6 @@
 package Cafe.CafeOrderSystem.Exceptions;
 
-public class BackendErrorException extends CafeSystemException {
+public class BackendErrorException extends IllegalArgumentException {
     public BackendErrorException(String message) {
         super(message);
     }

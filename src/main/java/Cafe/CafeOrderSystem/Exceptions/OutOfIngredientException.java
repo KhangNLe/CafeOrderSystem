@@ -1,6 +1,6 @@
 package Cafe.CafeOrderSystem.Exceptions;
 
-public class OutOfIngredientException extends CafeSystemException {
+public class OutOfIngredientException extends IllegalArgumentException {
     public OutOfIngredientException(String message) {
         super(message);
     }
