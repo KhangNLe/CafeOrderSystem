@@ -1,5 +1,7 @@
 package Cafe.CafeOrderSystem.JsonParser;
 
+import Cafe.CafeOrderSystem.Exceptions.InvalidInputException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +29,7 @@ public class CafeParser {
                 .filter(type::isInstance)
                 .map(type::cast)
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(
+                .orElseThrow(() -> new InvalidInputException(
                         String.format("No parser found for type %s", type.getSimpleName())
                 ));
     }

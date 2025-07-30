@@ -14,6 +14,7 @@ module Cafe.CafeOrderSystem {
     exports Cafe.CafeOrderSystem.Roles to com.fasterxml.jackson.databind;
     exports Cafe.CafeOrderSystem.JsonParser to java.logging;
     exports Cafe.CafeOrderSystem;
+    exports Cafe.CafeOrderSystem.Exceptions;
     exports Cafe.CafeOrderSystem.Menu;
     exports Cafe.CafeOrderSystem.JsonParser.CafeMenu to java.logging;
     exports Cafe.CafeOrderSystem.JsonParser.Authentication to java.logging;

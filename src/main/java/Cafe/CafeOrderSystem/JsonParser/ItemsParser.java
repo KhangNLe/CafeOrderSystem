@@ -1,5 +1,6 @@
 package Cafe.CafeOrderSystem.JsonParser;
 
+import Cafe.CafeOrderSystem.Exceptions.BackendErrorException;
 import Cafe.CafeOrderSystem.Inventory.Ingredients.Ingredient;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,7 +21,7 @@ public class ItemsParser {
         try{
             return mapper.readValue(file, mapper.getTypeFactory().constructCollectionType(List.class, type));
         } catch (IOException e) {
-            throw new IllegalArgumentException(
+            throw new BackendErrorException(
                     String.format("Error while reading file '%s', reason: %s", file.getAbsolutePath(), e.getMessage()
             ));
         }
@@ -32,7 +33,7 @@ public class ItemsParser {
             writer.write(items);
             writer.close();
         } catch (IOException e) {
-            throw new IllegalArgumentException(
+            throw new BackendErrorException(
                     String.format("Failed to write pending order to file '%s', reason: %s",
                             file.getAbsolutePath(), e.getMessage())
             );
@@ -48,7 +49,7 @@ public class ItemsParser {
                        .constructCollectionType(List.class, classType);
                current = mapper.readValue(file, type);
            } catch (IOException e) {
-               throw new IllegalArgumentException(
+               throw new BackendErrorException(
                        String.format("Failed to read file %s before appending. Reason: %s",
                                file.getAbsolutePath(), e.getMessage())
                );

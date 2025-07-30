@@ -1,5 +1,6 @@
 package Cafe.CafeOrderSystem.Menu;
 
+import Cafe.CafeOrderSystem.Exceptions.InvalidInputException;
 import Cafe.CafeOrderSystem.JsonParser.CafeMenu.AddOnParser;
 import Cafe.CafeOrderSystem.JsonParser.CafeMenu.BeverageParser;
 import Cafe.CafeOrderSystem.JsonParser.CafeMenu.PastriesParser;
@@ -43,7 +44,7 @@ public class CafeMenu {
     public BeverageItem retrieveBeverageItem(int index){
         BeverageItem item = beverageItems.getObject(index);
         if (item == null){
-            throw new IllegalArgumentException(
+            throw new InvalidInputException(
                     String.format("Beverage item of index %d does not exist!", index)
             );
         }
@@ -54,7 +55,7 @@ public class CafeMenu {
     public PastriesItem retrievePastriesItem(int index){
         PastriesItem item = pastryItems.getObject(index);
         if (item == null){
-            throw new IllegalArgumentException(
+            throw new InvalidInputException(
                     String.format("Pastries item of index %d does not exist!", index)
             );
         }
@@ -64,7 +65,7 @@ public class CafeMenu {
     public CustomItem retrieveCustomItem(int index){
         CustomItem item = beverageAddOn.getObject(index);
         if (item == null){
-            throw new IllegalArgumentException(
+            throw new InvalidInputException(
                     String.format("Custom item of index %d does not exist!", index)
             );
         }

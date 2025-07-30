@@ -1,5 +1,6 @@
 package Cafe.CafeOrderSystem.Orders;
 
+import Cafe.CafeOrderSystem.Exceptions.*;
 import Cafe.CafeOrderSystem.Menu.Items.CustomItem;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -75,7 +76,7 @@ public class CustomerOrder {
             item.modifyItem(customItem);
             totalPrice += customItem.additionalPrice();
         } else {
-            throw new IllegalArgumentException(
+            throw new InvalidModifyingException(
                     String.format("Item with id %s not found inside order id %s",
                             itemID, orderID)
             );
@@ -86,15 +87,15 @@ public class CustomerOrder {
         if (orderStatus.changeStatusAttempt(orderStatus)) {
             this.orderStatus = orderStatus;
         } else {
-            throw new IllegalArgumentException(
+            throw new InvalidModifyingException(
                     String.format("Cannot change status from %s to %s", this.orderStatus, orderStatus
             ));
         }
     }
 
-    private OrderedItem getOrderItem(String itemID) {
+    private OrderedItem getOrderItem(String itemID) throws CafeSystemException {
         if (itemID == null || itemID.isEmpty()) {
-            throw new IllegalArgumentException("ItemID cannot be null or empty");
+            throw new InvalidInputException("ItemID cannot be null or empty");
         }
 
         for (OrderedItem orderedItem : orderItems) {

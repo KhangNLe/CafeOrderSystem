@@ -1,6 +1,7 @@
 package Cafe.CafeOrderSystem.Orders;
 
-import Cafe.CafeOrderSystem.Inventory.*;
+import Cafe.CafeOrderSystem.Exceptions.CafeSystemException;
+import Cafe.CafeOrderSystem.Exceptions.InvalidInputException;
 import Cafe.CafeOrderSystem.Menu.Items.*;
 
 import java.time.LocalDate;
@@ -36,7 +37,8 @@ public class OrdersManagement {
         order.addOrderItem(orderItem);
     }
 
-    public void modifyOrderItem(String orderID, CustomItem customItem, String itemID){
+    public void modifyOrderItem(String orderID, CustomItem customItem, String itemID) {
+
         CustomerOrder order = orders.lookUpPendingOrder(orderID);
         verifyCustomerOrder(order, orderID);
         order.customizeOrderItem(itemID, customItem);
@@ -50,7 +52,7 @@ public class OrdersManagement {
 
     private void verifyCustomerOrder(CustomerOrder order, String orderID){
         if (order == null){
-            throw new IllegalArgumentException(
+            throw new InvalidInputException(
                     String.format("Order with id %s does not exist", orderID)
             );
         }

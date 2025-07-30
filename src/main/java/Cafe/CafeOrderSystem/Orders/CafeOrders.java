@@ -1,5 +1,7 @@
 package Cafe.CafeOrderSystem.Orders;
 
+import Cafe.CafeOrderSystem.Exceptions.InvalidInputException;
+
 import java.util.*;
 
 public class CafeOrders {
@@ -32,14 +34,14 @@ public class CafeOrders {
         if (order != null) {
             pendingOrders.add(order);
         }
-        throw new IllegalArgumentException(
+        throw new InvalidInputException(
                 String.format("There no pending order with ID %s", orderID)
         );
     }
 
     public void putInPendingOrder(CustomerOrder order) {
         if (pendingOrders.contains(order)) {
-            throw new IllegalArgumentException(
+            throw new InvalidInputException(
                     String.format("Order id %s is already in queue", order.getOrderID()
             ));
         }

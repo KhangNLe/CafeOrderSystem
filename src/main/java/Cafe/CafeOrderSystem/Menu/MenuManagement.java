@@ -1,6 +1,7 @@
 package Cafe.CafeOrderSystem.Menu;
 
 import Cafe.CafeOrderSystem.CatalogItems.*;
+import Cafe.CafeOrderSystem.Exceptions.*;
 import Cafe.CafeOrderSystem.Menu.Items.*;
 
 import java.util.*;
@@ -71,7 +72,7 @@ public class MenuManagement {
     }
 
     public void modifyPastriesIngredientCost(Map<Ingredients, Integer> newIngredientCost,
-                                             int pastriesIdx){
+                                             int pastriesIdx) {
 
         validateIngredientCost(newIngredientCost);
         PastriesItem item = getPastriesItem(pastriesIdx);
@@ -79,14 +80,14 @@ public class MenuManagement {
         pastriesModifier.modifyPastriesIngredientsCost(pastries,  item, newIngredientCost);
     }
 
-    private void validateIngredientCost(Map<Ingredients, Integer> ingredientCost){
+    private void validateIngredientCost(Map<Ingredients, Integer> ingredientCost) {
         ingredientCost.forEach((key, value) -> {
             if (key == null || value == null){
-                throw new IllegalArgumentException(
+                throw new InvalidModifyingException(
                         String.format("Ingredient %s cannot be null or have null amount", key)
                 );
             } else if (value <= 0){
-                throw new IllegalArgumentException(
+                throw new InvalidModifyingException(
                         String.format("Ingredient %s cannot be negative value of %d",
                                 key, value)
                 );
@@ -96,7 +97,7 @@ public class MenuManagement {
 
     private void validatePrice(double price){
         if (price <= 0){
-            throw new IllegalArgumentException(
+            throw new InvalidModifyingException(
                     String.format("Expected a positive value for price. Got %.2f", price)
             );
         }
