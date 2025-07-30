@@ -11,6 +11,6 @@ public record CustomItem (
         BeverageType type,
         double additionalPrice,
         Map<Ingredients, Integer> ingredients,
-        Map<Ingredients, ReplaceIngredients> ingredientReplacement,
+        Map<Ingredients, Ingredients> ingredientReplacement,
         Set<MenuType> applicableTo
 ){}

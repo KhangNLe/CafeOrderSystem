@@ -14,11 +14,11 @@ public class RolesList<T extends Role> extends JsonCollection<T> {
     }
 
 
-    public static RolesList newManagerRoleList(String path){
-        return new RolesList(new ItemsParser(), path, ManagerRole.class);
+    public static RolesList<ManagerRole> newManagerRoleList(String path){
+        return new RolesList<>(new ItemsParser(), path, ManagerRole.class);
     }
 
-    public static RolesList newBaristaRoleList(String path){
-        return new RolesList(new ItemsParser(), path, BaristaRole.class);
+    public static RolesList<BaristaRole> newBaristaRoleList(String path){
+        return new RolesList<>(new ItemsParser(), path, BaristaRole.class);
     }
 }

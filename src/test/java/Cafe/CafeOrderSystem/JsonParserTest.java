@@ -1,7 +1,7 @@
 package Cafe.CafeOrderSystem;
 
 import Cafe.CafeOrderSystem.Menu.CafeMenu;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import Cafe.CafeOrderSystem.Menu.MenuManagement;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,11 +20,11 @@ public class JsonParserTest {
         Cafe cafeShop = new Cafe();
         cafeShop.startShop();
 
-        CafeMenu cafeMenu = cafeShop.getCafeMenu();
-        assertFalse(cafeMenu.getPastriesItems().isEmpty());
-        assertFalse(cafeMenu.getBeverageItems().isEmpty());
-        assertFalse(cafeMenu.getBeverageAddOn().isEmpty());
+        MenuManagement menuManagement = cafeShop.getCafeMenuManagement();
+        assertFalse(menuManagement.getPastriesItems().isEmpty());
+        assertFalse(menuManagement.getBeverageItems().isEmpty());
+        assertFalse(menuManagement.getAddOnItems().isEmpty());
 
-        LOGGER.info(cafeMenu.getBeverageItems().toString());
+        LOGGER.info(menuManagement.getBeverageItems().toString());
     }
 }

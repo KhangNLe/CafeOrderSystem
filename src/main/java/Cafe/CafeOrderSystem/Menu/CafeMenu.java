@@ -32,6 +32,14 @@ public class CafeMenu {
         return beverageAddOn.getCollection();
     }
 
+    public void removeItem(int itemIdx){
+        beverageItems.removeObject(itemIdx);
+    }
+
+    public void addNewItem(BeverageItem beverageItem){
+        beverageItems.addObject(beverageItem);
+    }
+
     public BeverageItem retrieveBeverageItem(int index){
         BeverageItem item = beverageItems.getObject(index);
         if (item == null){

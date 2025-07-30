@@ -15,15 +15,9 @@
     "type": "DECAF",
     "additionalPrice": 1.25,
     "ingredientReplacement": {
-      "COFFEE_BEAN": {
-        "replaceWith": "DECAF_COFFEE_BEAN"
-      },
-      "TEA_LEAVES_BLACK": {
-        "replaceWith": "DECAF_TEA_LEAVES_BLACK"
-      },
-      "TEA_LEAVES_GREEN": {
-        "replaceWith": "DECAF_TEA_LEAVES_GREEN"
-      }
+      "COFFEE_BEAN":  "DECAF_COFFEE_BEAN",
+      "TEA_LEAVES_BLACK" : "DECAF_TEA_LEAVES_BLACK",
+      "TEA_LEAVES_GREEN":  "DECAF_TEA_LEAVES_GREEN"
     },
     "applicableTo": ["COFFEE", "TEA_BLACK", "TEA_GREEN"]
   },
@@ -33,9 +27,7 @@
     "type": "MILK_REPLACEMENT",
     "additionalPrice": 1.50,
     "ingredientReplacement": {
-      "MILK": {
-        "replaceWith": "OAT_MILK"
-      }
+      "MILK": "OAT_MILK"
     },
     "applicableTo": ["COFFEE", "TEA_BLACK", "TEA_GREEN", "TEA_HERBAL"]
   },
@@ -45,9 +37,7 @@
     "type": "MILK_REPLACEMENT",
     "additionalPrice": 1.75,
     "ingredientReplacement": {
-      "MILK": {
-        "replaceWith": "ALMOND_MILK"
-      }
+      "MILK": "ALMOND_MILK"
     },
     "applicableTo": ["COFFEE", "TEA_BLACK", "TEA_GREEN", "TEA_HERBAL"]
   },

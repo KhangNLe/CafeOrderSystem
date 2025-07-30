@@ -5,19 +5,20 @@ import Cafe.CafeOrderSystem.JsonParser.CafeMenu.AddOnParser;
 import Cafe.CafeOrderSystem.JsonParser.CafeMenu.BeverageParser;
 import Cafe.CafeOrderSystem.JsonParser.CafeMenu.PastriesParser;
 import Cafe.CafeOrderSystem.Menu.CafeMenu;
+import Cafe.CafeOrderSystem.Menu.MenuManagement;
 import Cafe.CafeOrderSystem.Orders.OrdersManagement;
 import Cafe.CafeOrderSystem.Roles.EmployeesAuthentication;
 import Cafe.CafeOrderSystem.JsonParser.*;
 
 public class Cafe {
     private final CafeParser cafeShop;
-    private final CafeMenu menu;
+    private final MenuManagement  menuManagement;
     private final EmployeesAuthentication  employees;
     private final OrdersManagement ordersManagement;
 
     public Cafe(){
         cafeShop = ParserManagement.initializeCafeParser();
-        menu = getMenu();
+        menuManagement = getMenuManagement();
         employees = getEmployeeAccounts();
         ordersManagement = new OrdersManagement();
     }
@@ -26,8 +27,8 @@ public class Cafe {
         cafeShop.openCafeShop();
     }
 
-    public CafeMenu getCafeMenu(){
-        return menu;
+    public MenuManagement getCafeMenuManagement(){
+        return menuManagement;
     }
 
     public OrdersManagement getOrdersManagement(){
@@ -38,12 +39,12 @@ public class Cafe {
         return employees;
     }
 
-    private CafeMenu getMenu(){
+    private MenuManagement getMenuManagement(){
         BeverageParser beverageParser = cafeShop.getParserType(BeverageParser.class);
         PastriesParser pastriesParser = cafeShop.getParserType(PastriesParser.class);
         AddOnParser addOnParser = cafeShop.getParserType(AddOnParser.class);
 
-        return new CafeMenu(beverageParser, pastriesParser, addOnParser);
+        return new MenuManagement(new CafeMenu(beverageParser, pastriesParser, addOnParser));
     }
 
     private EmployeesAuthentication getEmployeeAccounts(){
