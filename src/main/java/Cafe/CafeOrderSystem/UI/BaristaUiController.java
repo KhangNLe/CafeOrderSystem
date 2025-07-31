@@ -71,28 +71,6 @@ public class BaristaUiController {
 
     }
 
-    // @FXML
-    // private void getFufilledOrders(){
-    //     if(orderTypeToggle){
-    //         return;
-    //     }
-    //     orderTypeToggle = true;
-    //     fulfilledOrdersButton.setStyle("-fx-background-color: lightgreen; -fx-text-fill: black;");
-    //     pendingOrdersButton.setStyle("-fx-background-color: transparent; -fx-text-fill: black;");
-
-    // }
-
-
-    // @FXML
-    // private void getPendingOrders(){
-    //     if(!orderTypeToggle){
-    //         return;
-    //     }
-    //     orderTypeToggle = false;
-    //     fulfilledOrdersButton.setStyle("-fx-background-color: transparent; -fx-text-fill: black;");
-    //     pendingOrdersButton.setStyle("-fx-background-color: lightgreen; -fx-text-fill: black;");
-
-    // }
 
 
 @FXML
