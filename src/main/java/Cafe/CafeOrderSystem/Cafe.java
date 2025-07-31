@@ -8,9 +8,12 @@ import Cafe.CafeOrderSystem.JsonParser.OrderItem.OrdersParser;
 import Cafe.CafeOrderSystem.Menu.CafeMenu;
 import Cafe.CafeOrderSystem.Menu.MenuManagement;
 import Cafe.CafeOrderSystem.Orders.CafeOrders;
+import Cafe.CafeOrderSystem.Orders.CustomerOrder;
 import Cafe.CafeOrderSystem.Orders.OrdersManagement;
 import Cafe.CafeOrderSystem.Roles.EmployeesAuthentication;
 import Cafe.CafeOrderSystem.JsonParser.*;
+
+import java.util.List;
 
 public class Cafe {
     private final CafeParser cafeShop;
@@ -31,6 +34,14 @@ public class Cafe {
 
     public void closeShop(){
         cafeShop.closeShop();
+    }
+
+    public List<CustomerOrder> getPendingOrders(){
+        return ordersManagement.getPendingOrder();
+    }
+
+    public List<CustomerOrder> getOrderHistory(){
+        return ordersManagement.getOrderHistory();
     }
 
     public MenuManagement getCafeMenuManagement(){

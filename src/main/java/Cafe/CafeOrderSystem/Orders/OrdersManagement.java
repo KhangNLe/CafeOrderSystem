@@ -25,6 +25,14 @@ public class OrdersManagement {
         return orderId;
     }
 
+    public List<CustomerOrder> getPendingOrder(){
+        return orders.getPendingOrders();
+    }
+
+    public List<CustomerOrder> getOrderHistory(){
+        return orders.getOrderHistory();
+    }
+
     public void finalizeActiveOrder(String orderID){
         orders.finalizeActiveOrder(orderID);
     }

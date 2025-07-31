@@ -49,7 +49,7 @@ public class CafeOrders {
         return order;
     }
 
-    public List<CustomerOrder> getTodayOrders(){
+    public List<CustomerOrder> getOrderHistory(){
         return fulfilledOrders.getCollection();
     }
 
