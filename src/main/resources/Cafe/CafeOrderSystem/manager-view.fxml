@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="Cafe.CafeOrderSystem.UI.ManagerController">
+
+    <top>
+        <VBox>
+            <Label fx:id="welcomeLabel" text="Welcome Manager" />
+            <HBox>
+                <Button fx:id="menuItemsButton" text="Menu Items" onAction="#handleMenuItems"/>
+                <Button fx:id="inventoryButton" text="Inventory" onAction="#handleInventory"/>
+                <Button fx:id="fulfilledOrdersButton" text="Fulfilled Orders" onAction="#getFulfilledOrders"/>
+            </HBox>
+        </VBox>
+    </top>
+
+    <center>
+        <ScrollPane fx:id="scrollPane" fitToWidth="true">
+            <VBox fx:id="menuItemsContainer" />
+        </ScrollPane>
+    </center>
+
+    <bottom>
+        <HBox>
+            <Button fx:id="outButton" text="Quit" onAction="#handleQuit"/>
+            <Button fx:id="addNewItemButton" text="+ Add New Item" onAction="#handleAddNewItem"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>

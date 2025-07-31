@@ -1,4 +1,4 @@
-package Cafe.CafeOrderSystem;
+package Cafe.CafeOrderSystem.UI;
 
 import javafx.scene.Parent;
 import javafx.scene.Scene;

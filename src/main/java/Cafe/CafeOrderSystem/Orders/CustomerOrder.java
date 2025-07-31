@@ -128,4 +128,15 @@ public class CustomerOrder {
         sb.append("}").append('\n');
         return sb.toString();
     }
+
+
+    // Trevor: I added this so I could do some formatting for the retreival of the order on the back end
+    public String shortSummary() {
+    return String.format("Order #%s | %d item(s) | $%.2f | %s", 
+        orderID, 
+        orderItems.size(), 
+        totalPrice, 
+        orderStatus
+    );
+}
 }

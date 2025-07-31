@@ -58,4 +58,9 @@ public class CafeOrders {
         return List.copyOf(pendingOrders);
     }
 
+    public void clearPending() {
+    pendingOrders.clear();
+}
+    
+
 }

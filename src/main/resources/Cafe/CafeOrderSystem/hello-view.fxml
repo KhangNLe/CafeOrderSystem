@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
+<BorderPane xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="Cafe.CafeOrderSystem.UI.HelloController">
 
-<?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="Cafe.CafeOrderSystem.HelloController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-    </padding>
+    <center>
+        <VBox fx:id="mainVBox" spacing="10" alignment="CENTER">
+            <Label fx:id="welcomeLabel" text="Welcome! Please Order Below" />
+            <Pane fx:id="imagePlaceholder" prefHeight="150" prefWidth="200" />
+            <Button fx:id="customerButton" text="Order as a Customer" onAction="#handleCustomerOrder" />
+            <Button fx:id="loginButton" text="Employee Login" onAction="#handleLogin" />
+        </VBox>
+    </center>
 
-    <Label fx:id="welcomeText"/>
-    <Button text="Hello!" onAction="#onHelloButtonClick" />
-</VBox>
+</BorderPane>
