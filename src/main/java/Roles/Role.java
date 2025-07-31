@@ -1,27 +1,43 @@
 package Roles;
 
-public abstract class Role {
+public class Role {
+     private String roleName;
+     private String loginType;
+     private String username;
+     private String password;
+     private String redirectPage;
 
-    protected String userName;
-    protected String password;
+     public Role(String roleName, String loginType, String username, String password, String redirectPage) {
+         this.roleName = roleName;
+         this.loginType = loginType;
+         this.username = username;
+         this.password = password;
+         this.redirectPage = redirectPage;
+     }
 
-    public Role(String userName, String password) {
-        this.userName = userName;
-        this.password = password;
-    }
+     public boolean validateCredentials(String inputUsername, String inputPassword) {
+         return this.username.equals(inputUsername) && this.password.equals(inputPassword);
+     }
 
-    public boolean validatecredentials(String inputuserName, String inputpassword) {
-        return userName.equals(inputuserName) && password.equals(inputpassword);
-    }
+     // Backend only: return FXML path instead of loading it
+     public String getRedirectPage() {
+         return redirectPage;
+     }
 
-    public String getDisplayname() {
-        return userName;
-    }
-    public abstract void goToPage();
+     public String getUsername() {
+         return username;
+     }
 
-    @Override
-    public String toString() {
-        return getDisplayname();
-    }
+     public String getRoleName() {
+         return roleName;
+     }
 
-}
+     public String getLoginType() {
+         return loginType;
+     }
+
+     @Override
+     public String toString() {
+         return roleName + " (" + username + ")";
+     }
+ }
