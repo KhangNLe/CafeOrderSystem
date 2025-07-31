@@ -22,11 +22,11 @@ public class CafeMenu {
     }
 
     public List<BeverageItem> getBeverageItems() {
-        return beverageItems.getCollection();
+        return List.copyOf(beverageItems.getCollection());
     }
 
     public List<PastriesItem> getPastriesItems() {
-        return pastryItems.getCollection();
+        return List.copyOf(pastryItems.getCollection());
     }
 
     public List<CustomItem> getBeverageAddOn() {

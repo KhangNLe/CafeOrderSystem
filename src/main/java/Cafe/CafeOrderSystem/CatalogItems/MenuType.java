@@ -2,11 +2,13 @@ package Cafe.CafeOrderSystem.CatalogItems;
 
 import Cafe.CafeOrderSystem.JsonParser.JsonKey;
 
+import java.util.Locale;
+
 public class MenuType implements JsonKey {
     private final String type;
 
     public MenuType(String type){
-        this.type = type;
+        this.type = type.toUpperCase(Locale.ROOT);
     }
 
     @Override

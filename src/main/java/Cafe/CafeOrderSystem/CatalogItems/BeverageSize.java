@@ -8,12 +8,12 @@ public class BeverageSize implements JsonKey {
     private final String size;
 
     public BeverageSize(String size){
-        this.size = size;
+        this.size = size.toUpperCase(Locale.ROOT);
     }
 
     @Override
     public String getJsonKey(){
-        return this.size.toUpperCase(Locale.ROOT);
+        return this.size;
     }
 
     @Override

@@ -3,7 +3,6 @@ package Cafe.CafeOrderSystem.Orders;
 import Cafe.CafeOrderSystem.CatalogItems.Ingredients;
 import Cafe.CafeOrderSystem.CatalogItems.MenuType;
 import Cafe.CafeOrderSystem.Menu.Items.CustomItem;
-import Cafe.CafeOrderSystem.Menu.Items.ReplaceIngredients;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;

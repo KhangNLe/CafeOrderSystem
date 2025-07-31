@@ -18,13 +18,17 @@ public class OrdersParser implements Parsers{
         ordersHistory.startCollection();
     }
 
-    public void completeOrder(CustomerOrder order){
-        ((CustomerOrderParser) ordersHistory).completeOrder(order);
-    }
-
     @Override
     public void endCollection(){
         pendingOrders.endCollection();
         ordersHistory.endCollection();
+    }
+
+    public CustomerOrderParser getPendingOrdersParser(){
+        return (CustomerOrderParser) pendingOrders;
+    }
+
+    public CustomerOrderParser getOrdersHistoryParser(){
+        return (CustomerOrderParser) ordersHistory;
     }
 }
