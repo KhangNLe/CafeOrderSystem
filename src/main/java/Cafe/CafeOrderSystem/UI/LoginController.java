@@ -1,4 +1,4 @@
-package Cafe.CafeOrderSystem;
+package Cafe.CafeOrderSystem.UI;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,34 +18,44 @@ public class LoginController {
     
     private Stage primaryStage;
 
+    ShowErrorDialog popup = new ShowErrorDialog();
+
     public void setPrimaryStage(Stage stage) {
         this.primaryStage = stage;
     }
 
     @FXML
     public void initialize() {
-        roleComboBox.getItems().addAll("Barista", "Customer", "Manager");
-        roleComboBox.setValue("Customer");
+        roleComboBox.getItems().addAll("Barista", "Manager");
+        roleComboBox.setValue("Barista");
     }
 
     @FXML
     private void handleLogin() throws IOException {
+        System.out.printf("%s %s", usernameField.getText(), passwordField.getText());
+        try {
+            if(usernameField.getText().equals("") || passwordField.getText().equals("")){
+            throw new IllegalStateException();
+        }
+        } catch (Exception e) {
+            popup.show("Error", "USERNAME / PASSWORD CANNOT BE NULL", e);
+            return;
+        }
         String role = roleComboBox.getValue();
         
         switch (role) {
             case "Barista" -> openBaristaScreen();
-            case "Customer" -> openCustomerScreen();
             case "Manager" -> openManagerScreen();
         }
     }
 
     private void openBaristaScreen() throws IOException {
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("barista-view.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Cafe/CafeOrderSystem/barista-view.fxml"));
     Parent root = loader.load();
     
     // Get the controller JavaFX created
     BaristaUiController baristaController = loader.getController();
-    
+   
     // Pass the stage forward
     baristaController.setPrimaryStage(primaryStage);
     
@@ -57,11 +67,23 @@ public class LoginController {
 
 
     private void openCustomerScreen() throws IOException {
-        // Similar implementation
+
     }
 
     private void openManagerScreen() throws IOException {
-        // Similar implementation
+
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Cafe/CafeOrderSystem/manager-view.fxml"));
+    Parent root = loader.load();
+    
+    // Get the controller JavaFX created
+    ManagerController managerController = loader.getController();
+    
+    // Pass the stage forward
+    managerController.setPrimaryStage(primaryStage);
+    
+    // Show the new screen
+    primaryStage.setScene(new Scene(root, LOGIN_WIDTH, LOGIN_HEIGHT));
+    primaryStage.setTitle("Manager Dashboard");
     }
 
     private void showScene(Parent root, String title) {
