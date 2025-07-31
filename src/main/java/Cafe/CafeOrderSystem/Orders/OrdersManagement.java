@@ -56,18 +56,20 @@ public class OrdersManagement {
         order.removeOrderItem(orderItem);
     }
 
-    public OrderItem createBeverageItem(BeverageItem beverage, BeverageSize size, CustomItem addOn){
+    public OrderItem createBeverageItem(BeverageItem item, BeverageSize size, CustomItem addOn){
+        BeverageItem beverage = item.copyOf();
         BeverageCost cost = beverage.cost().get(size);
-        OrderItem item = createOrderItem(beverage.id(), beverage.name(), beverage.type(),
+        OrderItem orderItem = createOrderItem(beverage.id(), beverage.name(), beverage.type(),
                 cost.ingredients(), cost.price());
 
         if (addOn != null){
-            item.modifyOrderItem(addOn);
+            orderItem.modifyOrderItem(addOn);
         }
-        return item;
+        return orderItem;
     }
 
-    public OrderItem createPastriesItem(PastriesItem pastries){
+    public OrderItem createPastriesItem(PastriesItem item){
+        PastriesItem pastries = item.copyOf();
         PastriesCost cost = pastries.cost();
         return createOrderItem(pastries.id(), pastries.name(), pastries.type(),
                 cost.ingredients(), cost.price());
@@ -84,5 +86,17 @@ public class OrdersManagement {
     private OrderItem createOrderItem(String id, String name, MenuType type, Map<Ingredients,
             Integer> cost, double price){
         return new OrderItem(id, name, type, cost, price);
+    }
+
+    private void validateCustomerOrder(CustomerOrder order){
+        if (order == null){
+            throw new InvalidInputException("The given order is null");
+        }
+
+        if (order.getOrderItems().isEmpty()){
+            throw new InvalidInputException(
+                    String.format("Cannot add order %s into the pending orders", order)
+            );
+        }
     }
 }

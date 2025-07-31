@@ -19,7 +19,7 @@ public class CafeOrders {
 
     public CustomerOrder getNextPendingOrder() {
         if (!pendingOrders.getCollection().isEmpty()) {
-            return pendingOrders.getCollection().getFirst();
+            return pendingOrders.getCollection().removeFirst();
         }
 
         return null;

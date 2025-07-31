@@ -6,23 +6,15 @@ import Cafe.CafeOrderSystem.Menu.Items.*;
 import java.util.*;
 
 public class PastriesModifier {
-    public void modifyPastriesCost(List<PastriesItem> menuPastries, PastriesItem targetItem,
-                                   double price){
+    public PastriesItem modifyPastriesCost(PastriesItem targetItem, double price){
         PastriesCost newPrice = getNewCost(targetItem.cost().ingredients(), price);
-        PastriesItem item = replacePastriesCost(targetItem, newPrice);
-
-        menuPastries.remove(targetItem);
-        menuPastries.add(item);
+        return replacePastriesCost(targetItem, newPrice);
     }
 
-    public void modifyPastriesIngredientsCost(List<PastriesItem> menuPastries,
-                                              PastriesItem targetItem,
+    public PastriesItem modifyPastriesIngredientsCost(PastriesItem targetItem,
                                               Map<Ingredients, Integer> ingredientCost){
         PastriesCost newCost = getNewCost(ingredientCost, targetItem.cost().price());
-        PastriesItem item = replacePastriesCost(targetItem, newCost);
-
-        menuPastries.remove(targetItem);
-        menuPastries.add(item);
+        return replacePastriesCost(targetItem, newCost);
     }
 
     private PastriesCost getNewCost(Map<Ingredients, Integer> ingredientsCost, double newPrice){

@@ -4,7 +4,6 @@ import Cafe.CafeOrderSystem.Exceptions.InvalidInputException;
 import Cafe.CafeOrderSystem.JsonParser.CafeMenu.AddOnParser;
 import Cafe.CafeOrderSystem.JsonParser.CafeMenu.BeverageParser;
 import Cafe.CafeOrderSystem.JsonParser.CafeMenu.PastriesParser;
-import Cafe.CafeOrderSystem.JsonParser.JsonCollection;
 import Cafe.CafeOrderSystem.Menu.Items.*;
 
 import java.util.*;
@@ -22,23 +21,31 @@ public class CafeMenu {
     }
 
     public List<BeverageItem> getBeverageItems() {
-        return List.copyOf(beverageItems.getCollection());
+        return beverageItems.getCollection();
     }
 
     public List<PastriesItem> getPastriesItems() {
-        return List.copyOf(pastryItems.getCollection());
+        return pastryItems.getCollection();
     }
 
     public List<CustomItem> getBeverageAddOn() {
         return beverageAddOn.getCollection();
     }
 
-    public void removeItem(int itemIdx){
+    public void removeBeverageItem(int itemIdx){
         beverageItems.removeObject(itemIdx);
     }
 
-    public void addNewItem(BeverageItem beverageItem){
+    public void addNewBeverageItem(BeverageItem beverageItem){
         beverageItems.addObject(beverageItem);
+    }
+
+    public void removePastriesItem(int itemIdx){
+        pastryItems.removeObject(itemIdx);
+    }
+
+    public void addPastiesItem(PastriesItem item){
+        pastryItems.addObject(item);
     }
 
     public BeverageItem retrieveBeverageItem(int index){

@@ -34,6 +34,10 @@ public class OrderingTest {
         String order2 = ordersManagement.createNewOrder();
         String order3 = ordersManagement.createNewOrder();
 
+        ordersManagement.finalizeActiveOrder(orderID);
+        ordersManagement.finalizeActiveOrder(order2);
+        ordersManagement.finalizeActiveOrder(order3);
+
         CustomerOrder order = ordersManagement.getNextOrder();
         assertEquals(orderID, order.getOrderID());
 
@@ -94,13 +98,14 @@ public class OrderingTest {
                 .findFirst().orElseThrow(()-> new InvalidInputException("Could not find decaf"));
 
         BeverageSize med = new BeverageSize("medium");
-        OrderItem orderItem = ordersManagement.createBeverageItem(greenTea.copyOf(), med
+        OrderItem orderItem = ordersManagement.createBeverageItem(greenTea, med
                 , decaf);
-        OrderItem orderItem2 = ordersManagement.createBeverageItem(greenTea.copyOf(), med
+        OrderItem orderItem2 = ordersManagement.createBeverageItem(greenTea, med
                 , null);
 
         assertNotNull(orderItem);
         assertNotNull(orderItem2);
+        assertNotEquals(orderItem.getIngredientsCost(), orderItem2.getIngredientsCost());
 
         assertTrue(orderItem2.getPrice() < orderItem.getPrice());
 
@@ -131,7 +136,7 @@ public class OrderingTest {
                         new InvalidInputException("Could not find sugar cookie"));
 
 
-        OrderItem pastry = ordersManagement.createPastriesItem(cookie.copyOf());
+        OrderItem pastry = ordersManagement.createPastriesItem(cookie);
 
         assertNotNull(pastry);
         ordersManagement.addItemIntoOrder(orderID, pastry);

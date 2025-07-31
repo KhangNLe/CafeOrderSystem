@@ -49,26 +49,28 @@ public class MenuManagement {
         BeverageItem beverageItem = getBeverageItem(beverageIdx);
         BeverageItem modifiedItem = beverageModifier.modifyItemSize(size, ingredientCost,
                 beverageItem, price);
-        cafeMenu.removeItem(beverageIdx);
-        cafeMenu.addNewItem(modifiedItem);
+        cafeMenu.removeBeverageItem(beverageIdx);
+        cafeMenu.addNewBeverageItem(modifiedItem);
     }
 
     public void removeBeverageSize(int beverageIdx, BeverageSize size){
         BeverageItem beverageItem = getBeverageItem(beverageIdx);
         BeverageItem modifiedItem = beverageModifier.removeItemSize(size, beverageItem);
-        cafeMenu.removeItem(beverageIdx);
-        cafeMenu.addNewItem(modifiedItem);
+        cafeMenu.removeBeverageItem(beverageIdx);
+        cafeMenu.addNewBeverageItem(modifiedItem);
     }
 
     public void removeBeverageItem(int beverageIdx){
-        cafeMenu.removeItem(beverageIdx);
+        cafeMenu.removeBeverageItem(beverageIdx);
     }
 
     public void modifyPastriesCost(int pastriesIdx, double price){
         validatePrice(price);
         PastriesItem item = getPastriesItem(pastriesIdx);
-        List<PastriesItem> pastries = getPastriesItems();
-        pastriesModifier.modifyPastriesCost(pastries, item, price);
+        PastriesItem newItem = pastriesModifier.modifyPastriesCost(item, price);
+
+        cafeMenu.removePastriesItem(pastriesIdx);
+        cafeMenu.addPastiesItem(newItem);
     }
 
     public void modifyPastriesIngredientCost(Map<Ingredients, Integer> newIngredientCost,
@@ -76,8 +78,10 @@ public class MenuManagement {
 
         validateIngredientCost(newIngredientCost);
         PastriesItem item = getPastriesItem(pastriesIdx);
-        List<PastriesItem> pastries = getPastriesItems();
-        pastriesModifier.modifyPastriesIngredientsCost(pastries,  item, newIngredientCost);
+        PastriesItem newItem = pastriesModifier.modifyPastriesIngredientsCost(item,
+                newIngredientCost);
+        cafeMenu.removePastriesItem(pastriesIdx);
+        cafeMenu.addPastiesItem(newItem);
     }
 
     private void validateIngredientCost(Map<Ingredients, Integer> ingredientCost) {
