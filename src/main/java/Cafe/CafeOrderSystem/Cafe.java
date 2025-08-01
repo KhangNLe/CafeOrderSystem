@@ -15,6 +15,7 @@ import Cafe.CafeOrderSystem.JsonParser.*;
 
 import java.util.List;
 
+// Facade
 public class Cafe {
     private final CafeParser cafeShop;
     private final MenuManagement  menuManagement;
