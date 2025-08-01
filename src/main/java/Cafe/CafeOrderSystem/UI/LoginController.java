@@ -67,6 +67,7 @@ public class LoginController {
 
 
     private void openCustomerScreen() throws IOException {
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Cafe/CafeOrderSystem/customer-view.fxml"));
         Parent root = loader.load();
 
@@ -79,6 +80,7 @@ public class LoginController {
         // Show the new screen
         primaryStage.setScene(new Scene(root, LOGIN_WIDTH, LOGIN_HEIGHT));
         primaryStage.setTitle("Customer Dashboard");
+
     }
 
     private void openManagerScreen() throws IOException {
