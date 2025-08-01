@@ -3,7 +3,7 @@ package Cafe.CafeOrderSystem;
 import Cafe.CafeOrderSystem.Roles.BaristaRole;
 import Cafe.CafeOrderSystem.Roles.EmployeesAuthentication;
 import Cafe.CafeOrderSystem.Roles.ManagerRole;
-import Cafe.CafeOrderSystem.Roles.Role;
+import Cafe.CafeOrderSystem.Roles.CafeRoles;
 import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;
@@ -11,11 +11,11 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class RoleTest {
+public class CafeRolesTest {
     private record UserTest(String name, String pass){}
 
-    private boolean isExist(List<Role> roles, UserTest user){
-        for (Role role : roles){
+    private boolean isExist(List<CafeRoles> roles, UserTest user){
+        for (CafeRoles role : roles){
             if (role.validateCredentials(user.name(), user.pass())){
                 return true;
             }
@@ -26,7 +26,7 @@ public class RoleTest {
     @Test
     @DisplayName("Test for role")
     void testForRoleAuthentication(){
-        List<Role> roles = new ArrayList<>();
+        List<CafeRoles> roles = new ArrayList<>();
         roles.add(new BaristaRole("user1", "password1"));
         roles.add(new ManagerRole("user2", "password2"));
 

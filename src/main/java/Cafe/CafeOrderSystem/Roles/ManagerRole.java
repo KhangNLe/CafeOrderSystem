@@ -3,7 +3,7 @@ package Cafe.CafeOrderSystem.Roles;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class ManagerRole extends Role {
+public class ManagerRole extends CafeRoles {
 
     @JsonCreator
     public ManagerRole(
