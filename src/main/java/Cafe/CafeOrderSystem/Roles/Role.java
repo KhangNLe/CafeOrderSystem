@@ -1,56 +1,43 @@
 package Cafe.CafeOrderSystem.Roles;
 
-import com.fasterxml.jackson.annotation.*;
+public class Role {
+     private String roleName;
+     private String loginType;
+     private String username;
+     private String password;
+     private String redirectPage;
 
-import java.util.Objects;
+     public Role(String roleName, String loginType, String username, String password, String redirectPage) {
+         this.roleName = roleName;
+         this.loginType = loginType;
+         this.username = username;
+         this.password = password;
+         this.redirectPage = redirectPage;
+     }
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-public abstract class Role {
+     public boolean validateCredentials(String inputUsername, String inputPassword) {
+         return this.username.equals(inputUsername) && this.password.equals(inputPassword);
+     }
 
-    protected String userName;
-    protected String password;
+     // Backend only: return FXML path instead of loading it
+     public String getRedirectPage() {
+         return redirectPage;
+     }
 
-    @JsonCreator
-    public Role(
-            @JsonProperty("userName") String userName,
-            @JsonProperty("password") String password) {
-        this.userName = userName;
-        this.password = password;
-    }
+     public String getUsername() {
+         return username;
+     }
 
-    public boolean validateCredentials(String inputUserName, String inputPassword) {
-        return userName.equals(inputUserName) && password.equals(inputPassword);
-    }
+     public String getRoleName() {
+         return roleName;
+     }
 
-    public String getDisplayName() {
-        return userName;
-    }
+     public String getLoginType() {
+         return loginType;
+     }
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public abstract void goToPage();
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Role role)){ return false; }
-
-        return validateCredentials(role.getUserName(), role.getPassword());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(userName, password);
-    }
-
-    @Override
-    public String toString() {
-        return getDisplayName();
-    }
-}
+     @Override
+     public String toString() {
+         return roleName + " (" + username + ")";
+     }
+ }

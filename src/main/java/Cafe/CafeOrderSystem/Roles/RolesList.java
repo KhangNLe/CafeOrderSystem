@@ -3,7 +3,7 @@ package Cafe.CafeOrderSystem.Roles;
 import Cafe.CafeOrderSystem.JsonParser.ItemsParser;
 import Cafe.CafeOrderSystem.JsonParser.JsonCollection;
 
-public class RolesList<T extends Role> extends JsonCollection<T> {
+public class RolesList<T extends CafeRoles> extends JsonCollection<T> {
     /**
      * This class is responsible for creating and managing a collection of Role objects
      * @param fileParser The relevant parser for the object

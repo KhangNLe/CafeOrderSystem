@@ -20,8 +20,8 @@ public class EmployeesAuthentication {
         return verifyLogin(username, password, managerAccounts.getCollection());
     }
 
-    private <T extends Role> boolean verifyLogin(String username, String password,
-                                       List<T> role) {
+    private <T extends CafeRoles> boolean verifyLogin(String username, String password,
+                                                      List<T> role) {
         for (T acc : role) {
             if (acc.validateCredentials(username, password)) {
                 return true;
