@@ -56,8 +56,8 @@ public class JsonCollection<T> implements Parsers {
      * @return returns a string which can be used as a filename
      */
     public String generateFileName (){
-        return String.format("%s/%s-%s.json",
-                directory.getAbsolutePath(), type.getName(), LocalTime.now());
+        return String.format("%s/%s.json",
+                directory.getAbsolutePath(), type.getSimpleName());
     }
 
     /**

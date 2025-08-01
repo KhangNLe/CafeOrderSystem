@@ -43,6 +43,7 @@ public class HelloController {
     
     // Get the controller JavaFX created
     LoginController loginController = loader.getController();
+    loginController.setFacade(cafeShop);
     
     // Pass the stage forward
     loginController.setPrimaryStage(primaryStage);
