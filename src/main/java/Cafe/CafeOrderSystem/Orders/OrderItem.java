@@ -9,6 +9,23 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.*;
 
+/**
+ * Represents a menu item in an order, including its base configuration and pricing.
+ * <p>
+ * This class includes ingredient cost breakdown, supports customization through
+ * {@link CustomItem}, and ensures type-safe modifications.
+ * </p>
+ *
+ * <p>
+ * Instances of this class are immutable by field declaration for most properties,
+ * but note: the `ingredientsCost` map is modified during customization, meaning this class
+ * is not fully immutable. If stricter immutability is desired, consider defensive copying.
+ * </p>
+ *
+ * <p>
+ * This class is JSON-deserializable and ignores unknown properties during deserialization.
+ * </p>
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class OrderItem {
     private final String itemID;
@@ -17,6 +34,15 @@ public class OrderItem {
     private final Map<Ingredients, Integer> ingredientsCost;
     private double price;
 
+    /**
+     * Constructs an {@code OrderItem} from serialized JSON.
+     *
+     * @param itemID           unique identifier for the item
+     * @param itemName         name of the item
+     * @param itemType         type/category of the item (e.g., BEVERAGE, PASTRY)
+     * @param ingredientsCost  map representing ingredient types and quantities
+     * @param price            base price of the item
+     */
     @JsonCreator
     public OrderItem(
             @JsonProperty("itemID") String itemID,
@@ -32,6 +58,16 @@ public class OrderItem {
         this.price = price;
     }
 
+    /**
+     * Applies a {@link CustomItem} modification to this order item, altering
+     * its ingredients and updating the total price accordingly.
+     * <p>
+     * Modifications are performed *in-place*, violating immutability. Ensure this is intentional.
+     * </p>
+     *
+     * @param item the custom modification to apply
+     * @throws IllegalArgumentException if the modification is not compatible with the item type
+     */
     public void modifyOrderItem(CustomItem item) {
         validateCustomItem(item);
 
@@ -56,6 +92,12 @@ public class OrderItem {
         price += item.additionalPrice();
     }
 
+    /**
+     * Validates that the provided {@link CustomItem} is applicable to the type of this order item.
+     *
+     * @param item the custom item to validate
+     * @throws IllegalArgumentException if the item type is incompatible
+     */
     private void validateCustomItem(CustomItem item) {
         StringBuilder sb = new StringBuilder();
         if (!item.applicableTo().contains(itemType)) {
