@@ -3,6 +3,7 @@ package Cafe.CafeOrderSystem.Menu.Items;
 import Cafe.CafeOrderSystem.CatalogItems.Ingredients;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record PastriesCost (
@@ -20,5 +21,12 @@ public record PastriesCost (
         });
         sb.append("}");
         return sb.toString();
+    }
+
+    public PastriesCost copyOf() {
+        Map<Ingredients, Integer> newIngredients = ingredients.entrySet().stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+
+        return new PastriesCost(price, newIngredients);
     }
 }

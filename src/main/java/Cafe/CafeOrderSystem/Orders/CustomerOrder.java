@@ -1,5 +1,6 @@
 package Cafe.CafeOrderSystem.Orders;
 
+import Cafe.CafeOrderSystem.Exceptions.*;
 import Cafe.CafeOrderSystem.Menu.Items.CustomItem;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -57,41 +58,53 @@ public class CustomerOrder {
         totalPrice += orderItem.getPrice();
     }
 
+    public void removeOrderItem(OrderItem orderItem){
+        for (OrderedItem item : orderItems) {
+            if (item.contain(orderItem)){
+                item.decreaseQuantity();
+
+                if (item.getQuantity() <= 0){
+                    orderItems.remove(item);
+                }
+            }
+        }
+    }
+
     public void customizeOrderItem(String itemID, CustomItem customItem) {
-        OrderItem item = getOrderItem(itemID);
-        item.modifyOrderItem(customItem);
-        totalPrice += customItem.additionalPrice();
+        OrderedItem item = getOrderItem(itemID);
+        if (item != null) {
+            item.modifyItem(customItem);
+            totalPrice += customItem.additionalPrice();
+        } else {
+            throw new InvalidModifyingException(
+                    String.format("Item with id %s not found inside order id %s",
+                            itemID, orderID)
+            );
+        }
     }
 
     public void changeOrderStatus(OrderStatus orderStatus) {
         if (orderStatus.changeStatusAttempt(orderStatus)) {
             this.orderStatus = orderStatus;
         } else {
-            throw new IllegalArgumentException(
+            throw new InvalidModifyingException(
                     String.format("Cannot change status from %s to %s", this.orderStatus, orderStatus
             ));
         }
     }
 
-    private OrderItem getOrderItem(String itemID) {
+    private OrderedItem getOrderItem(String itemID) {
         if (itemID == null || itemID.isEmpty()) {
-            throw new IllegalArgumentException("ItemID cannot be null or empty");
+            throw new InvalidInputException("ItemID cannot be null or empty");
         }
 
-        OrderItem item = null;
         for (OrderedItem orderedItem : orderItems) {
             if (orderedItem.existID(itemID)) {
-                item = orderedItem.getItem();
+                return orderedItem;
             }
         }
 
-        if (item == null) {
-            throw new IllegalArgumentException(
-                    String.format("Order %s does not contain item id %s", orderID, itemID)
-            );
-        } else {
-            return item;
-        }
+        return null;
     }
 
     public List<OrderedItem> getOrderItems() {

@@ -1,8 +1,40 @@
 package Cafe.CafeOrderSystem.CatalogItems;
 
-public enum Ingredients {
-    COFFEE_BEAN, DECAF_COFFEE_BEAN, TEA_LEAVES_BLACK, TEA_LEAVES_GREEN, TEA_LEAVES_HERBAL,
-    DECAF_TEA_LEAVES_BLACK, DECAF_TEA_LEAVES_GREEN, SUGAR, FLOUR, BUTTER, CHOCOLATE_CHIP,
-    ALMOND, ALMOND_MILK, OATMEAL, OAT_MILK, SUGAR_FREE_SYRUP, RAISIN, STRAWBERRY, BLUEBERRY,
-    MILK
+import Cafe.CafeOrderSystem.JsonParser.JsonKey;
+
+import java.util.Locale;
+
+public class Ingredients implements JsonKey {
+    private final String name;
+
+    public Ingredients(String name) {
+        this.name = name.toUpperCase(Locale.ROOT);
+    }
+
+    @Override
+    public String getJsonKey() {
+        return this.name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Ingredients other)) return false;
+
+        return this.name.equals(other.getName());
+    }
+
+    @Override
+    public int hashCode() {
+        return this.name.hashCode();
+    }
+
+    public String getName(){
+        return this.name;
+    }
+
+    @Override
+    public String toString() {
+        return this.name;
+    }
 }

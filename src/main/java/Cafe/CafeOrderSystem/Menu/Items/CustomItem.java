@@ -8,9 +8,9 @@ import java.util.*;
 public record CustomItem (
         String id,
         String name,
-        CustomBeverage type,
+        BeverageType type,
         double additionalPrice,
         Map<Ingredients, Integer> ingredients,
-        Map<Ingredients, ReplaceIngredients> ingredientReplacement,
+        Map<Ingredients, Ingredients> ingredientReplacement,
         Set<MenuType> applicableTo
 ){}

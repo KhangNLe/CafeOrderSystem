@@ -1,28 +1,34 @@
 package Cafe.CafeOrderSystem.JsonParser.OrderItem;
 
+import Cafe.CafeOrderSystem.JsonParser.Parsers;
 import Cafe.CafeOrderSystem.Orders.CustomerOrder;
 
-public abstract class OrdersParser {
-    protected static void validateCustomerOrder(CustomerOrder order, String filePath){
-        if (order.getOrderID() == null || order.getOrderID().isEmpty()){
-            throw new IllegalArgumentException(
-                    String.format("Order ID is null or empty in customer order: %s in %s",
-                            order, filePath
-                    ));
-        }
+public class OrdersParser implements Parsers{
+    private final Parsers pendingOrders;
+    private final Parsers ordersHistory;
 
-        if (order.getOrderItems().isEmpty()){
-            throw new IllegalArgumentException(
-                    String.format("Order number %s inside %s does not contain any item data",
-                            order.getOrderID(), filePath
-                    ));
-        }
+    public OrdersParser(Parsers pendingOrders, Parsers ordersHistory) {
+        this.pendingOrders = pendingOrders;
+        this.ordersHistory = ordersHistory;
+    }
 
-        if (order.getTotalPrice() <= 0){
-            throw new IllegalArgumentException(
-                    String.format("Order id %s from %s has an incorrect total price of %.2f",
-                            order.getOrderID(), filePath, order.getTotalPrice()
-                    ));
-        }
+    @Override
+    public void startCollection(){
+        pendingOrders.startCollection();
+        ordersHistory.startCollection();
+    }
+
+    @Override
+    public void endCollection(){
+        pendingOrders.endCollection();
+        ordersHistory.endCollection();
+    }
+
+    public CustomerOrderParser getPendingOrdersParser(){
+        return (CustomerOrderParser) pendingOrders;
+    }
+
+    public CustomerOrderParser getOrdersHistoryParser(){
+        return (CustomerOrderParser) ordersHistory;
     }
 }
