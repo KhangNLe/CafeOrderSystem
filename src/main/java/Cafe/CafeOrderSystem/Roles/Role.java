@@ -1,4 +1,4 @@
-package Roles;
+package Cafe.CafeOrderSystem.Roles;
 
 public class Role {
      private String roleName;
