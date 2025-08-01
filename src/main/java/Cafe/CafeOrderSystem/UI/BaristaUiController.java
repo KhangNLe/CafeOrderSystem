@@ -121,7 +121,9 @@ private void getFufilledOrders() {
 private void initialize() {
     orderTypeToggle = false; // Default to pending
                      // Optional: update style
-    getPendingOrders(); // Load immediately
+    //WE WILL NEED TO REFACTOR THIS LATER BECAUSE FOR NOW, IT WILL CRASH THE UI
+    //SINCE Cafe OBJECT GET PASSED TO THE CLASS AFTER THIS IS CALLED
+    //getPendingOrders(); // Load immediately
 }
 
 }

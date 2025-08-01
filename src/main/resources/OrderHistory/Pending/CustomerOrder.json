@@ -1,0 +1,20 @@
+[ {
+  "orderDate" : "2025-08-01T09:40:03.631649218",
+  "orderID" : "2025-08-01-02c9b4a9-8990-4064-bedc-9ad0b8f75c63",
+  "orderItems" : [ {
+    "item" : {
+      "itemID" : "P-M03",
+      "itemName" : "Almond Muffin",
+      "itemType" : "MUFFIN",
+      "ingredientsCost" : {
+        "BUTTER" : 4,
+        "FLOUR" : 5,
+        "ALMOND" : 4
+      },
+      "price" : 10.0
+    },
+    "quantity" : 1
+  } ],
+  "orderStatus" : "PENDING",
+  "totalPrice" : 10.0
+} ]
