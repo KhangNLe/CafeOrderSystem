@@ -3,7 +3,6 @@ package Cafe.CafeOrderSystem.Orders;
 import Cafe.CafeOrderSystem.CatalogItems.Ingredients;
 import Cafe.CafeOrderSystem.CatalogItems.MenuType;
 import Cafe.CafeOrderSystem.Menu.Items.CustomItem;
-import Cafe.CafeOrderSystem.Menu.Items.ReplaceIngredients;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -37,20 +36,24 @@ public class OrderItem {
         validateCustomItem(item);
 
         if (item.ingredientReplacement() == null) {
-            ingredientsCost.putAll(item.ingredients());
-        } else {
-            Map<Ingredients, ReplaceIngredients> replacements = item.ingredientReplacement();
-            for (Ingredients target : replacements.keySet()) {
-                if (ingredientsCost.containsKey(target)) {
-                    ReplaceIngredients replace = replacements.get(target);
-                    int amount = ingredientsCost.get(target);
-                    ingredientsCost.put(replace.replaceWith(), amount);
-                    ingredientsCost.remove(target);
-                    break;
+            item.ingredients().forEach((ingredient, quantity) -> {
+                if (ingredientsCost.containsKey(ingredient)) {
+                    ingredientsCost.put(ingredient, ingredientsCost.get(ingredient) + quantity);
+                } else {
+                    ingredientsCost.put(ingredient, quantity);
                 }
-            }
-            price += item.additionalPrice();
+            });
+        } else {
+            item.ingredientReplacement().forEach((ingredient, replaceWith) -> {
+               if (ingredientsCost.containsKey(ingredient)) {
+                   int amount =  ingredientsCost.get(ingredient);
+                   ingredientsCost.remove(ingredient);
+                   ingredientsCost.put(replaceWith, amount);
+               }
+            });
         }
+
+        price += item.additionalPrice();
     }
 
     private void validateCustomItem(CustomItem item) {
@@ -59,7 +62,7 @@ public class OrderItem {
             item.applicableTo().forEach(i -> sb.append(i).append(" "));
             throw new IllegalArgumentException(
                     String.format("Item %s can only be applied to %s not %s",
-                            item.name(), sb.toString(), item.type()
+                            item.name(), sb.toString(), itemType
                     ));
         }
     }
@@ -81,7 +84,22 @@ public class OrderItem {
     }
 
     public Map<Ingredients, Integer> getIngredientsCost() {
-        return ingredientsCost;
+        return Collections.unmodifiableMap(ingredientsCost);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof OrderItem item)) return false;
+
+        return  itemID.equals(item.itemID) && itemName.equals(item.itemName) &&
+                itemType.equals(item.itemType) && ingredientsCost.equals(item.ingredientsCost) &&
+                price == item.price;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(itemID, itemName, itemType, ingredientsCost, price);
     }
 
     @Override
@@ -101,5 +119,4 @@ public class OrderItem {
         sb.append('}');
         return sb.toString();
     }
-
 }

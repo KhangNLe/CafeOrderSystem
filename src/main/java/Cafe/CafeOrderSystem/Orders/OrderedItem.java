@@ -1,5 +1,6 @@
 package Cafe.CafeOrderSystem.Orders;
 
+import Cafe.CafeOrderSystem.Menu.Items.CustomItem;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -28,6 +29,18 @@ public class OrderedItem {
 
     public boolean existID(String itemID){
         return item.getItemID().equals(itemID);
+    }
+
+    public void decreaseQuantity(){
+        this.quantity--;
+    }
+
+    public boolean contain(OrderItem orderItem){
+        return item.equals(orderItem);
+    }
+
+    public void modifyItem(CustomItem customItem){
+        item.modifyOrderItem(customItem);
     }
 
     @Override

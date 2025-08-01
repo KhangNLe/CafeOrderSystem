@@ -21,4 +21,8 @@ public record PastriesItem(
         sb.append('}');
         return sb.toString();
     }
+
+    public PastriesItem copyOf() {
+        return new PastriesItem(id, name, type, cost.copyOf());
+    }
 }

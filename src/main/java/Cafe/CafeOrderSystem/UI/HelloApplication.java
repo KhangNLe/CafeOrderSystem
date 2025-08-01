@@ -19,8 +19,6 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
 
-
-        
         // Load login screen first
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Cafe/CafeOrderSystem/hello-view.fxml"));
         Parent root = loader.load();

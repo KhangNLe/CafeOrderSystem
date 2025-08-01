@@ -27,10 +27,11 @@ public class HelloController {
     @FXML private Pane imagePlaceholder;
 
     @FXML
+
     private void handleCustomerOrder() {
         // Navigate to customer order screen
         System.out.println("Customer order button clicked");
-    }
+
 
     @FXML
     private void handleLogin() throws IOException{

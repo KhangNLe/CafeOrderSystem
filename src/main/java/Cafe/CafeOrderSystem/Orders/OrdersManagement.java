@@ -1,39 +1,110 @@
 package Cafe.CafeOrderSystem.Orders;
 
-import Cafe.CafeOrderSystem.Inventory.*;
-import Cafe.CafeOrderSystem.Menu.CafeMenu;
+import Cafe.CafeOrderSystem.Exceptions.InvalidInputException;
+import Cafe.CafeOrderSystem.JsonParser.OrderItem.CustomerOrderParser;
+import Cafe.CafeOrderSystem.Menu.Items.*;
+import Cafe.CafeOrderSystem.CatalogItems.*;
 
 import java.time.LocalDate;
 import java.util.UUID;
+import java.util.*;
 
 public class OrdersManagement {
-    private final CafeMenu cafeMenu;
-    private final InventoryRegister inventory;
     private final CafeOrders orders;
     private static OrdersManagement ordersManagement;
 
-    private OrdersManagement(){
-        cafeMenu = CafeMenu.getInstance();
-        inventory = new InventoryRegister();
-        orders = CafeOrders.getInstance();
+    public OrdersManagement(CafeOrders orders) {
+        this.orders = orders;
     }
 
-    public static OrdersManagement getInstance(){
-        if (ordersManagement == null){
-            ordersManagement = new OrdersManagement();
-        }
-        return ordersManagement;
-    }
-
-    public CustomerOrder getCustomerOrder(String customerId){
-        return orders.getActiveOrder(customerId);
-    }
-
-    public String createOrder(){
+    public String createNewOrder(){
         String orderId = LocalDate.now() + "-" + UUID.randomUUID();
         CustomerOrder order = CustomerOrder.newEmptyOrder(orderId);
-        orders.putInPendingOrder(order);
+        orders.startOrder(order);
+
         return orderId;
     }
 
+    public List<CustomerOrder> getPendingOrder(){
+        return orders.getPendingOrders();
+    }
+
+    public List<CustomerOrder> getOrderHistory(){
+        return orders.getOrderHistory();
+    }
+
+    public void finalizeActiveOrder(String orderID){
+        orders.finalizeActiveOrder(orderID);
+    }
+
+    public CustomerOrder getNextOrder(){
+        return orders.getNextPendingOrder();
+    }
+
+    public void fulfilledOrder(CustomerOrder order){
+        orders.fulfilledOrder(order);
+    }
+
+    public void addItemIntoOrder(String orderID, OrderItem orderItem){
+        CustomerOrder order = orders.lookUpActiveOrder(orderID);
+        verifyCustomerOrder(order, orderID);
+        order.addOrderItem(orderItem);
+    }
+
+    public void modifyOrderItem(String orderID, CustomItem customItem, String itemID) {
+
+        CustomerOrder order = orders.lookUpActiveOrder(orderID);
+        verifyCustomerOrder(order, orderID);
+        order.customizeOrderItem(itemID, customItem);
+    }
+
+    public void removeItemFromOrder(String orderID, OrderItem orderItem){
+        CustomerOrder order = orders.lookUpActiveOrder(orderID);
+        verifyCustomerOrder(order, orderID);
+        order.removeOrderItem(orderItem);
+    }
+
+    public OrderItem createBeverageItem(BeverageItem item, BeverageSize size, CustomItem addOn){
+        BeverageItem beverage = item.copyOf();
+        BeverageCost cost = beverage.cost().get(size);
+        OrderItem orderItem = createOrderItem(beverage.id(), beverage.name(), beverage.type(),
+                cost.ingredients(), cost.price());
+
+        if (addOn != null){
+            orderItem.modifyOrderItem(addOn);
+        }
+        return orderItem;
+    }
+
+    public OrderItem createPastriesItem(PastriesItem item){
+        PastriesItem pastries = item.copyOf();
+        PastriesCost cost = pastries.cost();
+        return createOrderItem(pastries.id(), pastries.name(), pastries.type(),
+                cost.ingredients(), cost.price());
+    }
+
+    private void verifyCustomerOrder(CustomerOrder order, String orderID){
+        if (order == null){
+            throw new InvalidInputException(
+                    String.format("Order with id %s does not exist", orderID)
+            );
+        }
+    }
+
+    private OrderItem createOrderItem(String id, String name, MenuType type, Map<Ingredients,
+            Integer> cost, double price){
+        return new OrderItem(id, name, type, cost, price);
+    }
+
+    private void validateCustomerOrder(CustomerOrder order){
+        if (order == null){
+            throw new InvalidInputException("The given order is null");
+        }
+
+        if (order.getOrderItems().isEmpty()){
+            throw new InvalidInputException(
+                    String.format("Cannot add order %s into the pending orders", order)
+            );
+        }
+    }
 }
