@@ -17,7 +17,7 @@ public class ItemKeySerializer extends JsonSerializer<Object> {
             if (!(value instanceof Ingredients ingredient)) {
                 throw new InvalidInputException("Ingredient must be of type Ingredients");
             }
-            gen.writeFieldName(ingredient.getJsonKey());
+            gen.writeString(ingredient.getJsonKey());
         } catch (IOException e){
             throw new BackendErrorException(
                     String.format("Could not serialize item key '%s'", value), e

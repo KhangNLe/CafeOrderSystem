@@ -1,7 +1,10 @@
 package Cafe.CafeOrderSystem;
 
+import Cafe.CafeOrderSystem.CatalogItems.BeverageSize;
 import Cafe.CafeOrderSystem.CatalogItems.Ingredients;
 import Cafe.CafeOrderSystem.CatalogItems.MenuType;
+import Cafe.CafeOrderSystem.Menu.Items.BeverageItem;
+import Cafe.CafeOrderSystem.Menu.Items.PastriesItem;
 import Cafe.CafeOrderSystem.Orders.CafeOrders;
 import Cafe.CafeOrderSystem.Orders.OrderItem;
 import Cafe.CafeOrderSystem.Orders.OrdersManagement;
@@ -16,96 +19,64 @@ import java.util.logging.Logger;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class JsonWriterTest {
-    private static Logger LOGGER = Logger.getLogger(JsonWriterTest.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(JsonWriterTest.class.getName());
+    private static Cafe cafeShop;
+    private static List<BeverageItem> beverages;
+    private static List<PastriesItem> pastries;
+    private static OrdersManagement ordersManagement;
 
-    /*
-    @Test
-    @Order(2)
-    @DisplayName("Test for putting data inside Json file")
-    public void testJsonWriter() {
-        CafeOrders orders = CafeOrders.getInstance();
-        CustomerOrder order1 = CustomerOrder.newEmptyOrder("abc");
-        Map<Ingredients, Integer> ingredientsCost = new HashMap<>();
-        ingredientsCost.put(Ingredients.MILK, 3);
-        ingredientsCost.put(Ingredients.SUGAR, 4);
-        ingredientsCost.put(Ingredients.FLOUR, 1000);
-        OrderItem item1 = new OrderItem("123", "stuffs", MenuType.COFFEE, ingredientsCost, 10);
-        OrderItem item2 = new OrderItem("456", "other stuffs", MenuType.COFFEE, ingredientsCost, 10);
-
-        order1.addOrderItem(item1);
-        order1.addOrderItem(item2);
-
-        orders.putInPendingOrder(order1);
-
-        CustomerOrder order2 = CustomerOrder.newEmptyOrder("def");
-        order2.addOrderItem(item1);
-        order2.addOrderItem(item1);
-        order2.addOrderItem(item1);
-
-        orders.putInPendingOrder(order2);
-
-        PendingOrderParser.savePendingOrders();
-    }
-
-    @Test
-    @Order(3)
-    @DisplayName("Test for adding order into order history")
-    public void testOrderHistory() {
-        CustomerOrder order1 = CustomerOrder.newEmptyOrder("abc");
-        Map<Ingredients, Integer> ingredientsCost = new HashMap<>();
-        ingredientsCost.put(Ingredients.MILK, 3);
-        ingredientsCost.put(Ingredients.SUGAR, 4);
-        ingredientsCost.put(Ingredients.FLOUR, 1000);
-
-        OrderItem item1 = new OrderItem("123", "stuffs", MenuType.COFFEE, ingredientsCost, 10);
-        OrderItem item2 = new OrderItem("456", "other stuffs", MenuType.COFFEE, ingredientsCost, 10);
-
-        order1.addOrderItem(item1);
-        order1.addOrderItem(item2);
-        order1.addOrderItem(item1);
-        order1.addOrderItem(item1);
-        order1.addOrderItem(item2);
-
-        OrderHistoryParser.addOrderToHistory(order1);
-    }
-
-    @Test
-    @Order(4)
-    @DisplayName("Get Order History")
-    public void testGetOrderHistory() {
-        List<CustomerOrder> ordersHistory = OrderHistoryParser.loadOrderHistory();
-
-        assertNotNull(ordersHistory);
-        assertFalse(ordersHistory.isEmpty());
-        LOGGER.info(ordersHistory.toString());
-    }
-
-    @Test
-    @Order(5)
-    @DisplayName("Get Pending order")
-    public void testGetPendingOrder() {
-        CafeOrders orders = CafeOrders.getInstance();
-        PendingOrderParser.getPendingOrders();
-
-        assertNotNull(orders.getPendingOrders());
-        assertFalse(orders.getPendingOrders().isEmpty());
-        LOGGER.info(orders.getPendingOrders().toString());
+    @BeforeAll
+    static void beforeAll() {
+        cafeShop = new Cafe();
+        cafeShop.startShop();
+        beverages = cafeShop.getCafeMenuManagement().getBeverageItems();
+        pastries = cafeShop.getCafeMenuManagement().getPastriesItems();
+        ordersManagement = cafeShop.getOrdersManagement();
     }
 
     @Test
     @Order(1)
-    @DisplayName("Test for saving empty pending order list")
-    void testForEmptyOrderList(){
-        OrdersManagement management = OrdersManagement.getInstance();
+    @DisplayName("Test writing pending orders")
+    void testWritingPendingOrders() {
+        BeverageItem bItem = beverages.get(3);
+        PastriesItem pItem = pastries.get(2);
 
-        PendingOrderParser.savePendingOrders();
-        PendingOrderParser.getPendingOrders();
+        String orderID = ordersManagement.createNewOrder();
 
-        CafeOrders orders = CafeOrders.getInstance();
-        assertNotNull(orders.getPendingOrders());
-        assertTrue(orders.getPendingOrders().isEmpty());
+        OrderItem orderItem = ordersManagement.createBeverageItem(bItem,
+                new BeverageSize("small"), null);
+
+        OrderItem orderItem2 = ordersManagement.createPastriesItem(pItem);
+
+        assertNotNull(orderItem);
+        assertNotNull(orderItem2);
+
+        ordersManagement.addItemIntoOrder(orderID, orderItem);
+        ordersManagement.addItemIntoOrder(orderID, orderItem2);
+
+        ordersManagement.finalizeActiveOrder(orderID);
 
     }
 
-     */
+    @Test
+    @Order(2)
+    @DisplayName("Test fulfill an order")
+    void testOrderFulfill(){
+        PastriesItem pItem = pastries.get(2);
+
+        String orderID = ordersManagement.createNewOrder();
+
+        OrderItem orderItem = ordersManagement.createPastriesItem(pItem);
+
+        assertNotNull(orderItem);
+
+        ordersManagement.addItemIntoOrder(orderID, orderItem);
+        ordersManagement.finalizeActiveOrder(orderID);
+
+        CustomerOrder order = ordersManagement.getNextOrder();
+
+        ordersManagement.fulfilledOrder(order);
+
+        cafeShop.closeShop();
+    }
 }
