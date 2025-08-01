@@ -5,6 +5,10 @@ import Cafe.CafeOrderSystem.JsonParser.OrderItem.CustomerOrderParser;
 
 import java.util.*;
 
+/*
+    Cafe Orders is the Facade
+ */
+
 public class CafeOrders {
     private final Map<String, CustomerOrder> ordering;
     private final CustomerOrderParser pendingOrders;
@@ -56,5 +60,10 @@ public class CafeOrders {
     public List<CustomerOrder> getPendingOrders() {
         return List.copyOf(pendingOrders.getCollection());
     }
+
+    public void clearPending() {
+    pendingOrders.clear();
+}
+    
 
 }

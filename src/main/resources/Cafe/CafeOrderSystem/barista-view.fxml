@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 
 <BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="Cafe.CafeOrderSystem.BaristaUiController"
+            fx:controller="Cafe.CafeOrderSystem.UI.BaristaUiController"
             prefWidth="400" prefHeight="600">
 
     <!-- Top - Simple header -->
@@ -28,32 +28,17 @@
             </HBox>
 
             <ScrollPane fx:id="orderScrollPane" fitToWidth="true">
-                <VBox fx:id="orderContainer" spacing="10" style="-fx-padding: 5;">
-                    <!-- Sample order item -->
-                    <VBox style="-fx-border-color: black; -fx-border-width: 1; -fx-padding: 5;">
-                        <HBox spacing="10">
-                            <Label text="Order#: 3033" style="-fx-font-weight: bold;"/>
-                            <Label text="Status: In Progress" 
-                                   style="-fx-font-weight: bold; -fx-background-color: khaki; -fx-padding: 2 5;"/>
-                        </HBox>
-                        <Label text="Lorem Ipsum (Extra Cream)"/>
-                        <Label text="Lorem Ipsum (Extra Cream)"/>
-                        <Label text="Total Cost: $123.45" style="-fx-font-weight: bold;"/>
+                <content>
+                    <VBox fx:id="orderContainer" spacing="10" style="-fx-padding: 5;">
+                        <ListView fx:id="orderListView" />
                     </VBox>
-                                        <VBox style="-fx-border-color: black; -fx-border-width: 1; -fx-padding: 5;">
-                        <HBox spacing="10">
-                            <Label text="Order#: 3034" style="-fx-font-weight: bold;"/>
-                            <Label text="Status: In Progress" 
-                                   style="-fx-font-weight: bold; -fx-background-color: khaki; -fx-padding: 2 5;"/>
-                        </HBox>
-                        <Label text="Lorem Ipsum (Extra Cream)"/>
-                        <Label text="Lorem Ipsum (Extra Cream)"/>
-                        <Label text="Total Cost: $123.45" style="-fx-font-weight: bold;"/>
-                    </VBox>
-                </VBox>
+                </content>
             </ScrollPane>
+
         </VBox>
     </center>
+
+    
 
     <!-- Bottom - Action buttons -->
     <bottom>
