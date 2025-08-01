@@ -5,16 +5,36 @@ import Cafe.CafeOrderSystem.CatalogItems.BeverageType;
 import Cafe.CafeOrderSystem.CatalogItems.Ingredients;
 import Cafe.CafeOrderSystem.CatalogItems.MenuType;
 import Cafe.CafeOrderSystem.Inventory.Ingredients.Ingredient;
-import Cafe.CafeOrderSystem.Inventory.Ingredients.IngredientItem;
 import Cafe.CafeOrderSystem.JsonParser.KeyDeserializer.*;
-import Cafe.CafeOrderSystem.JsonParser.KeySerializer.BeverageSizeSerializer;
-import Cafe.CafeOrderSystem.JsonParser.KeySerializer.BeverageTypeSerializer;
-import Cafe.CafeOrderSystem.JsonParser.KeySerializer.IngredientValueSerializer;
-import Cafe.CafeOrderSystem.JsonParser.KeySerializer.MenuTypeValueSerializer;
+import Cafe.CafeOrderSystem.JsonParser.KeySerializer.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
+/**
+ * Factory class for creating a customized {@link ObjectMapper} with support for
+ * application-specific serialization and deserialization logic.
+ *
+ * <p>
+ * This mapper supports:
+ * <ul>
+ *     <li>Key deserialization for complex map keys such as {@link Ingredient}, {@link MenuType}, {@link BeverageType}, and {@link BeverageSize}</li>
+ *     <li>Value deserialization for domain models like {@link Ingredients}, {@link MenuType}, and {@link BeverageSize}</li>
+ *     <li>Custom serializers and key serializers for those same types</li>
+ * </ul>
+ * </p>
+ *
+ * <p>Use this mapper when reading or writing JSON involving domain models that have custom parsing rules.</p>
+ *
+ * <p>This factory is stateless and safe for concurrent use.</p>
+ */
 public class MapperFactory {
+
+    /**
+     * Creates and returns a configured {@link ObjectMapper} instance with custom serializers
+     * and deserializers
+     *
+     * @return a customized ObjectMapper
+     */
     public static ObjectMapper createMapper() {
         ObjectMapper mapper = new ObjectMapper();
         SimpleModule module = new SimpleModule();

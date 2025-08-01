@@ -23,5 +23,6 @@ module Cafe.CafeOrderSystem {
     opens Cafe.CafeOrderSystem.CatalogItems;
     opens Cafe.CafeOrderSystem.UI to javafx.fxml, javafx.graphics;
     exports Cafe.CafeOrderSystem.UI;
+    exports Cafe.CafeOrderSystem.JsonParser.KeySerializer to java.logging;
 
 }
