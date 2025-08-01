@@ -1,5 +1,6 @@
 package Cafe.CafeOrderSystem.UI;
 
+import Cafe.CafeOrderSystem.Cafe;
 import javafx.fxml.FXML;
 
 import javafx.fxml.FXMLLoader;
@@ -17,6 +18,7 @@ import java.io.IOException;
 
 
 public class ManagerController {
+    private Cafe cafeShop;
 
     @FXML private Label welcomeLabel;
     @FXML private Button menuItemsButton;
@@ -29,6 +31,10 @@ public class ManagerController {
 
 
     private Stage primaryStage;
+
+    public void setFacade(Cafe cafeShop) {
+        this.cafeShop = cafeShop;
+    }
 
     public void setPrimaryStage(Stage stage) {
         this.primaryStage = stage;

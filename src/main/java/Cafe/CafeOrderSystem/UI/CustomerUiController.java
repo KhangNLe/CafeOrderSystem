@@ -1,5 +1,6 @@
 package Cafe.CafeOrderSystem.UI;
 
+import Cafe.CafeOrderSystem.Cafe;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -12,11 +13,16 @@ import java.io.IOException;
 
 
 public class CustomerUiController {
-    @FXML private ListView<MenuItemData> menuListView;
+    private Cafe cafeShop;
+   // @FXML private ListView<MenuItemData> menuListView;
     @FXML private Button checkoutButton;
     @FXML private Button logoutButton;
 
     private Stage primaryStage;
+
+    public void setFacade(Cafe  cafeShop) {
+        this.cafeShop = cafeShop;
+    }
 
     public void setPrimaryStage(Stage stage) {
         this.primaryStage = stage;
@@ -45,6 +51,7 @@ public class CustomerUiController {
         System.out.println("Checkout clicked!");
     }
 
+    /*
     @FXML
     public void initialize() {
         menuListView.setCellFactory(listView -> new MenuItemCellController());
@@ -55,4 +62,6 @@ public class CustomerUiController {
                 new MenuItemData("Croissant", "/images/croissants.jpg")
         ));
     }
+
+     */
 }

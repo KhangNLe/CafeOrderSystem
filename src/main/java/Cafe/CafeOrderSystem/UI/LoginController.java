@@ -1,5 +1,6 @@
 package Cafe.CafeOrderSystem.UI;
 
+import Cafe.CafeOrderSystem.Cafe;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,6 +11,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class LoginController {
+    private Cafe cafeShop;
     @FXML private TextField usernameField;
     @FXML private PasswordField passwordField;
     @FXML private ComboBox<String> roleComboBox;
@@ -19,6 +21,10 @@ public class LoginController {
     private Stage primaryStage;
 
     ShowErrorDialog popup = new ShowErrorDialog();
+
+    public void setFacade(Cafe cafeShop) {
+        this.cafeShop = cafeShop;
+    }
 
     public void setPrimaryStage(Stage stage) {
         this.primaryStage = stage;
@@ -55,7 +61,9 @@ public class LoginController {
     
     // Get the controller JavaFX created
     BaristaUiController baristaController = loader.getController();
-   
+
+
+    baristaController.setFacade(cafeShop);
     // Pass the stage forward
     baristaController.setPrimaryStage(primaryStage);
     
@@ -74,6 +82,7 @@ public class LoginController {
         // Get the controller JavaFX created
         CustomerUiController customerController = loader.getController();
 
+        customerController.setFacade(cafeShop);
         // Pass the stage forward
         customerController.setPrimaryStage(primaryStage);
 
@@ -90,7 +99,8 @@ public class LoginController {
     
     // Get the controller JavaFX created
     ManagerController managerController = loader.getController();
-    
+
+    managerController.setFacade(cafeShop);
     // Pass the stage forward
     managerController.setPrimaryStage(primaryStage);
     
