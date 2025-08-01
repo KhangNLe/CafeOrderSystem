@@ -60,10 +60,4 @@ public class CafeOrders {
     public List<CustomerOrder> getPendingOrders() {
         return List.copyOf(pendingOrders.getCollection());
     }
-
-    public void clearPending() {
-    pendingOrders.clear();
-}
-    
-
 }

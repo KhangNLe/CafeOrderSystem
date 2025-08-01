@@ -1,0 +1,134 @@
+[ {
+  "id" : "I-01",
+  "ingredient" : {
+    "name" : "BUTTER",
+    "jsonKey" : "BUTTER"
+  },
+  "amount" : 25
+}, {
+  "id" : "I-02",
+  "ingredient" : {
+    "name" : "FLOUR",
+    "jsonKey" : "FLOUR"
+  },
+  "amount" : 25
+}, {
+  "id" : "I-03",
+  "ingredient" : {
+    "name" : "CHOCOLATE_CHIP",
+    "jsonKey" : "CHOCOLATE_CHIP"
+  },
+  "amount" : 25
+}, {
+  "id" : "I-04",
+  "ingredient" : {
+    "name" : "ALMOND",
+    "jsonKey" : "ALMOND"
+  },
+  "amount" : 25
+}, {
+  "id" : "I-05",
+  "ingredient" : {
+    "name" : "BLUEBERRY",
+    "jsonKey" : "BLUEBERRY"
+  },
+  "amount" : 25
+}, {
+  "id" : "I-06",
+  "ingredient" : {
+    "name" : "STRAWBERRY",
+    "jsonKey" : "STRAWBERRY"
+  },
+  "amount" : 25
+}, {
+  "id" : "I-07",
+  "ingredient" : {
+    "name" : "OATMEAL",
+    "jsonKey" : "OATMEAL"
+  },
+  "amount" : 25
+}, {
+  "id" : "I-08",
+  "ingredient" : {
+    "name" : "RAISIN",
+    "jsonKey" : "RAISIN"
+  },
+  "amount" : 25
+}, {
+  "id" : "I-09",
+  "ingredient" : {
+    "name" : "SUGAR",
+    "jsonKey" : "SUGAR"
+  },
+  "amount" : 25
+}, {
+  "id" : "I-10",
+  "ingredient" : {
+    "name" : "MILK",
+    "jsonKey" : "MILK"
+  },
+  "amount" : 25
+}, {
+  "id" : "I-11",
+  "ingredient" : {
+    "name" : "OAT_MILK",
+    "jsonKey" : "OAT_MILK"
+  },
+  "amount" : 25
+}, {
+  "id" : "I-12",
+  "ingredient" : {
+    "name" : "ALMOND_MILK",
+    "jsonKey" : "ALMOND_MILK"
+  },
+  "amount" : 25
+}, {
+  "id" : "I-13",
+  "ingredient" : {
+    "name" : "SUGAR_FREE_SYRUP",
+    "jsonKey" : "SUGAR_FREE_SYRUP"
+  },
+  "amount" : 25
+}, {
+  "id" : "I-14",
+  "ingredient" : {
+    "name" : "TEA_LEAVES_BLACK",
+    "jsonKey" : "TEA_LEAVES_BLACK"
+  },
+  "amount" : 25
+}, {
+  "id" : "I-15",
+  "ingredient" : {
+    "name" : "TEA_LEAVES_GREEN",
+    "jsonKey" : "TEA_LEAVES_GREEN"
+  },
+  "amount" : 25
+}, {
+  "id" : "I-16",
+  "ingredient" : {
+    "name" : "TEA_LEAVES_HERBAL",
+    "jsonKey" : "TEA_LEAVES_HERBAL"
+  },
+  "amount" : 25
+}, {
+  "id" : "I-17",
+  "ingredient" : {
+    "name" : "COFFEE_BEAN",
+    "jsonKey" : "COFFEE_BEAN"
+  },
+  "amount" : 25
+}, {
+  "id" : "I-18",
+  "ingredient" : {
+    "name" : "DECAF_COFFEE_BEAN",
+    "jsonKey" : "DECAF_COFFEE_BEAN"
+  },
+  "amount" : 25
+}, {
+  "id" : "I-19",
+  "ingredient" : {
+    "name" : "DECAF_TEA_LEAVES_BLACK",
+    "jsonKey" : "DECAF_TEA_LEAVES_BLACK"
+  },
+  "amount" : 25
+} ]

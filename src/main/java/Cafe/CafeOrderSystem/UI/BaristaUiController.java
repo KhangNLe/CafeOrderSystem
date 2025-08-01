@@ -1,4 +1,6 @@
 package Cafe.CafeOrderSystem.UI;
+import Cafe.CafeOrderSystem.Cafe;
+import Cafe.CafeOrderSystem.Orders.CustomerOrder;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
@@ -10,12 +12,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Queue;
 
-import Cafe.CafeOrderSystem.JsonParser.OrderItem.OrderHistoryParser;
-
-
-
 
 public class BaristaUiController {
+    private Cafe cafeShop;
     @FXML private ListView<String> orderListView;
     @FXML private Button checkoutButton;
     @FXML private Button fulfilledOrdersButton;
@@ -23,6 +22,10 @@ public class BaristaUiController {
     private boolean orderTypeToggle = false;
 
     private Stage primaryStage;
+
+    public void setFacade(Cafe cafeShop){
+        this.cafeShop = cafeShop;
+    }
     
     public void setPrimaryStage(Stage stage) {
         this.primaryStage = stage;
@@ -80,8 +83,7 @@ private void getPendingOrders() {
     pendingOrdersButton.setStyle("-fx-background-color: lightgreen; -fx-text-fill: black;");
 
     orderListView.getItems().clear();
-    PendingOrderParser.getPendingOrders(); // Updates CafeOrders singleton
-    List<CustomerOrder> pending = CafeOrders.getInstance().getPendingOrders();
+    List<CustomerOrder> pending = cafeShop.getPendingOrders();
     
 
     if (pending == null || pending.isEmpty()) {
@@ -109,7 +111,7 @@ private void getFufilledOrders() {
         pendingOrdersButton.setStyle("-fx-background-color: transparent; -fx-text-fill: black;");
 
         orderListView.getItems().clear();
-    List<CustomerOrder> orders = OrderHistoryParser.loadOrderHistory();
+    List<CustomerOrder> orders = cafeShop.getOrderHistory();
     for (CustomerOrder order : orders) {
         orderListView.getItems().add(order.shortSummary()); // or order.toString()
     }
