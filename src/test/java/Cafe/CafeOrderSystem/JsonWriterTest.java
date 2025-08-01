@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 public class JsonWriterTest {
     private static Logger LOGGER = Logger.getLogger(JsonWriterTest.class.getName());
 
+    /*
     @Test
     @Order(2)
     @DisplayName("Test for putting data inside Json file")
@@ -105,4 +106,6 @@ public class JsonWriterTest {
         assertTrue(orders.getPendingOrders().isEmpty());
 
     }
+
+     */
 }

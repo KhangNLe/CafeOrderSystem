@@ -36,11 +36,10 @@ public class PendingOrderParser extends OrdersParser {
     }
 
     public static void getPendingOrders(){
-        cafeOrders.clearPending(); // Clear old entries first
         List<JsonNode> orders = JsonArrayParser.parse(FILE_PATH);
         parseOrders(orders);
     }
-    
+
     private static void parseOrders(List<JsonNode> orders){
         for (JsonNode order : orders) {
             CustomerOrder item = getCustomerOrder(order);

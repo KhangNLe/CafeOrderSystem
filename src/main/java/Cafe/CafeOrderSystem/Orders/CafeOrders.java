@@ -1,6 +1,8 @@
 package Cafe.CafeOrderSystem.Orders;
 
-import Cafe.CafeOrderSystem.JsonParser.OrderItem.OrderHistoryParser;
+import Cafe.CafeOrderSystem.Exceptions.InvalidInputException;
+import Cafe.CafeOrderSystem.JsonParser.OrderItem.CustomerOrderParser;
+
 import java.util.*;
 
 /*
@@ -8,58 +10,55 @@ import java.util.*;
  */
 
 public class CafeOrders {
-    private final Queue<CustomerOrder> pendingOrders;
-    private final Map<String, CustomerOrder> activeOrders;
-    private final List<CustomerOrder> fulfilledOrders;
+    private final Map<String, CustomerOrder> ordering;
+    private final CustomerOrderParser pendingOrders;
+    private final CustomerOrderParser fulfilledOrders;
     private static CafeOrders instance;
 
-    private CafeOrders() {
-        pendingOrders = new LinkedList<>();
-        fulfilledOrders = new ArrayList<>();
-        activeOrders = new HashMap<>();
-    }
-
-    public static CafeOrders getInstance() {
-        if (instance == null) {
-            instance = new CafeOrders();
-        }
-        return instance;
+    public CafeOrders(CustomerOrderParser pendingOrders, CustomerOrderParser fulfilledOrders) {
+        ordering = new HashMap<>();
+        this.pendingOrders = pendingOrders;
+        this.fulfilledOrders = fulfilledOrders;
     }
 
     public CustomerOrder getNextPendingOrder() {
-        return pendingOrders.poll();
-    }
-
-    public void completeOrder(CustomerOrder order) {
-        OrderHistoryParser.addOrderToHistory(order);
-        fulfilledOrders.add(order);
-    }
-
-    public void putInPendingOrder(CustomerOrder order) {
-        if (pendingOrders.contains(order)) {
-            throw new IllegalArgumentException(
-                    String.format("Order id %s is already in queue", order.getOrderID()
-            ));
+        if (!pendingOrders.getCollection().isEmpty()) {
+            return pendingOrders.getCollection().removeFirst();
         }
-        pendingOrders.add(order);
-        activeOrders.put(order.getOrderID(), order);
+
+        return null;
     }
 
-    public CustomerOrder getActiveOrder(String orderID) {
-        if (!activeOrders.containsKey(orderID)) {
-            throw new IllegalArgumentException(
-                    String.format("Order id %s not found on current pending orders", orderID)
+    public void startOrder(CustomerOrder order) {
+        ordering.put(order.getOrderID(), order);
+    }
+
+    public void finalizeActiveOrder(String orderID){
+        CustomerOrder order = ordering.remove(orderID);
+        pendingOrders.getCollection().addLast(order);
+    }
+
+
+    public void fulfilledOrder(CustomerOrder order) {
+        fulfilledOrders.getCollection().addLast(order);
+    }
+
+    public CustomerOrder lookUpActiveOrder(String orderID) {
+        CustomerOrder order =  ordering.get(orderID);
+        if (order == null) {
+            throw new InvalidInputException(
+                    String.format("Order with ID %s does not exist", orderID)
             );
         }
-        return activeOrders.get(orderID);
+        return order;
     }
 
-    public List<CustomerOrder> getTodayOrders(){
-        return fulfilledOrders;
+    public List<CustomerOrder> getOrderHistory(){
+        return fulfilledOrders.getCollection();
     }
 
     public List<CustomerOrder> getPendingOrders() {
-        return List.copyOf(pendingOrders);
+        return List.copyOf(pendingOrders.getCollection());
     }
 
     public void clearPending() {

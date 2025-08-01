@@ -4,6 +4,7 @@ import Cafe.CafeOrderSystem.CatalogItems.Ingredients;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record BeverageCost(
@@ -21,5 +22,11 @@ public record BeverageCost(
         });
         sb.append("}");
         return sb.toString();
+    }
+
+    public BeverageCost copyOf() {
+        Map<Ingredients, Integer> newIngredients = ingredients.entrySet().stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        return new BeverageCost(price, newIngredients);
     }
 }
