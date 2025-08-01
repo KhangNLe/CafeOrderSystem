@@ -11,8 +11,6 @@ public abstract class Role {
     }
 
     public boolean validatecredentials(String inputuserName, String inputpassword) {
-        // TODO: Add textbox value & return authentication
-
         return userName.equals(inputuserName) && password.equals(inputpassword);
     }
 
