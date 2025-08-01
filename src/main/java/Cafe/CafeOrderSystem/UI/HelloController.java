@@ -27,9 +27,15 @@ public class HelloController {
     @FXML private Pane imagePlaceholder;
 
     @FXML
-    private void handleCustomerOrder() {
+    private void handleCustomerOrder() throws IOException {
         // Navigate to customer order screen
         System.out.println("Customer order button clicked");
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Cafe/CafeOrderSystem/customer-view.fxml"));
+        Parent root = loader.load();
+
+        primaryStage.setScene(new Scene(root, LOGIN_WIDTH, LOGIN_HEIGHT));
+        primaryStage.setTitle("Customer Order");
     }
 
     @FXML

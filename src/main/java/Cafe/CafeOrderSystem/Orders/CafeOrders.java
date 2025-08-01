@@ -3,6 +3,10 @@ package Cafe.CafeOrderSystem.Orders;
 import Cafe.CafeOrderSystem.JsonParser.OrderItem.OrderHistoryParser;
 import java.util.*;
 
+/*
+    Cafe Orders is the Facade
+ */
+
 public class CafeOrders {
     private final Queue<CustomerOrder> pendingOrders;
     private final Map<String, CustomerOrder> activeOrders;

@@ -1,11 +1,16 @@
 package Cafe.CafeOrderSystem.UI;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class ManagerController {
 
@@ -46,8 +51,19 @@ public class ManagerController {
     }
 
     @FXML
-    private void handleQuit() {
+    private void handleQuit() throws IOException {
         // Close or log out
+        // Load login screen first
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Cafe/CafeOrderSystem/login.fxml"));
+        Parent root = loader.load();
+
+        // Pass stage to login controller
+        LoginController loginController = loader.getController();
+        loginController.setPrimaryStage(primaryStage);
+
+        Scene scene = new Scene(root, 800, 600); // Initial size
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 
     @FXML
