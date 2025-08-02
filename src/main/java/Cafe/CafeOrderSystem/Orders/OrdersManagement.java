@@ -1,12 +1,12 @@
 package Cafe.CafeOrderSystem.Orders;
 
 import Cafe.CafeOrderSystem.Exceptions.InvalidInputException;
+import Cafe.CafeOrderSystem.Exceptions.InvalidModifyingException;
 import Cafe.CafeOrderSystem.JsonParser.OrderItem.CustomerOrderParser;
 import Cafe.CafeOrderSystem.Menu.Items.*;
 import Cafe.CafeOrderSystem.CatalogItems.*;
 
 import java.time.LocalDate;
-import java.util.UUID;
 import java.util.*;
 
 /**
@@ -209,6 +209,46 @@ public class OrdersManagement {
             throw new InvalidInputException(
                     String.format("Cannot add order %s into the pending orders", order)
             );
+        }
+    }
+// Trevor: I had to add this so I could reflect front end chnages on the back end
+        public boolean updateOrderStatus(String orderID, OrderStatus newStatus) {
+        try {
+            // First check pending orders
+            List<CustomerOrder> pending = orders.getPendingOrders();
+            Iterator<CustomerOrder> pendingIterator = pending.iterator();
+            while (pendingIterator.hasNext()) {
+                CustomerOrder order = pendingIterator.next();
+                if (order.getOrderID().equals(orderID)) {
+                    order.changeOrderStatus(newStatus);
+                    pendingIterator.remove();
+                    
+                    if (newStatus == OrderStatus.IN_PROCESS) {
+                        orders.startOrder(order); // Move to active orders
+                    } else if (newStatus == OrderStatus.READY) {
+                        orders.fulfilledOrder(order); // Move to fulfilled orders
+                    }
+                    return true;
+                }
+            }
+
+            // Then check active orders
+            try {
+                CustomerOrder activeOrder = orders.lookUpActiveOrder(orderID);
+                if (activeOrder != null) {
+                    activeOrder.changeOrderStatus(newStatus);
+                    if (newStatus == OrderStatus.READY) {
+                        orders.fulfilledOrder(activeOrder);
+                    }
+                    return true;
+                }
+            } catch (InvalidInputException e) {
+                // Order not found in active orders - continue checking
+            }
+
+            return false; // Order not found
+        } catch (InvalidModifyingException e) {
+            return false;
         }
     }
 }

@@ -139,15 +139,23 @@ public class CustomerOrder {
      * @param orderStatus the new status to apply
      * @throws InvalidModifyingException if the transition is invalid
      */
-    public void changeOrderStatus(OrderStatus orderStatus) {
-        if (orderStatus.changeStatusAttempt(orderStatus)) {
-            this.orderStatus = orderStatus;
-        } else {
-            throw new InvalidModifyingException(
-                    String.format("Cannot change status from %s to %s", this.orderStatus, orderStatus
-            ));
-        }
+    // public void changeOrderStatus(OrderStatus orderStatus) {
+    //     if (orderStatus.changeStatusAttempt(orderStatus)) {
+    //         this.orderStatus = orderStatus;
+    //     } else {
+    //         throw new InvalidModifyingException(
+    //                 String.format("Cannot change status from %s to %s", this.orderStatus, orderStatus
+    //         ));
+    //     }
+    // }
+    public void changeOrderStatus(OrderStatus newStatus) throws InvalidModifyingException {
+    if (!this.orderStatus.changeStatusAttempt(newStatus)) {
+        throw new InvalidModifyingException(
+            String.format("Cannot change status from %s to %s", this.orderStatus, newStatus)
+        );
     }
+    this.orderStatus = newStatus;
+}
 
     /**
      * Returns the ordered item with the given ID, or {@code null} if not found.
