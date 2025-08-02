@@ -66,6 +66,8 @@ public class LoginController {
     baristaController.setFacade(cafeShop);
     // Pass the stage forward
     baristaController.setPrimaryStage(primaryStage);
+
+    baristaController.initAfterInjection();
     
     // Show the new screen
     primaryStage.setScene(new Scene(root, LOGIN_WIDTH, LOGIN_HEIGHT));

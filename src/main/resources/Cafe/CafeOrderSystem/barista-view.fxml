@@ -2,56 +2,78 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.effect.*?>
 
-<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="Cafe.CafeOrderSystem.UI.BaristaUiController"
-            prefWidth="400" prefHeight="600">
+<StackPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="Cafe.CafeOrderSystem.UI.BaristaUiController"
+           prefWidth="400" prefHeight="600">
 
-    <!-- Top - Simple header -->
-    <top>
-        <VBox style="-fx-padding: 10;">
-            <Label text="Barista GUI:" style="-fx-font-size: 16;"/>
-            <Label text="Welcome Barista John Doe"/>
-        </VBox>
-    </top>
+    <!-- Main Content -->
+    <BorderPane>
+        <top>
+            <VBox style="-fx-padding: 10;">
+                <Label text="Barista GUI:" style="-fx-font-size: 16;"/>
+                <Label text="Welcome Barista John Doe"/>
+            </VBox>
+        </top>
 
-    <!-- Center - Orders section -->
-    <center>
-        <VBox style="-fx-padding: 10;">
-            <HBox spacing="10" style="-fx-padding: 0 0 10 0;">
-                <Button fx:id="pendingOrdersButton" text="Pending Orders:" 
-                        style="-fx-background-color: lightgreen; -fx-padding: 5 10;"
-                        onAction="#getPendingOrders"/>
-                <Button fx:id="fulfilledOrdersButton" text="Fulfilled Orders:" 
-                        style="-fx-padding: 5 10;"
-                        onAction="#getFufilledOrders"/>
+        <center>
+            <VBox style="-fx-padding: 10;">
+                <HBox spacing="10" style="-fx-padding: 0 0 10 0;">
+                    <Button fx:id="pendingOrdersButton" text="Pending Orders:" 
+                            style="-fx-background-color: lightgreen; -fx-padding: 5 10;"
+                            onAction="#getPendingOrders"/>
+                    <Button fx:id="fulfilledOrdersButton" text="Fulfilled Orders:" 
+                            style="-fx-padding: 5 10;"
+                            onAction="#getFufilledOrders"/>
+                </HBox>
+
+                <ScrollPane fx:id="orderScrollPane" fitToWidth="true">
+                    <content>
+                        <VBox fx:id="orderContainer" spacing="10" style="-fx-padding: 5;">
+                            <ListView fx:id="orderListView" />
+                        </VBox>
+                    </content>
+                </ScrollPane>
+            </VBox>
+        </center>
+
+        <bottom>
+            <HBox spacing="10" alignment="CENTER" style="-fx-padding: 10;">
+                <Button fx:id="quitButton" text="Quit" 
+                        style="-fx-padding: 5 15;" 
+                        onAction="#handleQuit"/>
+                <Button fx:id="changeStatusButton" text="Start Order" 
+                        style="-fx-padding: 5 15;"
+                        onAction="#selectOrder"/>
+                <Button fx:id="completeOrderButton" text="Complete Order" 
+                        style="-fx-padding: 5 15;"
+                        visible="false"
+                        onAction="#handleCompleteOrder"/>
             </HBox>
+        </bottom>
+    </BorderPane>
 
-            <ScrollPane fx:id="orderScrollPane" fitToWidth="true">
-                <content>
-                    <VBox fx:id="orderContainer" spacing="10" style="-fx-padding: 5;">
-                        <ListView fx:id="orderListView" />
-                    </VBox>
-                </content>
+    <!-- Overlay Background -->
+    <Pane fx:id="overlayBackground" visible="false" style="-fx-background-color: rgba(0,0,0,0.5);">
+        <!-- Overlay Content -->
+        <VBox fx:id="overlayPane" alignment="CENTER" visible="false"
+              style="-fx-background-color: white; -fx-padding: 20; -fx-spacing: 10;">
+            <effect>
+                <DropShadow radius="10" color="rgba(0,0,0,0.5)"/>
+            </effect>
+            <Label text="Order Details" style="-fx-font-size: 16; -fx-font-weight: bold;"/>
+            <Label fx:id="orderIdLabel"/>
+            <Separator/>
+            <ScrollPane fitToWidth="true" maxHeight="200">
+                <VBox fx:id="orderItemsContainer" spacing="5"/>
             </ScrollPane>
-
+            <Separator/>
+            <Label fx:id="orderTotalLabel" style="-fx-font-weight: bold;"/>
+            <HBox spacing="10" alignment="CENTER">
+                <Button text="Mark Ready" onAction="#handleMarkReady"/>
+                <Button text="Close" onAction="#closeOverlay"/>
+            </HBox>
         </VBox>
-    </center>
-
-    
-
-    <!-- Bottom - Action buttons -->
-    <bottom>
-        <HBox spacing="10" alignment="CENTER" style="-fx-padding: 10;">
-            <Button fx:id="quitButton" text="Quit" 
-                    style="-fx-padding: 5 15;" 
-                    onAction="#handleQuit"/>
-            <Button fx:id="changeStatusButton" text="Change Status" 
-                    style="-fx-padding: 5 15;"
-                    onAction="#handleChangeStatus"/>
-            <Button fx:id="completeOrderButton" text="Complete Order" 
-                    style="-fx-padding: 5 15;"
-                    onAction="#handleCompleteOrder"/>
-        </HBox>
-    </bottom>
-</BorderPane>
+    </Pane>
+</StackPane>
