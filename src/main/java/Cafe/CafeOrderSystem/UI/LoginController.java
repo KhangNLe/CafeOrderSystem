@@ -1,6 +1,8 @@
 package Cafe.CafeOrderSystem.UI;
 
 import Cafe.CafeOrderSystem.Cafe;
+import Cafe.CafeOrderSystem.utility.FxmlView;
+import Cafe.CafeOrderSystem.utility.LoadFXML;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,6 +14,7 @@ import java.io.IOException;
 
 public class LoginController {
     private Cafe cafeShop;
+    private LoadFXML load;
     @FXML private TextField usernameField;
     @FXML private PasswordField passwordField;
     @FXML private ComboBox<String> roleComboBox;
@@ -56,65 +59,52 @@ public class LoginController {
     }
 
     private void openBaristaScreen() throws IOException {
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Cafe/CafeOrderSystem/barista-view.fxml"));
-    Parent root = loader.load();
-    
-    // Get the controller JavaFX created
-    BaristaUiController baristaController = loader.getController();
-
-
-    baristaController.setFacade(cafeShop);
-    // Pass the stage forward
-    baristaController.setPrimaryStage(primaryStage);
-
-    baristaController.initAfterInjection();
-    
-    // Show the new screen
-    primaryStage.setScene(new Scene(root, LOGIN_WIDTH, LOGIN_HEIGHT));
-    primaryStage.setTitle("Barista Dashboard");
+        try {
+        new LoadFXML(
+            cafeShop,    // Your Cafe facade instance
+            primaryStage,     // Or pass existing stage
+            FxmlView.BARISTA,
+            800,            // Width
+            600             // Height
+        ).load();
+    } catch (IOException e) {
+        // Handle error (show dialog, log, etc.)
+        e.printStackTrace();
+        }
     }
 
 
 
     private void openCustomerScreen() throws IOException {
-
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Cafe/CafeOrderSystem/customer-view.fxml"));
-        Parent root = loader.load();
-
-        // Get the controller JavaFX created
-        CustomerUiController customerController = loader.getController();
-
-        customerController.setFacade(cafeShop);
-        // Pass the stage forward
-        customerController.setPrimaryStage(primaryStage);
-
-        // Show the new screen
-        primaryStage.setScene(new Scene(root, LOGIN_WIDTH, LOGIN_HEIGHT));
-        primaryStage.setTitle("Customer Dashboard");
-
+    try {
+        new LoadFXML(
+            cafeShop,    // Your Cafe facade instance
+            primaryStage,     // pass existing stage
+            FxmlView.MANAGER,   //access enum
+            800,            // Width
+            600             // Height
+        ).load();
+    } catch (IOException e) {
+        // Handle error (show dialog, log, etc.)
+        e.printStackTrace();
+        }
     }
+
+
 
     private void openManagerScreen() throws IOException {
-
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Cafe/CafeOrderSystem/manager-view.fxml"));
-    Parent root = loader.load();
-    
-    // Get the controller JavaFX created
-    ManagerController managerController = loader.getController();
-
-    managerController.setFacade(cafeShop);
-    // Pass the stage forward
-    managerController.setPrimaryStage(primaryStage);
-    
-    // Show the new screen
-    primaryStage.setScene(new Scene(root, LOGIN_WIDTH, LOGIN_HEIGHT));
-    primaryStage.setTitle("Manager Dashboard");
+    try {
+        new LoadFXML(
+            cafeShop,    // Your Cafe facade instance
+            primaryStage,     // pass existing stage
+            FxmlView.MANAGER,   //access enum
+            800,            // Width
+            600             // Height
+        ).load();
+    } catch (IOException e) {
+        // Handle error (show dialog, log, etc.)
+        e.printStackTrace();
+        }
     }
 
-    private void showScene(Parent root, String title) {
-        Scene scene = new Scene(root, 800, 600);
-        primaryStage.setTitle(title);
-        primaryStage.setScene(scene);
-        primaryStage.centerOnScreen();
-    }
 }

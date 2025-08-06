@@ -1,0 +1,22 @@
+package Cafe.CafeOrderSystem.utility;
+
+public enum FxmlView {
+    BARISTA("/Cafe/CafeOrderSystem/barista-view.fxml"),
+    MANAGER("/Cafe/CafeOrderSystem/manager-view.fxml"),
+    CUSTOMER("/Cafe/CafeOrderSystem/customer-view.fxml"),
+    ORDER("/Cafe/CafeOrderSystem/order-overlay.fxml"),
+
+    LOGIN("/Cafe/CafeOrderSystem/login.fxml");
+    
+    private final String path;
+    
+    FxmlView(String path) {
+        this.path = path;
+    }
+    
+    public String getPath() {
+        return path;
+    }
+}
+
+

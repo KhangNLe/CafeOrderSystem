@@ -28,6 +28,10 @@ public class OrderOverlayController {
         this.cafeShop = cafeShop;
     }
 
+    // public void setPrimaryStage(Stage stage) {
+    //     this.primaryStage = stage;
+    // }
+
 // Change from initialize() to setData() or similar
 public void setOrderData(CustomerOrder order, Stage stage, Runnable refreshCallback) {
     this.order = order;
