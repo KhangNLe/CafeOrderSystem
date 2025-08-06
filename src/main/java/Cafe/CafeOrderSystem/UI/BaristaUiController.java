@@ -4,6 +4,8 @@ import Cafe.CafeOrderSystem.Exceptions.InvalidModifyingException;
 import Cafe.CafeOrderSystem.Exceptions.OrderStatusChangeException;
 import Cafe.CafeOrderSystem.Orders.CustomerOrder;
 import Cafe.CafeOrderSystem.Orders.OrderStatus;
+import Cafe.CafeOrderSystem.utility.FxmlView;
+import Cafe.CafeOrderSystem.utility.LoadFXML;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -26,7 +28,7 @@ import java.util.Queue;
 
 
 
-public class BaristaUiController {
+public class BaristaUiController extends Controller{
     private Cafe cafeShop;
     // @FXML private ListView<String> orderListView;
     @FXML private ListView<CustomerOrder> orderListView;
@@ -47,6 +49,8 @@ public class BaristaUiController {
     private Stage primaryStage;
 
     private ShowErrorDialog dialog = new ShowErrorDialog();
+
+
     
     public void setFacade(Cafe cafeShop){
         this.cafeShop = cafeShop;
@@ -56,49 +60,6 @@ public class BaristaUiController {
         this.primaryStage = stage;
     }
 
-    // @FXML
-    // private void handleLogOut() throws IOException {
-    //     // Return to login screen
-    //     FXMLLoader loader = new FXMLLoader(getClass().getResource("login.fxml"));
-    //     Parent root = loader.load();
-        
-    // // Get existing scene and just replace the root
-    // Scene currentScene = primaryStage.getScene();
-    // currentScene.setRoot(root);
-    
-    // // Optional: Reset window size
-    // primaryStage.setWidth(800);
-    // primaryStage.setHeight(600);
-    // }
-
-
-// private void showOrderDetails(CustomerOrder order) {
-//     // 1. Update order details
-//     orderIdLabel.setText("Order #" + order.getOrderID());
-    
-//     // 2. Clear and rebuild items list
-//     orderItemsContainer.getChildren().clear();
-//     order.getOrderItems().forEach(item -> {
-//         HBox itemBox = new HBox(10);
-//         Label nameLabel = new Label(item.getItem().getItemName());
-//         Label qtyLabel = new Label("x" + item.getQuantity());
-//         Label priceLabel = new Label(String.format("$%.2f", 
-//                                item.getItem().getPrice() * item.getQuantity()));
-//         itemBox.getChildren().addAll(nameLabel, qtyLabel, priceLabel);
-//         orderItemsContainer.getChildren().add(itemBox);
-//     });
-    
-//     // 3. Update total
-//     orderTotalLabel.setText(String.format("Total: $%.2f", order.getTotalPrice()));
-    
-//     // 4. Position overlay at center
-//     overlayPane.setLayoutX((overlayBackground.getWidth() - overlayPane.getWidth()) / 2);
-//     overlayPane.setLayoutY((overlayBackground.getHeight() - overlayPane.getHeight()) / 2);
-    
-//     // 5. Make visible (background first, then content)
-//     overlayBackground.setVisible(true);
-//     overlayPane.setVisible(true);
-// }
 @FXML
 private void closeOverlay() {
     overlayBackground.setVisible(false);
@@ -109,7 +70,7 @@ private void closeOverlay() {
 private void handleMarkReady() {
     try {
         cafeShop.getOrdersManagement()
-            .updateOrderStatus(selectedOrder.getOrderID(), OrderStatus.READY);
+        .updateOrderStatus(selectedOrder.getOrderID(), OrderStatus.READY);
         closeOverlay();
         getFufilledOrders();
         getPendingOrders();
@@ -117,30 +78,18 @@ private void handleMarkReady() {
         dialog.show("Error", "Failed to update order status", e);
     }
 }
+
 @FXML
 private void selectOrder() {
     if (selectedOrder != null) {
         try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/Cafe/CafeOrderSystem/order-overlay.fxml"));
-            Parent root = loader.load();
-            
-            Stage overlayStage = new Stage();
-            overlayStage.initModality(Modality.APPLICATION_MODAL);
-            overlayStage.initStyle(StageStyle.UNDECORATED);
-            overlayStage.setScene(new Scene(root));
-            
-            OrderOverlayController controller = loader.getController();
-
-            controller.setFacade(cafeShop);
-            // Call the renamed method:
-            controller.setOrderData(selectedOrder, overlayStage, this::refreshOrders);
-            
-            overlayStage.showAndWait();
-            
+            LoadFXML.loadOrderOverlay(
+                cafeShop,
+                selectedOrder,
+                this::refreshOrders
+            );
         } catch (IOException e) {
-            e.printStackTrace();
-            // Handle error
+            dialog.show("Loading Error", "Failed to load order details", e);
         }
     }
 }
@@ -179,17 +128,30 @@ private void selectOrder() {
     }
     @FXML
     private void handleQuit() throws IOException{
-        // Load login screen first
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Cafe/CafeOrderSystem/login.fxml"));
-        Parent root = loader.load();
+    //     // Load login screen first
+    //     FXMLLoader loader = new FXMLLoader(getClass().getResource("/Cafe/CafeOrderSystem/login.fxml"));
+    //     Parent root = loader.load();
         
-        // Pass stage to login controller
-        LoginController loginController = loader.getController();
-        loginController.setPrimaryStage(primaryStage);
+    //     // Pass stage to login controller
+    //     LoginController loginController = loader.getController();
+    //     loginController.setPrimaryStage(primaryStage);
         
-    Scene scene = new Scene(root, 800, 600); // Initial size
-    primaryStage.setScene(scene);
-    primaryStage.show();
+    // Scene scene = new Scene(root, 800, 600); // Initial size
+    // primaryStage.setScene(scene);
+    // primaryStage.show();
+
+    try {
+        new LoadFXML(
+            cafeShop,    // Your Cafe facade instance
+            primaryStage,     // pass existing stage
+            FxmlView.LOGIN,   //access enum
+            800,            // Width
+            600             // Height
+        ).load();
+    } catch (IOException e) {
+        // Handle error (show dialog, log, etc.)
+        e.printStackTrace();
+        }
 
 
     }
@@ -252,37 +214,6 @@ public void initialize() {
     });
 }
 
-// @FXML
-// public void initialize() {
-//     orderListView.setCellFactory(param -> new ListCell<>() {
-//         @Override
-//         protected void updateItem(CustomerOrder item, boolean empty) {
-//             super.updateItem(item, empty);
-//             setText(empty || item == null ? null : item.shortSummary());
-//         }
-//     });
-
-// orderListView.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
-//     selectedOrder = newVal;
-// if (selectedOrder != null && selectedOrder.getOrderStatus() == OrderStatus.PENDING) {
-//             try {
-//                 // Use the management system to properly update the status
-//                 boolean success = cafeShop.getOrdersManagement()
-//                     .updateOrderStatus(selectedOrder.getOrderID(), OrderStatus.IN_PROCESS);
-                
-//                 if (!success) {
-//                     throw new InvalidModifyingException("Failed to update order status");
-//                 }
-                
-//                 // Refresh the list view
-//                 getPendingOrders();
-                
-//             } catch (InvalidModifyingException e) {
-//                 dialog.show("Status Change Error", e.getMessage(), e);
-//             }
-//         }
-//     });
-// }
 
 
 public void initAfterInjection() {

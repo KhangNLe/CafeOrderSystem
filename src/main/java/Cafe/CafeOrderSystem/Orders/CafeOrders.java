@@ -109,46 +109,4 @@ public class CafeOrders {
         return pendingOrders.getCollection();
     }
 
-    // Trevor: I added this so I could have a single entry point to change the statusCheck pending orders
-    public boolean updateOrderStatus(String orderID, OrderStatus newStatus) {
-    // Check active orders
-    CustomerOrder activeOrder = ordering.get(orderID);
-    if (activeOrder != null) {
-        activeOrder.changeOrderStatus(newStatus);
-        if (newStatus == OrderStatus.PENDING) {
-            ordering.remove(orderID);
-            pendingOrders.getCollection().addLast(activeOrder);
-        } else if (newStatus == OrderStatus.READY) {
-            ordering.remove(orderID);
-            fulfilledOrders.getCollection().addLast(activeOrder);
-        }
-        return true;
-    }
-    
-    
-    Iterator<CustomerOrder> pendingIterator = pendingOrders.getCollection().iterator();
-    while (pendingIterator.hasNext()) {
-        CustomerOrder order = pendingIterator.next();
-        if (order.getOrderID().equals(orderID)) {
-            order.changeOrderStatus(newStatus);
-            pendingIterator.remove();
-            if (newStatus == OrderStatus.PENDING) {
-                ordering.put(orderID, order);
-            } else if (newStatus == OrderStatus.READY) {
-                fulfilledOrders.getCollection().addLast(order);
-            }
-            return true;
-        }
-    }
-
-    // Check fulfilled orders
-    for (CustomerOrder order : fulfilledOrders.getCollection()) {
-        if (order.getOrderID().equals(orderID)) {
-            order.changeOrderStatus(newStatus);
-            return true; // No movement needed
-        }
-    }
-
-    return false; // Not found
-}
 }
