@@ -31,6 +31,7 @@ import java.util.Queue;
 public class BaristaUiController extends Controller{
     private Cafe cafeShop;
     // @FXML private ListView<String> orderListView;
+    @FXML private VBox menuItemsContainer;
     @FXML private ListView<CustomerOrder> orderListView;
     @FXML private Button checkoutButton;
     @FXML private Button fulfilledOrdersButton;
@@ -105,18 +106,17 @@ private void selectOrder() {
 
     @FXML
     private void handleCompleteOrder(){
-        System.out.println("complete order clicked");
-
-        System.out.println(selectedOrder);
-        try {
-        if (selectedOrder == null) {
-            throw new NullPointerException("No order selected.");
-        }
-        selectedOrder.changeOrderStatus(OrderStatus.READY);
-        cafeShop.getOrdersManagement().fulfilledOrder(selectedOrder);
-        if (selectedOrder.getOrderStatus() != OrderStatus.READY) {
-            throw new OrderStatusChangeException("Could not change status for order ID: " + selectedOrder.getOrderID());
-        }
+    System.out.println("complete order clicked");
+    System.out.println(selectedOrder);
+    try {
+    if (selectedOrder == null) {
+        throw new NullPointerException("No order selected.");
+    }
+    selectedOrder.changeOrderStatus(OrderStatus.READY);
+    cafeShop.getOrdersManagement().fulfilledOrder(selectedOrder);
+    if (selectedOrder.getOrderStatus() != OrderStatus.READY) {
+        throw new OrderStatusChangeException("Could not change status for order ID: " + selectedOrder.getOrderID());
+    }
 
         getPendingOrders(); // Refresh list
     } catch (OrderStatusChangeException e) {
@@ -128,18 +128,6 @@ private void selectOrder() {
     }
     @FXML
     private void handleQuit() throws IOException{
-    //     // Load login screen first
-    //     FXMLLoader loader = new FXMLLoader(getClass().getResource("/Cafe/CafeOrderSystem/login.fxml"));
-    //     Parent root = loader.load();
-        
-    //     // Pass stage to login controller
-    //     LoginController loginController = loader.getController();
-    //     loginController.setPrimaryStage(primaryStage);
-        
-    // Scene scene = new Scene(root, 800, 600); // Initial size
-    // primaryStage.setScene(scene);
-    // primaryStage.show();
-
     try {
         new LoadFXML(
             cafeShop,    // Your Cafe facade instance
@@ -207,7 +195,6 @@ public void initialize() {
             setText(empty || item == null ? null : item.shortSummary());
         }
     });
-
     // Simplified selection listener - just stores selection
     orderListView.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
         selectedOrder = newVal;
