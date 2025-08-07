@@ -70,6 +70,7 @@ public class ManagerController {
     @FXML
     private void handleMenuItems() {
         // Add logic here if needed
+
         refreshMenu();
 
     }
@@ -77,6 +78,7 @@ public class ManagerController {
 
     @FXML
     private void viewMenuItem(){
+        
 
     }
 
