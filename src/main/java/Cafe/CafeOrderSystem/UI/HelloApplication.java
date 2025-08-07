@@ -26,18 +26,6 @@ public class HelloApplication extends Application {
         cafeShop = new Cafe();
         cafeShop.startShop();
         this.primaryStage = primaryStage;
-        // Load login screen first
-    //     FXMLLoader loader = new FXMLLoader(getClass().getResource("/Cafe/CafeOrderSystem/hello-view.fxml"));
-    //     Parent root = loader.load();
-
-    //     // Pass stage to login controller
-    //     HelloController helloController = loader.getController();
-    //     helloController.setFacade(cafeShop);
-    //     helloController.setPrimaryStage(primaryStage);
-
-    // Scene scene = new Scene(root, 800, 600); // Initial size
-    // primaryStage.setScene(scene);
-    // primaryStage.show();
     try {
         new LoadFXML(
             cafeShop,    // Your Cafe facade instance

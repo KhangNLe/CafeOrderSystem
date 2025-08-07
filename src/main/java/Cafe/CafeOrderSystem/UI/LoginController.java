@@ -1,6 +1,9 @@
 package Cafe.CafeOrderSystem.UI;
 
 import Cafe.CafeOrderSystem.Cafe;
+import Cafe.CafeOrderSystem.Exceptions.InvalidCredentialsException;
+import Cafe.CafeOrderSystem.Exceptions.InvalidInputException;
+import Cafe.CafeOrderSystem.Roles.EmployeesAuthentication;
 import Cafe.CafeOrderSystem.utility.FxmlView;
 import Cafe.CafeOrderSystem.utility.LoadFXML;
 import javafx.fxml.FXML;
@@ -39,27 +42,56 @@ public class LoginController {
         roleComboBox.setValue("Barista");
     }
 
-    @FXML
-    private void handleLogin() throws IOException {
-        System.out.printf("%s %s", usernameField.getText(), passwordField.getText());
-        try {
-            if(usernameField.getText().equals("") || passwordField.getText().equals("")){
-            throw new IllegalStateException();
-        }
-        } catch (Exception e) {
-            popup.show("Error", "USERNAME / PASSWORD CANNOT BE NULL", e);
-            return;
-        }
-        String role = roleComboBox.getValue();
-        
-        switch (role) {
-            case "Barista" -> openBaristaScreen();
-            case "Manager" -> openManagerScreen();
-        }
+        @FXML
+private void handleLogin() throws IOException {
+    String role = roleComboBox.getValue();
+    String user = usernameField.getText();
+    String pass = passwordField.getText();
+
+
+    switch (role) {
+        case "Barista" -> authBarista(user.trim(), pass); // don't trim passwords
+        case "Manager" -> authManager(user.trim(), pass);
     }
+}
+
+private void authBarista(String user, String pass) {
+    EmployeesAuthentication auth = cafeShop.getEmployeesAuthentication();
+    try {
+        if(user.equals("") || pass.equals("") ){
+            throw new InvalidInputException("Username / Password must not be null");
+        }
+        boolean ok = auth.baristaLogin(user, pass);  // ✅ uses your existing backend
+        if (ok) {
+            openBaristaScreen();
+        } else {
+            throw new InvalidCredentialsException();
+        }
+    } catch (Exception e) {
+       popup.show("Error", e.getMessage(), e);
+    }
+}
+
+private void authManager(String user, String pass) {
+    EmployeesAuthentication auth = cafeShop.getEmployeesAuthentication();
+    try {
+        if(user.equals("") || pass.equals("") ){
+            throw new InvalidInputException("Username / Password must not be null");
+        }
+        boolean ok = auth.managerLogin(user, pass);  // ✅ uses your existing backend
+        if (ok) {
+            openManagerScreen();
+        } else {
+            throw new InvalidCredentialsException();
+        }
+    } catch (Exception e) {
+       popup.show("Error", e.getMessage(), e);
+    }
+}
+        
 
     private void openBaristaScreen() throws IOException {
-        try {
+ 
         new LoadFXML(
             cafeShop,    // Your Cafe facade instance
             primaryStage,     // Or pass existing stage
@@ -67,10 +99,6 @@ public class LoginController {
             800,            // Width
             600             // Height
         ).load();
-    } catch (IOException e) {
-        // Handle error (show dialog, log, etc.)
-        e.printStackTrace();
-        }
     }
 
 
