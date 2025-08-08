@@ -10,7 +10,7 @@
         <VBox fx:id="mainVBox" spacing="10" alignment="CENTER">
             <Label fx:id="welcomeLabel" text="Welcome! Please Order Below" />
             <Pane fx:id="imagePlaceholder" prefHeight="150" prefWidth="200" />
-            <Button fx:id="customerButton" text="Order as a Customer" onAction="#handleCustomerOrder" />
+            <Button fx:id="customerButton" text="Order as a Customer" onAction="#openCustomer" />
             <Button fx:id="loginButton" text="Employee Login" onAction="#handleLogin" />
         </VBox>
     </center>

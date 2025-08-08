@@ -53,8 +53,7 @@ public void setOrderData(CustomerOrder order, Stage stage, Runnable refreshCallb
     orderTotalLabel.setText(String.format("Total: $%.2f", order.getTotalPrice()));
 }
 
-    
-    @FXML
+@FXML
 private void handleMarkReady() {
     try {
         if (order == null) {
