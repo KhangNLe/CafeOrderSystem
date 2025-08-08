@@ -1,0 +1,65 @@
+[ {
+  "roleType" : "Barista",
+  "userName" : "barista1",
+  "password" : "barista1"
+}, {
+  "roleType" : "Barista",
+  "userName" : "barista2",
+  "password" : "barista2"
+}, {
+  "roleType" : "Barista",
+  "userName" : "barista3",
+  "password" : "barista3"
+}, {
+  "roleType" : "Barista",
+  "userName" : "barista4",
+  "password" : "barista5"
+}, {
+  "roleType" : "Manager",
+  "userName" : "manager1",
+  "password" : "manager1"
+}, {
+  "roleType" : "Manager",
+  "userName" : "manager2",
+  "password" : "manager2"
+}, {
+  "roleType" : "Manager",
+  "userName" : "manager3",
+  "password" : "manager3"
+}, {
+  "roleType" : "Manager",
+  "userName" : "manager4",
+  "password" : "manager4"
+}, {
+  "roleType" : "Barista",
+  "userName" : "barista1",
+  "password" : "barista1"
+}, {
+  "roleType" : "Barista",
+  "userName" : "barista2",
+  "password" : "barista2"
+}, {
+  "roleType" : "Barista",
+  "userName" : "barista3",
+  "password" : "barista3"
+}, {
+  "roleType" : "Barista",
+  "userName" : "barista4",
+  "password" : "barista5"
+}, {
+  "roleType" : "Manager",
+  "userName" : "manager1",
+  "password" : "manager1"
+}, {
+  "roleType" : "Manager",
+  "userName" : "manager2",
+  "password" : "manager2"
+}, {
+  "roleType" : "Manager",
+  "userName" : "manager3",
+  "password" : "manager3"
+}, {
+  "roleType" : "Manager",
+  "userName" : "manager4",
+  "password" : "manager4"
+} ]

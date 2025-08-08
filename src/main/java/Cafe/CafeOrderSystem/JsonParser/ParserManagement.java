@@ -3,13 +3,10 @@ package Cafe.CafeOrderSystem.JsonParser;
 import Cafe.CafeOrderSystem.JsonParser.Authentication.AuthenticationParser;
 import Cafe.CafeOrderSystem.JsonParser.CafeMenu.*;
 import Cafe.CafeOrderSystem.JsonParser.OrderItem.*;
-import Cafe.CafeOrderSystem.Roles.BaristaRole;
-import Cafe.CafeOrderSystem.Roles.ManagerRole;
-import Cafe.CafeOrderSystem.Roles.RolesList;
 
 /**
  * Utility class responsible for initializing and registering all parser components
- * used in the Cafe application.
+ * used in the Café application.
  *
  * <p>
  * This class centralizes parser construction for menus, inventory, employees, and order history.
@@ -30,8 +27,7 @@ public class ParserManagement {
     private static final String INVENTORY_DIR = "src/main/resources/InitialCatalog/Inventory";
     private static final String PENDING_DIR = "src/main/resources/OrderHistory/Pending";
     private static final String HISTORY_DIR = "src/main/resources/OrderHistory/History";
-    private static final String BARISTA_DIR = "src/main/resources/EmployeeAcc/Baristas";
-    private static final String MANAGER_DIR =  "src/main/resources/EmployeeAcc/Managers";
+    private static final String EMPLOYEE_DIR = "src/main/resources/EmployeeAcc/";
 
     /**
      * Private to prevent instantiation
@@ -85,9 +81,7 @@ public class ParserManagement {
      * @param parser the parser manager to register with
      */
     private static void addAccounts(CafeParser parser){
-        RolesList<BaristaRole> barista = RolesList.newBaristaRoleList(BARISTA_DIR);
-        RolesList<ManagerRole> manager = RolesList.newManagerRoleList(MANAGER_DIR);
-        AuthenticationParser accountsParser = new AuthenticationParser(manager, barista);
+        AuthenticationParser accountsParser = new AuthenticationParser(EMPLOYEE_DIR);
 
         parser.addParser(accountsParser);
     }
@@ -95,7 +89,7 @@ public class ParserManagement {
     /**
      * Registers order-related parsers: pending and historical orders
      *
-     * @param parserthe parser manager to register with
+     * @param parser the parser manager to register with
      */
     private static void addOrders(CafeParser parser){
         Parsers pendingOrders = CustomerOrderParser.create(PENDING_DIR);
