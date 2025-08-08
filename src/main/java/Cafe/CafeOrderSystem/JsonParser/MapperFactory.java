@@ -5,6 +5,7 @@ import Cafe.CafeOrderSystem.CatalogItems.BeverageType;
 import Cafe.CafeOrderSystem.CatalogItems.Ingredients;
 import Cafe.CafeOrderSystem.CatalogItems.MenuType;
 import Cafe.CafeOrderSystem.Inventory.Ingredients.Ingredient;
+import Cafe.CafeOrderSystem.Inventory.Ingredients.IngredientItem;
 import Cafe.CafeOrderSystem.JsonParser.KeyDeserializer.*;
 import Cafe.CafeOrderSystem.JsonParser.KeySerializer.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -38,7 +39,7 @@ public class MapperFactory {
     public static ObjectMapper createMapper() {
         ObjectMapper mapper = new ObjectMapper();
         SimpleModule module = new SimpleModule();
-        module.addKeyDeserializer(Ingredient.class, new IngredientKeyDeserializer());
+        module.addKeyDeserializer(Ingredients.class, new IngredientKeyDeserializer());
         module.addKeyDeserializer(MenuType.class, new MenuTypeDeserializer());
         module.addKeyDeserializer(BeverageType.class, new BeverageTypeDeserializer());
         module.addKeyDeserializer(BeverageSize.class, new BeverageSizeDeserializer());
@@ -48,7 +49,7 @@ public class MapperFactory {
         module.addDeserializer(MenuType.class, new MenuTypeValueDeserializer());
         module.addDeserializer(BeverageSize.class, new BeverageSizeValueDeserializer());
 
-        module.addKeySerializer(Ingredient.class, new ItemKeySerializer());
+        module.addKeySerializer(IngredientItem.class, new ItemKeySerializer());
         module.addKeySerializer(MenuType.class, new ItemKeySerializer());
         module.addKeySerializer(BeverageType.class, new ItemKeySerializer());
         module.addKeySerializer(BeverageSize.class, new ItemKeySerializer());
