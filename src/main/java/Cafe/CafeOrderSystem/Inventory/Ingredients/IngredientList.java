@@ -6,11 +6,10 @@ import Cafe.CafeOrderSystem.JsonParser.JsonCollection;
 public class IngredientList extends JsonCollection<IngredientItem> {
     /**
      * This class is responsible for creating and managing a collection of Ingredients
-     * @param fileParser The relevant parser for the object
      * @param folderPath The folder from which the collection fills and writes to
      */
-    public IngredientList(ItemsParser fileParser, String folderPath) {
-        super(fileParser, folderPath, IngredientItem.class);
+    public IngredientList(String folderPath) {
+        super(new ItemsParser(), folderPath, IngredientItem.class);
     }
 
     public boolean modifyQuantity(IngredientItem targetIngre, int amount){

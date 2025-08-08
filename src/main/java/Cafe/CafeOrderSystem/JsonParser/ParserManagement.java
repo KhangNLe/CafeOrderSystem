@@ -1,5 +1,7 @@
 package Cafe.CafeOrderSystem.JsonParser;
 
+import Cafe.CafeOrderSystem.Inventory.Ingredients.IngredientList;
+import Cafe.CafeOrderSystem.Inventory.Inventory;
 import Cafe.CafeOrderSystem.JsonParser.Authentication.AuthenticationParser;
 import Cafe.CafeOrderSystem.JsonParser.CafeMenu.*;
 import Cafe.CafeOrderSystem.JsonParser.OrderItem.*;
@@ -70,7 +72,7 @@ public class ParserManagement {
      * @param cafeParser the parser manager to register with
      */
     private static void addInventoryParser(CafeParser cafeParser) {
-        Parsers inventory = InventoryParser.create(INVENTORY_DIR);
+        Parsers inventory = new IngredientList(INVENTORY_DIR);
 
         cafeParser.addParser(inventory);
     }
