@@ -1,34 +1,12 @@
 package Cafe.CafeOrderSystem.JsonParser.Authentication;
 
-import Cafe.CafeOrderSystem.JsonParser.Parsers;
-import Cafe.CafeOrderSystem.Roles.BaristaRole;
-import Cafe.CafeOrderSystem.Roles.ManagerRole;
-import Cafe.CafeOrderSystem.Roles.RolesList;
+import Cafe.CafeOrderSystem.JsonParser.ItemsParser;
+import Cafe.CafeOrderSystem.JsonParser.JsonCollection;
+import Cafe.CafeOrderSystem.Roles.CafeRole;
 
-public class AuthenticationParser implements Parsers {
-    private RolesList<ManagerRole> managerAccounts;
-    private RolesList<BaristaRole> baristaAccounts;
-
-    public AuthenticationParser(RolesList<ManagerRole> managerAccounts,
-                                RolesList<BaristaRole> baristaAccounts) {
-        this.managerAccounts = managerAccounts;
-        this.baristaAccounts = baristaAccounts;
+public class AuthenticationParser extends JsonCollection<CafeRole> {
+    public AuthenticationParser(String dirPath) {
+        super(new ItemsParser(), dirPath, CafeRole.class);
     }
 
-    public RolesList<ManagerRole> getManagerAcc(){
-        return managerAccounts;
-    }
-
-    public RolesList<BaristaRole> getBaristaAcc(){
-        return baristaAccounts;
-    }
-
-    @Override
-    public void startCollection(){
-        managerAccounts.startCollection();
-        baristaAccounts.startCollection();
-    }
-
-    @Override
-    public void endCollection(){}
 }

@@ -44,49 +44,39 @@ public class LoginController {
 
         @FXML
 private void handleLogin() throws IOException {
-    String role = roleComboBox.getValue();
-    String user = usernameField.getText();
+    String role = roleComboBox.getValue().trim();
+    String user = usernameField.getText().trim();
     String pass = passwordField.getText();
 
 
-    switch (role) {
-        case "Barista" -> authBarista(user.trim(), pass); // don't trim passwords
-        case "Manager" -> authManager(user.trim(), pass);
+    if (validateRole(role, user, pass)) {
+        switch (role) {
+            case "Barista" -> openBaristaScreen(); // don't trim passwords
+            case "Manager" -> openManagerScreen();
+        }
     }
 }
 
-private void authBarista(String user, String pass) {
-    EmployeesAuthentication auth = cafeShop.getEmployeesAuthentication();
-    try {
-        if(user.equals("") || pass.equals("") ){
-            throw new InvalidInputException("Username / Password must not be null");
-        }
-        boolean ok = auth.baristaLogin(user, pass);  // ✅ uses your existing backend
-        if (ok) {
-            openBaristaScreen();
-        } else {
-            throw new InvalidCredentialsException();
-        }
-    } catch (Exception e) {
-       popup.show("Error", e.getMessage(), e);
-    }
-}
 
-private void authManager(String user, String pass) {
-    EmployeesAuthentication auth = cafeShop.getEmployeesAuthentication();
-    try {
-        if(user.equals("") || pass.equals("") ){
-            throw new InvalidInputException("Username / Password must not be null");
+private boolean validateRole(String role, String userName, String password) {
+        try {
+            if (role.isEmpty() || userName.isEmpty() || password.isEmpty()) {
+                throw new InvalidInputException("Role or Username or password must not be empty");
+            }
+
+            EmployeesAuthentication auth = cafeShop.getEmployeesAuthentication();
+            if (!auth.validateCredentials(role, userName, password)) {
+                throw new InvalidInputException(
+                        String.format("Role %s username or password is incorrect", role)
+                );
+            }
+
+            return true;
+        } catch (InvalidInputException e){
+            popup.show("Error", e.getMessage(), e);
         }
-        boolean ok = auth.managerLogin(user, pass);  // ✅ uses your existing backend
-        if (ok) {
-            openManagerScreen();
-        } else {
-            throw new InvalidCredentialsException();
-        }
-    } catch (Exception e) {
-       popup.show("Error", e.getMessage(), e);
-    }
+
+        return false;
 }
         
 

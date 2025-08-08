@@ -48,7 +48,7 @@ public class MapperFactory {
         module.addDeserializer(MenuType.class, new MenuTypeValueDeserializer());
         module.addDeserializer(BeverageSize.class, new BeverageSizeValueDeserializer());
 
-        module.addKeySerializer(Ingredients.class, new ItemKeySerializer());
+        module.addKeySerializer(Ingredient.class, new ItemKeySerializer());
         module.addKeySerializer(MenuType.class, new ItemKeySerializer());
         module.addKeySerializer(BeverageType.class, new ItemKeySerializer());
         module.addKeySerializer(BeverageSize.class, new ItemKeySerializer());

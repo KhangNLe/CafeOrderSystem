@@ -1,6 +1,38 @@
 [ {
-  "orderDate" : "2025-08-01T10:53:28.421787027",
-  "orderID" : "2025-08-01-e886e9ad-7ac0-46cf-a0a7-45f5be1c5ea3",
+  "orderDate" : "2025-08-07T22:19:48.857949919",
+  "orderID" : "2025-08-07-acd04af6-0322-4c1c-b45b-0df32c21edc0",
+  "orderItems" : [ {
+    "item" : {
+      "itemID" : "B-C04",
+      "itemName" : "Americano",
+      "itemType" : "COFFEE",
+      "ingredientsCost" : {
+        "COFFEE_BEAN" : 4,
+        "MILK" : 0,
+        "SUGAR" : 0
+      },
+      "price" : 6.0
+    },
+    "quantity" : 1
+  }, {
+    "item" : {
+      "itemID" : "P-M03",
+      "itemName" : "Almond Muffin",
+      "itemType" : "MUFFIN",
+      "ingredientsCost" : {
+        "BUTTER" : 4,
+        "FLOUR" : 5,
+        "ALMOND" : 4
+      },
+      "price" : 10.0
+    },
+    "quantity" : 1
+  } ],
+  "orderStatus" : "PENDING",
+  "totalPrice" : 16.0
+}, {
+  "orderDate" : "2025-08-07T22:19:48.894910953",
+  "orderID" : "2025-08-07-c783b6a0-dbda-4992-bdf7-a1e5b1e5cd9d",
   "orderItems" : [ {
     "item" : {
       "itemID" : "P-M03",

@@ -83,8 +83,7 @@ public class Cafe {
         AuthenticationParser authenticationParser =
                 cafeShop.getParserType(AuthenticationParser.class);
 
-        return new EmployeesAuthentication(authenticationParser.getBaristaAcc(),
-                authenticationParser.getManagerAcc());
+        return new EmployeesAuthentication(authenticationParser);
     }
 
 }
