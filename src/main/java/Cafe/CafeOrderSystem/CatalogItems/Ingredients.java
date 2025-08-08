@@ -1,13 +1,16 @@
 package Cafe.CafeOrderSystem.CatalogItems;
 
 import Cafe.CafeOrderSystem.JsonParser.JsonKey;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Locale;
 
 public class Ingredients implements JsonKey {
     private final String name;
 
-    public Ingredients(String name) {
+    @JsonCreator
+    public Ingredients(@JsonProperty("ingredient") String name) {
         this.name = name.toUpperCase(Locale.ROOT);
     }
 
