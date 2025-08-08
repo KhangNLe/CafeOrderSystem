@@ -4,7 +4,6 @@ import Cafe.CafeOrderSystem.CatalogItems.BeverageSize;
 import Cafe.CafeOrderSystem.CatalogItems.BeverageType;
 import Cafe.CafeOrderSystem.CatalogItems.Ingredients;
 import Cafe.CafeOrderSystem.CatalogItems.MenuType;
-import Cafe.CafeOrderSystem.Inventory.Ingredients.Ingredient;
 import Cafe.CafeOrderSystem.Inventory.Ingredients.IngredientItem;
 import Cafe.CafeOrderSystem.JsonParser.KeyDeserializer.*;
 import Cafe.CafeOrderSystem.JsonParser.KeySerializer.*;
