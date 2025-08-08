@@ -31,6 +31,7 @@ import java.util.Queue;
 public class BaristaUiController extends Controller{
     private Cafe cafeShop;
     // @FXML private ListView<String> orderListView;
+    @FXML private Button changeStatusButton;
     @FXML private VBox menuItemsContainer;
     @FXML private ListView<CustomerOrder> orderListView;
     @FXML private Button checkoutButton;
@@ -69,6 +70,7 @@ private void closeOverlay() {
 
 @FXML
 private void handleMarkReady() {
+
     try {
         cafeShop.getOrdersManagement()
         .updateOrderStatus(selectedOrder.getOrderID(), OrderStatus.READY);
@@ -82,6 +84,8 @@ private void handleMarkReady() {
 
 @FXML
 private void selectOrder() {
+
+
     if (selectedOrder != null) {
         try {
             LoadFXML.loadOrderOverlay(
@@ -151,6 +155,8 @@ private void getPendingOrders() {
     orderTypeToggle = false;
     
 
+    changeStatusButton.setVisible(true);
+
     fulfilledOrdersButton.setStyle("-fx-background-color: transparent; -fx-text-fill: black;");
     pendingOrdersButton.setStyle("-fx-background-color: lightgreen; -fx-text-fill: black;");
 
@@ -175,7 +181,7 @@ private void getPendingOrders() {
 
 @FXML
 private void getFufilledOrders() {
-    if (orderTypeToggle) return;
+    changeStatusButton.setVisible(false);
 
     orderTypeToggle = true;
     fulfilledOrdersButton.setStyle("-fx-background-color: lightgreen; -fx-text-fill: black;");

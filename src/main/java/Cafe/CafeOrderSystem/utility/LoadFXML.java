@@ -5,6 +5,8 @@ import Cafe.CafeOrderSystem.Cafe;
 import Cafe.CafeOrderSystem.Orders.CustomerOrder;
 import Cafe.CafeOrderSystem.UI.BaristaUiController;
 import Cafe.CafeOrderSystem.UI.CustomerUiController;
+import Cafe.CafeOrderSystem.UI.HelloApplication;
+import Cafe.CafeOrderSystem.UI.HelloController;
 import Cafe.CafeOrderSystem.UI.LoginController;
 import Cafe.CafeOrderSystem.UI.ManagerController;
 import Cafe.CafeOrderSystem.UI.OrderOverlayController;
@@ -88,6 +90,11 @@ public class LoadFXML {
             loginController.setFacade(cafe);
             loginController.setPrimaryStage(stage);
         }
+        if (controller instanceof HelloController) {
+            HelloController helloController = (HelloController) controller;
+            helloController.setFacade(cafe);
+            helloController.setPrimaryStage(stage);
+        }
         if (controller instanceof OrderOverlayController) {
             OrderOverlayController overlayController = (OrderOverlayController) controller;
             overlayController.setFacade(cafe);
@@ -99,6 +106,7 @@ public class LoadFXML {
                 overlayController.setOrderData(order, stage, refreshCallback);
             }
         }
+         
         // Add other controller types as needed
     }
     

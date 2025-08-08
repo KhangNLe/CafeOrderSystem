@@ -5,6 +5,7 @@ public enum FxmlView {
     MANAGER("/Cafe/CafeOrderSystem/manager-view.fxml"),
     CUSTOMER("/Cafe/CafeOrderSystem/customer-view.fxml"),
     ORDER("/Cafe/CafeOrderSystem/order-overlay.fxml"),
+    HELLO("/Cafe/CafeOrderSystem/hello-view.fxml"),
 
     LOGIN("/Cafe/CafeOrderSystem/login.fxml");
     
