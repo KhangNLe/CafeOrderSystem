@@ -4,7 +4,6 @@ import Cafe.CafeOrderSystem.CatalogItems.BeverageSize;
 import Cafe.CafeOrderSystem.CatalogItems.BeverageType;
 import Cafe.CafeOrderSystem.CatalogItems.Ingredients;
 import Cafe.CafeOrderSystem.CatalogItems.MenuType;
-import Cafe.CafeOrderSystem.Inventory.Ingredients.Ingredient;
 import Cafe.CafeOrderSystem.Inventory.Ingredients.IngredientItem;
 import Cafe.CafeOrderSystem.JsonParser.KeyDeserializer.*;
 import Cafe.CafeOrderSystem.JsonParser.KeySerializer.*;
@@ -18,7 +17,8 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
  * <p>
  * This mapper supports:
  * <ul>
- *     <li>Key deserialization for complex map keys such as {@link Ingredient}, {@link MenuType}, {@link BeverageType}, and {@link BeverageSize}</li>
+ *     <li>Key deserialization for complex map keys such as {@link IngredientItem}, {@link MenuType}
+ *     , {@link BeverageType}, and {@link BeverageSize}</li>
  *     <li>Value deserialization for domain models like {@link Ingredients}, {@link MenuType}, and {@link BeverageSize}</li>
  *     <li>Custom serializers and key serializers for those same types</li>
  * </ul>
