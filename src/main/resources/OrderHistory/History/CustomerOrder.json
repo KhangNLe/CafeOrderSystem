@@ -234,4 +234,42 @@
   } ],
   "orderStatus" : "READY",
   "totalPrice" : 16.67
+}, {
+  "orderDate" : "2025-08-01T10:53:28.421787027",
+  "orderID" : "2025-08-01-e886e9ad-7ac0-46cf-a0a7-45f5be1c5ea3",
+  "orderItems" : [ {
+    "item" : {
+      "itemID" : "P-M03",
+      "itemName" : "Almond Muffin",
+      "itemType" : "MUFFIN",
+      "ingredientsCost" : {
+        "BUTTER" : 4,
+        "FLOUR" : 5,
+        "ALMOND" : 4
+      },
+      "price" : 10.0
+    },
+    "quantity" : 1
+  } ],
+  "orderStatus" : "READY",
+  "totalPrice" : 10.0
+}, {
+  "orderDate" : "2025-08-01T10:53:28.421787027",
+  "orderID" : "2025-08-01-e886e9ad-7ac0-46cf-a0a7-45f5be1c5ea3",
+  "orderItems" : [ {
+    "item" : {
+      "itemID" : "P-M03",
+      "itemName" : "Almond Muffin",
+      "itemType" : "MUFFIN",
+      "ingredientsCost" : {
+        "BUTTER" : 4,
+        "FLOUR" : 5,
+        "ALMOND" : 4
+      },
+      "price" : 10.0
+    },
+    "quantity" : 1
+  } ],
+  "orderStatus" : "READY",
+  "totalPrice" : 10.0
 } ]
