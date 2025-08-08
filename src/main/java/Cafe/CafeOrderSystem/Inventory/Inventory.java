@@ -1,6 +1,7 @@
 package Cafe.CafeOrderSystem.Inventory;
 
 import Cafe.CafeOrderSystem.Inventory.Ingredients.Ingredient;
+import Cafe.CafeOrderSystem.Inventory.Ingredients.IngredientItem;
 import Cafe.CafeOrderSystem.Inventory.Ingredients.IngredientList;
 import Cafe.CafeOrderSystem.JsonParser.ItemsParser;
 
@@ -24,13 +25,17 @@ public class Inventory {
      * @param desiredIngr ingredient to modify
      * @return
      */
-    public boolean modifyInventory(int changeAmount, Ingredient desiredIngr){
+    public boolean modifyInventory(int changeAmount, IngredientItem desiredIngr){
         if(!inventoryQuant.modifyQuantity(desiredIngr, changeAmount)){
             return false; //error message
         }
 
         return true; //successful modification
     }
+
+    /**
+     * Returns the list
+     */
 
     /**
      * Saves data to Json Files
