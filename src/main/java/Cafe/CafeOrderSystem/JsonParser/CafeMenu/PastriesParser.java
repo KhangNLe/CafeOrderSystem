@@ -12,7 +12,4 @@ public class PastriesParser extends JsonCollection<PastriesItem> {
     public static PastriesParser create(String dirPath){
         return new PastriesParser(new ItemsParser(), dirPath, PastriesItem.class);
     }
-
-    @Override
-    public void endCollection() {}
 }

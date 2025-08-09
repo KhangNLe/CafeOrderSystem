@@ -12,7 +12,4 @@ public class BeverageParser extends JsonCollection<BeverageItem> {
     public static BeverageParser create(String dirPath) {
         return new BeverageParser(new ItemsParser(), dirPath, BeverageItem.class);
     }
-
-    @Override
-    public void endCollection(){}
 }

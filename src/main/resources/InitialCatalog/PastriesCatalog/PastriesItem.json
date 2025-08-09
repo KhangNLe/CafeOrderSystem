@@ -1,0 +1,337 @@
+[ {
+  "id" : "P-M01",
+  "name" : "Sugar Muffin",
+  "type" : "MUFFIN",
+  "cost" : {
+    "price" : 8.0,
+    "ingredients" : {
+      "BUTTER" : 4,
+      "FLOUR" : 5,
+      "SUGAR" : 3
+    }
+  }
+}, {
+  "id" : "P-M02",
+  "name" : "Chocolate Muffin",
+  "type" : "MUFFIN",
+  "cost" : {
+    "price" : 10.0,
+    "ingredients" : {
+      "BUTTER" : 4,
+      "FLOUR" : 5,
+      "CHOCOLATE_CHIP" : 4
+    }
+  }
+}, {
+  "id" : "P-M03",
+  "name" : "Almond Muffin",
+  "type" : "MUFFIN",
+  "cost" : {
+    "price" : 10.0,
+    "ingredients" : {
+      "BUTTER" : 4,
+      "FLOUR" : 5,
+      "ALMOND" : 4
+    }
+  }
+}, {
+  "id" : "P-M04",
+  "name" : "Blueberry Muffin",
+  "type" : "MUFFIN",
+  "cost" : {
+    "price" : 11.0,
+    "ingredients" : {
+      "BUTTER" : 4,
+      "FLOUR" : 5,
+      "BLUEBERRY" : 4
+    }
+  }
+}, {
+  "id" : "P-M05",
+  "name" : "Strawberry Muffin",
+  "type" : "MUFFIN",
+  "cost" : {
+    "price" : 10.0,
+    "ingredients" : {
+      "BUTTER" : 4,
+      "FLOUR" : 5,
+      "STRAWBERRY" : 4
+    }
+  }
+}, {
+  "id" : "P-Cr01",
+  "name" : "Butter Croissant",
+  "type" : "CROISSANT",
+  "cost" : {
+    "price" : 5.0,
+    "ingredients" : {
+      "BUTTER" : 3,
+      "FLOUR" : 4
+    }
+  }
+}, {
+  "id" : "P-Cr02",
+  "name" : "Chocolate Croissant",
+  "type" : "CROISSANT",
+  "cost" : {
+    "price" : 7.0,
+    "ingredients" : {
+      "BUTTER" : 3,
+      "FLOUR" : 4,
+      "CHOCOLATE_CHIP" : 3
+    }
+  }
+}, {
+  "id" : "P-Cr03",
+  "name" : "Almond Croissant",
+  "type" : "CROISSANT",
+  "cost" : {
+    "price" : 7.5,
+    "ingredients" : {
+      "BUTTER" : 3,
+      "FLOUR" : 4,
+      "ALMOND" : 4
+    }
+  }
+}, {
+  "id" : "P-Cr04",
+  "name" : "Blueberry Croissant",
+  "type" : "CROISSANT",
+  "cost" : {
+    "price" : 6.75,
+    "ingredients" : {
+      "BUTTER" : 3,
+      "FLOUR" : 4,
+      "BLUEBERRY" : 3
+    }
+  }
+}, {
+  "id" : "P-Cr05",
+  "name" : "Strawberry Croissant",
+  "type" : "CROISSANT",
+  "cost" : {
+    "price" : 6.75,
+    "ingredients" : {
+      "BUTTER" : 3,
+      "FLOUR" : 4,
+      "STRAWBERRY" : 3
+    }
+  }
+}, {
+  "id" : "P-M01",
+  "name" : "Sugar Muffin",
+  "type" : "MUFFIN",
+  "cost" : {
+    "price" : 8.0,
+    "ingredients" : {
+      "BUTTER" : 4,
+      "FLOUR" : 5,
+      "SUGAR" : 3
+    }
+  }
+}, {
+  "id" : "P-M02",
+  "name" : "Chocolate Muffin",
+  "type" : "MUFFIN",
+  "cost" : {
+    "price" : 10.0,
+    "ingredients" : {
+      "BUTTER" : 4,
+      "FLOUR" : 5,
+      "CHOCOLATE_CHIP" : 4
+    }
+  }
+}, {
+  "id" : "P-M03",
+  "name" : "Almond Muffin",
+  "type" : "MUFFIN",
+  "cost" : {
+    "price" : 10.0,
+    "ingredients" : {
+      "BUTTER" : 4,
+      "FLOUR" : 5,
+      "ALMOND" : 4
+    }
+  }
+}, {
+  "id" : "P-M04",
+  "name" : "Blueberry Muffin",
+  "type" : "MUFFIN",
+  "cost" : {
+    "price" : 11.0,
+    "ingredients" : {
+      "BUTTER" : 4,
+      "FLOUR" : 5,
+      "BLUEBERRY" : 4
+    }
+  }
+}, {
+  "id" : "P-M05",
+  "name" : "Strawberry Muffin",
+  "type" : "MUFFIN",
+  "cost" : {
+    "price" : 10.0,
+    "ingredients" : {
+      "BUTTER" : 4,
+      "FLOUR" : 5,
+      "STRAWBERRY" : 4
+    }
+  }
+}, {
+  "id" : "P-Cr01",
+  "name" : "Butter Croissant",
+  "type" : "CROISSANT",
+  "cost" : {
+    "price" : 5.0,
+    "ingredients" : {
+      "BUTTER" : 3,
+      "FLOUR" : 4
+    }
+  }
+}, {
+  "id" : "P-Cr02",
+  "name" : "Chocolate Croissant",
+  "type" : "CROISSANT",
+  "cost" : {
+    "price" : 7.0,
+    "ingredients" : {
+      "BUTTER" : 3,
+      "FLOUR" : 4,
+      "CHOCOLATE_CHIP" : 3
+    }
+  }
+}, {
+  "id" : "P-Cr03",
+  "name" : "Almond Croissant",
+  "type" : "CROISSANT",
+  "cost" : {
+    "price" : 7.5,
+    "ingredients" : {
+      "BUTTER" : 3,
+      "FLOUR" : 4,
+      "ALMOND" : 4
+    }
+  }
+}, {
+  "id" : "P-Cr04",
+  "name" : "Blueberry Croissant",
+  "type" : "CROISSANT",
+  "cost" : {
+    "price" : 6.75,
+    "ingredients" : {
+      "BUTTER" : 3,
+      "FLOUR" : 4,
+      "BLUEBERRY" : 3
+    }
+  }
+}, {
+  "id" : "P-Cr05",
+  "name" : "Strawberry Croissant",
+  "type" : "CROISSANT",
+  "cost" : {
+    "price" : 6.75,
+    "ingredients" : {
+      "BUTTER" : 3,
+      "FLOUR" : 4,
+      "STRAWBERRY" : 3
+    }
+  }
+}, {
+  "id" : "P-C01",
+  "name" : "Sugar Cookie",
+  "type" : "COOKIE",
+  "cost" : {
+    "price" : 2.0,
+    "ingredients" : {
+      "BUTTER" : 1,
+      "FLOUR" : 1,
+      "SUGAR" : 1
+    }
+  }
+}, {
+  "id" : "P-C02",
+  "name" : "Chocolate chip cookie",
+  "type" : "COOKIE",
+  "cost" : {
+    "price" : 4.0,
+    "ingredients" : {
+      "BUTTER" : 1,
+      "FLOUR" : 1,
+      "CHOCOLATE_CHIP" : 1
+    }
+  }
+}, {
+  "id" : "P-C03",
+  "name" : "Oatmeal Raisin Cookie",
+  "type" : "COOKIE",
+  "cost" : {
+    "price" : 4.0,
+    "ingredients" : {
+      "BUTTER" : 1,
+      "FLOUR" : 1,
+      "OATMEAL" : 1,
+      "RAISIN" : 1
+    }
+  }
+}, {
+  "id" : "P-C04",
+  "name" : "Almond Cookie",
+  "type" : "COOKIE",
+  "cost" : {
+    "price" : 4.5,
+    "ingredients" : {
+      "BUTTER" : 1,
+      "FLOUR" : 1,
+      "ALMOND" : 2
+    }
+  }
+}, {
+  "id" : "P-C01",
+  "name" : "Sugar Cookie",
+  "type" : "COOKIE",
+  "cost" : {
+    "price" : 2.0,
+    "ingredients" : {
+      "BUTTER" : 1,
+      "FLOUR" : 1,
+      "SUGAR" : 1
+    }
+  }
+}, {
+  "id" : "P-C02",
+  "name" : "Chocolate chip cookie",
+  "type" : "COOKIE",
+  "cost" : {
+    "price" : 4.0,
+    "ingredients" : {
+      "BUTTER" : 1,
+      "FLOUR" : 1,
+      "CHOCOLATE_CHIP" : 1
+    }
+  }
+}, {
+  "id" : "P-C03",
+  "name" : "Oatmeal Raisin Cookie",
+  "type" : "COOKIE",
+  "cost" : {
+    "price" : 4.0,
+    "ingredients" : {
+      "BUTTER" : 1,
+      "FLOUR" : 1,
+      "OATMEAL" : 1,
+      "RAISIN" : 1
+    }
+  }
+}, {
+  "id" : "P-C04",
+  "name" : "Almond Cookie",
+  "type" : "COOKIE",
+  "cost" : {
+    "price" : 4.5,
+    "ingredients" : {
+      "BUTTER" : 1,
+      "FLOUR" : 1,
+      "ALMOND" : 2
+    }
+  }
+} ]
