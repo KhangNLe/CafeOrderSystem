@@ -1,11 +1,9 @@
 package Cafe.CafeOrderSystem.JsonParser;
 
 import Cafe.CafeOrderSystem.Exceptions.BackendErrorException;
-import Cafe.CafeOrderSystem.Inventory.Ingredients.Ingredient;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SequenceWriter;
-import com.fasterxml.jackson.databind.module.SimpleModule;
 
 import java.io.*;
 import java.util.*;
@@ -59,9 +57,15 @@ public class ItemsParser {
      */
     public <T> void writeFile(File file, List<T> items){
         try {
-            SequenceWriter writer = mapper.writerWithDefaultPrettyPrinter().writeValues(file);
-            writer.write(items);
-            writer.close();
+            if (items.isEmpty()){
+                try (Writer writer = new FileWriter(file)) {
+                    writer.write("[ ]");
+                }
+            } else {
+                SequenceWriter writer = mapper.writerWithDefaultPrettyPrinter().writeValues(file);
+                writer.write(items);
+                writer.close();
+            }
         } catch (IOException e) {
             throw new BackendErrorException(
                     String.format("Failed to write pending order to file '%s', reason: %s",

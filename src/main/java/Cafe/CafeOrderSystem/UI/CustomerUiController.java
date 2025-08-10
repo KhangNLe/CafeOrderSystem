@@ -1,7 +1,13 @@
 package Cafe.CafeOrderSystem.UI;
 
 import Cafe.CafeOrderSystem.Cafe;
+import Cafe.CafeOrderSystem.Menu.CafeMenu;
+import Cafe.CafeOrderSystem.Menu.Items.BeverageItem;
+import Cafe.CafeOrderSystem.Menu.Items.PastriesItem;
+import Cafe.CafeOrderSystem.utility.FxmlView;
+import Cafe.CafeOrderSystem.utility.LoadFXML;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
@@ -10,11 +16,12 @@ import javafx.scene.Scene;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-
+// WORK ON IT
 public class CustomerUiController {
     private Cafe cafeShop;
-   // @FXML private ListView<MenuItemData> menuListView;
     @FXML private Button checkoutButton;
     @FXML private Button logoutButton;
 
@@ -28,22 +35,23 @@ public class CustomerUiController {
         this.primaryStage = stage;
     }
 
+
+
     @FXML
     private void handleLogOut() throws IOException {
-        // Load hello screen first
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Cafe/CafeOrderSystem/hello-view.fxml"));
-        Parent root = loader.load();
 
-        // Get the stage from the button
-        Stage stage = (Stage) logoutButton.getScene().getWindow();
-
-        // Get the controller and pass the stage forward
-        HelloController helloController = loader.getController();
-        helloController.setPrimaryStage(stage);
-
-        // Set the scene
-        stage.setScene(new Scene(root, 800, 600));
-        stage.setTitle("Welcome");
+        try {
+            new LoadFXML(
+                    cafeShop,    // Your Cafe facade instance
+                    primaryStage,     // pass existing stage
+                    FxmlView.HELLO,   //access enum
+                    800,            // Width
+                    600             // Height
+            ).load();
+        } catch (IOException e) {
+            // Handle error (show dialog, log, etc.)
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -51,17 +59,4 @@ public class CustomerUiController {
         System.out.println("Checkout clicked!");
     }
 
-    /*
-    @FXML
-    public void initialize() {
-        menuListView.setCellFactory(listView -> new MenuItemCellController());
-
-        menuListView.setItems(FXCollections.observableArrayList(
-                new MenuItemData("Latte", "/images/latte-small.jpg"),
-                new MenuItemData("Cappuccino", "/images/cappuccinos.jpg"),
-                new MenuItemData("Croissant", "/images/croissants.jpg")
-        ));
-    }
-
-     */
 }

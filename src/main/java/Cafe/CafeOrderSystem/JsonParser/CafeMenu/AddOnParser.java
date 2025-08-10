@@ -12,7 +12,4 @@ public class AddOnParser extends JsonCollection<CustomItem> {
     public static AddOnParser create(String dirPath) {
         return new AddOnParser(new ItemsParser(), dirPath, CustomItem.class);
     }
-
-    @Override
-    public void endCollection(){}
 }

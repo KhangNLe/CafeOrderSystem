@@ -87,6 +87,15 @@ public class MenuManagement {
         return cafeMenu.retrievePastriesItem(idx);
     }
 
+    public Map<BeverageItem, List<CustomItem>> getBeverageWithCustomizeOption(){
+        Map<BeverageItem, List<CustomItem>> items = new HashMap<>();
+
+        initializeMap(items, cafeMenu.getBeverageItems());
+        getAddOnForBeverage(items, cafeMenu.getBeverageAddOn());
+
+        return items;
+    }
+
     /**
      * Retrieves a specific add-on item by its index
      *
@@ -209,6 +218,28 @@ public class MenuManagement {
             throw new InvalidModifyingException(
                     String.format("Expected a positive value for price. Got %.2f", price)
             );
+        }
+    }
+
+    private void initializeMap(Map<BeverageItem, List<CustomItem>> items,
+                               List<BeverageItem> beverageItems){
+        beverageItems.forEach(item -> {
+            items.put(item, new ArrayList<>());
+        });
+    }
+
+    private void getAddOnForBeverage(Map<BeverageItem, List<CustomItem>> items,
+                                     List<CustomItem> addOnItems){
+        for (BeverageItem beverage : items.keySet()) {
+            List<CustomItem> addOns = new ArrayList<>();
+
+            for (CustomItem customItem : addOnItems) {
+                if (customItem.applicableTo().equals(beverage.type())){
+                    addOns.add(customItem);
+                }
+            }
+
+            items.put(beverage, addOns);
         }
     }
 }

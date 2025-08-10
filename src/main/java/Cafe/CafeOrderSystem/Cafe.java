@@ -1,5 +1,8 @@
 package Cafe.CafeOrderSystem;
 
+import Cafe.CafeOrderSystem.Inventory.Ingredients.IngredientItem;
+import Cafe.CafeOrderSystem.Inventory.Ingredients.IngredientList;
+import Cafe.CafeOrderSystem.Inventory.Inventory;
 import Cafe.CafeOrderSystem.JsonParser.Authentication.AuthenticationParser;
 import Cafe.CafeOrderSystem.JsonParser.CafeMenu.AddOnParser;
 import Cafe.CafeOrderSystem.JsonParser.CafeMenu.BeverageParser;
@@ -21,12 +24,15 @@ public class Cafe {
     private final MenuManagement  menuManagement;
     private final EmployeesAuthentication  employees;
     private final OrdersManagement ordersManagement;
+    private final Inventory cafeInventory;
 
     public Cafe(){
         cafeShop = ParserManagement.initializeCafeParser();
         menuManagement = createMenuManagement();
         employees = getEmployeeAccounts();
         ordersManagement = createOrdersManagement();
+        cafeInventory = createInventoryManagement();
+
     }
 
     public void startShop(){
@@ -61,6 +67,10 @@ public class Cafe {
         return ordersManagement;
     }
 
+    public IngredientList getIngredientList(){return cafeInventory.getList();}
+
+    public boolean modifyIngredient(IngredientItem ingredient, int amountChanged){return cafeInventory.modifyInventory(amountChanged, ingredient);}
+
     private MenuManagement createMenuManagement(){
         BeverageParser beverageParser = cafeShop.getParserType(BeverageParser.class);
         PastriesParser pastriesParser = cafeShop.getParserType(PastriesParser.class);
@@ -83,8 +93,14 @@ public class Cafe {
         AuthenticationParser authenticationParser =
                 cafeShop.getParserType(AuthenticationParser.class);
 
-        return new EmployeesAuthentication(authenticationParser.getBaristaAcc(),
-                authenticationParser.getManagerAcc());
+        return new EmployeesAuthentication(authenticationParser);
+    }
+
+    private Inventory createInventoryManagement(){
+        IngredientList ingredientList = cafeShop.getParserType(IngredientList.class);
+        Inventory returnInv = new Inventory(ingredientList);
+
+        return returnInv;
     }
 
 }

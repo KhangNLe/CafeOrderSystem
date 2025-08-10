@@ -4,6 +4,7 @@ import Cafe.CafeOrderSystem.Cafe;
 import Cafe.CafeOrderSystem.utility.FxmlView;
 import Cafe.CafeOrderSystem.utility.LoadFXML;
 import javafx.application.Application;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -21,16 +22,43 @@ import javafx.stage.Stage;
 public class HelloApplication extends Application {
     private Cafe cafeShop;
     private Stage primaryStage;
+    
     @Override
     public void start(Stage primaryStage) throws IOException {
-        cafeShop = new Cafe();
+        // Initialize cafe first
+        this.cafeShop = new Cafe();
         cafeShop.startShop();
         this.primaryStage = primaryStage;
-    try {
+        
+        try {
+            new LoadFXML(
+                cafeShop,
+                primaryStage,
+                FxmlView.HELLO,
+                800,
+                600
+            ).load();
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw e; // Re-throw to fail fast during development
+        }
+    }
+
+    public void setFacade(Cafe cafeShop){
+        this.cafeShop = cafeShop;
+    }
+
+    public void setPrimaryStage(Stage stage) {
+        this.primaryStage = stage;
+    }
+
+
+    private void openLoginScreen() throws IOException {
+        try {
         new LoadFXML(
             cafeShop,    // Your Cafe facade instance
             primaryStage,     // pass existing stage
-            FxmlView.LOGIN,   //access enum
+            FxmlView.HELLO,   //access enum
             800,            // Width
             600             // Height
         ).load();
@@ -39,12 +67,11 @@ public class HelloApplication extends Application {
         e.printStackTrace();
         }
 
-    openLoginScreen();
-    }
 
-    private void openLoginScreen() throws IOException {
-    
     }
+    
+       
+    
 
     @Override
     public void stop(){

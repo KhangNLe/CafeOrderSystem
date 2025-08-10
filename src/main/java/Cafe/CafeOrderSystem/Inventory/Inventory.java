@@ -1,21 +1,20 @@
 package Cafe.CafeOrderSystem.Inventory;
 
-import Cafe.CafeOrderSystem.Inventory.Ingredients.Ingredient;
+import Cafe.CafeOrderSystem.CatalogItems.Ingredients;
+import Cafe.CafeOrderSystem.Inventory.Ingredients.IngredientItem;
 import Cafe.CafeOrderSystem.Inventory.Ingredients.IngredientList;
 import Cafe.CafeOrderSystem.JsonParser.ItemsParser;
 
-public class Inventory {
+public class Inventory  {
     private IngredientList inventoryQuant;
-    private String inventoryPath = "";
 
     /**
      * class is responsible for holding a collection of Ingredients, and the modification of
      * the list
      */
-    public Inventory(){
+    public Inventory(IngredientList inList){
         ItemsParser parser = new ItemsParser();
-        this.inventoryQuant = new IngredientList(parser, inventoryPath);
-        inventoryQuant.startCollection();//automatically populates inventory
+        this.inventoryQuant = inList;
     }
 
     /**
@@ -24,7 +23,7 @@ public class Inventory {
      * @param desiredIngr ingredient to modify
      * @return
      */
-    public boolean modifyInventory(int changeAmount, Ingredient desiredIngr){
+    public boolean modifyInventory(int changeAmount, IngredientItem desiredIngr){
         if(!inventoryQuant.modifyQuantity(desiredIngr, changeAmount)){
             return false; //error message
         }
@@ -33,11 +32,10 @@ public class Inventory {
     }
 
     /**
-     * Saves data to Json Files
+     * Returns the list
      */
-    public void shutDownInventory(){
-        inventoryQuant.endCollection();
+    public IngredientList getList(){
+        return this.inventoryQuant;
     }
-
 
 }
