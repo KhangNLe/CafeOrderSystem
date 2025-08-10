@@ -19,4 +19,5 @@
     </GridPane>
     
     <Button text="Login" onAction="#handleLogin" style="-fx-font-size: 14;"/>
+    <Button text="Quit" onAction="#handleLogout" style="-fx-font-size: 14;"/>
 </VBox>
