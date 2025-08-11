@@ -8,7 +8,7 @@
         <Label text="Place Your Order" style="-fx-font-size: 20; -fx-padding: 10;"/>
     </top>
     <center>
-        <ListView fx:id="menuListView" layoutX="20" layoutY="20" prefWidth="300" prefHeight="400"/>
+        <ListView fx:id="beverageListView" layoutX="20" layoutY="20" prefWidth="300" prefHeight="400" onMouseClicked="#handleListClick"/>
     </center>
     <bottom>
         <HBox spacing="10" alignment="CENTER"> <!-- 10px between buttons -->

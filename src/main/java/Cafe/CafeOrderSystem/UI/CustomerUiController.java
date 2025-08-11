@@ -4,8 +4,12 @@ import Cafe.CafeOrderSystem.Cafe;
 import Cafe.CafeOrderSystem.Menu.CafeMenu;
 import Cafe.CafeOrderSystem.Menu.Items.BeverageItem;
 import Cafe.CafeOrderSystem.Menu.Items.PastriesItem;
+import Cafe.CafeOrderSystem.Menu.MenuManagement;
 import Cafe.CafeOrderSystem.utility.FxmlView;
 import Cafe.CafeOrderSystem.utility.LoadFXML;
+import javafx.application.Platform;
+import javafx.scene.control.ListCell;
+import javafx.scene.input.MouseEvent;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -24,6 +28,10 @@ public class CustomerUiController {
     private Cafe cafeShop;
     @FXML private Button checkoutButton;
     @FXML private Button logoutButton;
+    @FXML private ListView<String> beverageListView;
+    @FXML private ListView<PastriesItem> pastriesListView;
+
+
 
     private Stage primaryStage;
 
@@ -36,6 +44,57 @@ public class CustomerUiController {
     }
 
 
+    @FXML
+    public void initialize() {
+        Platform.runLater(() -> {
+            beverageListView.setCellFactory(lv -> new ListCell<String>() {
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    setText(empty || item == null ? null : item);
+                }
+            });
+
+            // Display beverages and pastries when the UI is initialized
+            displayBeverages();
+        });
+    }
+
+
+    @FXML
+    private void handleListClick(MouseEvent event) {
+
+        if (event.getClickCount() == 2) { // double-click
+
+            String selected = beverageListView.getSelectionModel().getSelectedItem();
+
+            if (selected != null) {
+
+                System.out.println("Double-Clicked: " + selected);
+
+            }
+
+        }
+
+    }
+
+
+
+
+    public void displayBeverages() {
+        // Get the list of beverage items from the cafe menu management
+        MenuManagement menuManagement = cafeShop.getCafeMenuManagement();
+
+        List<BeverageItem> observableBeverages = menuManagement.getBeverageItems();
+
+        for (BeverageItem beverage : observableBeverages) {
+            beverageListView.getItems().add(beverage.getShortSummary());
+        }
+
+    }
+
+
+    // ADD: Validate Function for Menu Item if Out of Order
 
     @FXML
     private void handleLogOut() throws IOException {

@@ -27,7 +27,8 @@
         "SUGAR" : 0
       }
     }
-  }
+  },
+  "shortSummary" : "Latte (COFFEE)"
 }, {
   "id" : "B-C02",
   "name" : "Cappuccino",
@@ -57,7 +58,8 @@
         "SUGAR" : 0
       }
     }
-  }
+  },
+  "shortSummary" : "Cappuccino (COFFEE)"
 }, {
   "id" : "B-C03",
   "name" : "Espresso",
@@ -87,7 +89,8 @@
         "SUGAR" : 0
       }
     }
-  }
+  },
+  "shortSummary" : "Espresso (COFFEE)"
 }, {
   "id" : "B-C04",
   "name" : "Americano",
@@ -117,7 +120,8 @@
         "SUGAR" : 0
       }
     }
-  }
+  },
+  "shortSummary" : "Americano (COFFEE)"
 }, {
   "id" : "B-T01",
   "name" : "Green Tea",
@@ -141,7 +145,8 @@
         "TEA_LEAVES_GREEN" : 4
       }
     }
-  }
+  },
+  "shortSummary" : "Green Tea (TEA_GREEN)"
 }, {
   "id" : "B-T02",
   "name" : "Black Tea",
@@ -165,7 +170,8 @@
         "TEA_LEAVES_BLACK" : 4
       }
     }
-  }
+  },
+  "shortSummary" : "Black Tea (TEA_BLACK)"
 }, {
   "id" : "B-T03",
   "name" : "Herbal Tea",
@@ -189,7 +195,8 @@
         "TEA_LEAVES_HERBAL" : 7
       }
     }
-  }
+  },
+  "shortSummary" : "Herbal Tea (TEA_HERBAL)"
 }, {
   "id" : "B-C01",
   "name" : "Latte",
@@ -219,7 +226,8 @@
         "SUGAR" : 0
       }
     }
-  }
+  },
+  "shortSummary" : "Latte (COFFEE)"
 }, {
   "id" : "B-C02",
   "name" : "Cappuccino",
@@ -249,7 +257,8 @@
         "SUGAR" : 0
       }
     }
-  }
+  },
+  "shortSummary" : "Cappuccino (COFFEE)"
 }, {
   "id" : "B-C03",
   "name" : "Espresso",
@@ -279,7 +288,8 @@
         "SUGAR" : 0
       }
     }
-  }
+  },
+  "shortSummary" : "Espresso (COFFEE)"
 }, {
   "id" : "B-C04",
   "name" : "Americano",
@@ -309,7 +319,8 @@
         "SUGAR" : 0
       }
     }
-  }
+  },
+  "shortSummary" : "Americano (COFFEE)"
 }, {
   "id" : "B-T01",
   "name" : "Green Tea",
@@ -333,7 +344,8 @@
         "TEA_LEAVES_GREEN" : 4
       }
     }
-  }
+  },
+  "shortSummary" : "Green Tea (TEA_GREEN)"
 }, {
   "id" : "B-T02",
   "name" : "Black Tea",
@@ -357,7 +369,8 @@
         "TEA_LEAVES_BLACK" : 4
       }
     }
-  }
+  },
+  "shortSummary" : "Black Tea (TEA_BLACK)"
 }, {
   "id" : "B-T03",
   "name" : "Herbal Tea",
@@ -381,5 +394,6 @@
         "TEA_LEAVES_HERBAL" : 7
       }
     }
-  }
+  },
+  "shortSummary" : "Herbal Tea (TEA_HERBAL)"
 } ]
