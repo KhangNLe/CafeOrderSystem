@@ -99,6 +99,7 @@ public class CafeMenu {
     public void addPastriesItem(PastriesItem item){
         pastryItems.addObject(item);
     }
+    
 
     /**
      * Retrieves a beverage item by index
@@ -151,4 +152,21 @@ public class CafeMenu {
         }
         return item;
     }
+
+    public void setBeverageItem(int index, BeverageItem item) {
+    List<BeverageItem> items = getBeverageItems(); // or whatever your field/getter is
+    if (index < 0 || index >= items.size()) {
+        throw new IllegalArgumentException("Invalid beverage index: " + index);
+    }
+    items.set(index, item);
+    }
+
+    public void setPastryItem(int index, PastriesItem item) {
+    List<PastriesItem> items = getPastriesItems();
+    if (index < 0 || index >= items.size()) {
+        throw new IllegalArgumentException("Invalid pastry index: " + index);
+    }
+    items.set(index, item);
+    // trigger persistence if your add/remove did (e.g., writePastriesJson())
+}
 }

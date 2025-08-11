@@ -117,17 +117,44 @@ public class MenuManagement {
      * @param price the new price for the size
      * @throws InvalidModifyingException if the ingredient map or price is invalid
      */
-    public void modifyBeverageSize(int beverageIdx, BeverageSize size,
-                                   Map<Ingredients, Integer> ingredientCost, double price){
+    // public void modifyBeverageSize(int beverageIdx, BeverageSize size,
+    //                                Map<Ingredients, Integer> ingredientCost, double price){
 
-        validateIngredientCost(ingredientCost);
-        validatePrice(price);
-        BeverageItem beverageItem = getBeverageItem(beverageIdx);
-        BeverageItem modifiedItem = beverageModifier.modifyItemSize(size, ingredientCost,
-                beverageItem, price);
-        cafeMenu.removeBeverageItem(beverageIdx);
-        cafeMenu.addNewBeverageItem(modifiedItem);
-    }
+    //     validateIngredientCost(ingredientCost);
+    //     validatePrice(price);
+    //     BeverageItem beverageItem = getBeverageItem(beverageIdx);
+    //     BeverageItem modifiedItem = beverageModifier.modifyItemSize(size, ingredientCost,
+    //             beverageItem, price);
+    //     cafeMenu.removeBeverageItem(beverageIdx);
+    //     cafeMenu.addNewBeverageItem(modifiedItem);
+    // }
+
+    //TREVOR: I added these so I could do more streamlined adding and removing, also to normalize the two
+    public void modifyBeverageSize(int beverageIdx, BeverageSize size,
+                               Map<Ingredients, Integer> ingredientCost, double price) {
+    validateIngredientCost(ingredientCost);
+    validatePrice(price);
+    BeverageItem beverageItem = getBeverageItem(beverageIdx);
+
+    BeverageItem modifiedItem = beverageModifier.modifyItemSize(size, ingredientCost,
+            beverageItem, price);
+
+    // Replace in place instead of remove+append
+    cafeMenu.setBeverageItem(beverageIdx, modifiedItem);
+}
+
+public void modifyPastryItem(int pastriesIdx,
+                             Map<Ingredients, Integer> ingredientCost,
+                             double price) {
+    validateIngredientCost(ingredientCost);
+    validatePrice(price);
+
+    PastriesItem base = getPastriesItem(pastriesIdx);
+    PastriesItem modified = pastriesModifier.modifyPastriesIngredientsCost(base, ingredientCost);
+    modified = pastriesModifier.modifyPastriesCost(modified, price);
+
+    cafeMenu.setPastryItem(pastriesIdx, modified);
+}
 
     /**
      * Removes a beverage size from the specified beverage item
@@ -164,8 +191,12 @@ public class MenuManagement {
         PastriesItem item = getPastriesItem(pastriesIdx);
         PastriesItem newItem = pastriesModifier.modifyPastriesCost(item, price);
 
-        cafeMenu.removePastriesItem(pastriesIdx);
-        cafeMenu.addPastriesItem(newItem);
+        // cafeMenu.removePastriesItem(pastriesIdx);
+        // cafeMenu.addPastriesItem(newItem);
+         cafeMenu.setPastryItem(pastriesIdx, newItem);
+
+
+        
     }
 
     /**
@@ -182,9 +213,13 @@ public class MenuManagement {
         PastriesItem item = getPastriesItem(pastriesIdx);
         PastriesItem newItem = pastriesModifier.modifyPastriesIngredientsCost(item,
                 newIngredientCost);
-        cafeMenu.removePastriesItem(pastriesIdx);
-        cafeMenu.addPastriesItem(newItem);
+        // cafeMenu.removePastriesItem(pastriesIdx);
+        // cafeMenu.addPastriesItem(newItem);
+
+       
     }
+
+    
 
     /**
      * Validates that all ingredient quantities are non-null and greater than zero
@@ -198,7 +233,7 @@ public class MenuManagement {
                 throw new InvalidModifyingException(
                         String.format("Ingredient %s cannot be null or have null amount", key)
                 );
-            } else if (value <= 0){
+            } else if (value < 0){
                 throw new InvalidModifyingException(
                         String.format("Ingredient %s cannot be negative value of %d",
                                 key, value)

@@ -186,7 +186,7 @@ public class LoadFXML {
             cafe, 
             overlayStage, 
             FxmlView.MENU_ORDER,
-            600,  // Appropriate width for overlay
+            800,  // Appropriate width for overlay
             800,  // Appropriate height for overlay
             menuItem, 
             refreshCallback 

@@ -1,25 +1,13 @@
 [ {
-  "id" : "P-M02",
-  "name" : "Chocolate Muffin",
-  "type" : "MUFFIN",
+  "id" : "P-Cr04",
+  "name" : "Blueberry Croissant",
+  "type" : "CROISSANT",
   "cost" : {
-    "price" : 10.0,
+    "price" : 6.75,
     "ingredients" : {
-      "BUTTER" : 4,
-      "FLOUR" : 5,
-      "CHOCOLATE_CHIP" : 4
-    }
-  }
-}, {
-  "id" : "P-M03",
-  "name" : "Almond Muffin",
-  "type" : "MUFFIN",
-  "cost" : {
-    "price" : 10.0,
-    "ingredients" : {
-      "BUTTER" : 4,
-      "FLOUR" : 5,
-      "ALMOND" : 4
+      "BUTTER" : 3,
+      "FLOUR" : 4,
+      "BLUEBERRY" : 3
     }
   }
 }, {
@@ -35,18 +23,6 @@
     }
   }
 }, {
-  "id" : "P-M05",
-  "name" : "Strawberry Muffin",
-  "type" : "MUFFIN",
-  "cost" : {
-    "price" : 10.0,
-    "ingredients" : {
-      "BUTTER" : 4,
-      "FLOUR" : 5,
-      "STRAWBERRY" : 4
-    }
-  }
-}, {
   "id" : "P-Cr01",
   "name" : "Butter Croissant",
   "type" : "CROISSANT",
@@ -58,27 +34,27 @@
     }
   }
 }, {
-  "id" : "P-Cr03",
-  "name" : "Almond Croissant",
+  "id" : "P-Cr02",
+  "name" : "Chocolate Croissant",
   "type" : "CROISSANT",
   "cost" : {
-    "price" : 7.5,
+    "price" : 11.0,
     "ingredients" : {
       "BUTTER" : 3,
       "FLOUR" : 4,
-      "ALMOND" : 4
+      "CHOCOLATE_CHIP" : 3
     }
   }
 }, {
-  "id" : "P-Cr04",
-  "name" : "Blueberry Croissant",
-  "type" : "CROISSANT",
+  "id" : "P-M02",
+  "name" : "Chocolate Muffin",
+  "type" : "MUFFIN",
   "cost" : {
-    "price" : 6.75,
+    "price" : 9.0,
     "ingredients" : {
-      "BUTTER" : 3,
-      "FLOUR" : 4,
-      "BLUEBERRY" : 3
+      "BUTTER" : 4,
+      "FLOUR" : 5,
+      "CHOCOLATE_CHIP" : 4
     }
   }
 }, {
@@ -94,6 +70,18 @@
     }
   }
 }, {
+  "id" : "P-M05",
+  "name" : "Strawberry Muffin",
+  "type" : "MUFFIN",
+  "cost" : {
+    "price" : 10.0,
+    "ingredients" : {
+      "BUTTER" : 4,
+      "FLOUR" : 5,
+      "STRAWBERRY" : 4
+    }
+  }
+}, {
   "id" : "P-M01",
   "name" : "Sugar Muffin",
   "type" : "MUFFIN",
@@ -106,15 +94,27 @@
     }
   }
 }, {
-  "id" : "P-Cr02",
-  "name" : "Chocolate Croissant",
+  "id" : "P-M03",
+  "name" : "Almond Muffin",
+  "type" : "MUFFIN",
+  "cost" : {
+    "price" : 10.5,
+    "ingredients" : {
+      "BUTTER" : 1,
+      "FLOUR" : 2,
+      "ALMOND" : 3
+    }
+  }
+}, {
+  "id" : "P-Cr03",
+  "name" : "Almond Croissant",
   "type" : "CROISSANT",
   "cost" : {
-    "price" : 0.01,
+    "price" : 9.0,
     "ingredients" : {
       "BUTTER" : 3,
       "FLOUR" : 4,
-      "CHOCOLATE_CHIP" : 3
+      "ALMOND" : 4
     }
   }
 } ]

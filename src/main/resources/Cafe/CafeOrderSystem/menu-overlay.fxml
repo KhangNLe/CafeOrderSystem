@@ -3,43 +3,62 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.effect.*?>
+<?import javafx.geometry.Insets?>
 
 <VBox xmlns="http://javafx.com/javafx/21" 
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="Cafe.CafeOrderSystem.UI.MenuOverlayController"
       style="-fx-background-color: white; -fx-padding: 20; -fx-spacing: 10;"
-      alignment="CENTER">
-    
+      alignment="TOP_CENTER">
+      
     <effect>
         <DropShadow radius="10" color="rgba(0,0,0,0.5)"/>
     </effect>
     
-    <Label text="#itemName" style="-fx-font-size: 16; -fx-font-weight: bold;"/>
-    <Label fx:id="itemNameLabel" style="-fx-font-weight: bold;"/>
+    <Label fx:id="itemNameLabel" style="-fx-font-size: 16; -fx-font-weight: bold;"/>
     <Separator/>
-    
-    <VBox fx:id="sizesContainer" spacing="5"/>
-    
-    <GridPane hgap="10" vgap="10">
-        <columnConstraints>
-            <ColumnConstraints minWidth="120" halignment="RIGHT"/>
-            <ColumnConstraints hgrow="ALWAYS"/>
-        </columnConstraints>
+
+    <!-- Main Content Area -->
+    <TabPane fx:id="sizeTabs" tabClosingPolicy="UNAVAILABLE">
+        <!-- Beverage Tab (shown for beverages) -->
+        <Tab text="Price" fx:id="priceTab">
+            <ScrollPane fitToWidth="true">
+                <VBox fx:id="sizesContainer" spacing="10" style="-fx-padding: 10;"/>
+            </ScrollPane>
+        </Tab>
         
-        <Label text="New Price:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-        <Spinner fx:id="priceSpinner"
-                 editable="true"
-                 prefWidth="180"
-                 GridPane.rowIndex="0" GridPane.columnIndex="1">
-            <valueFactory>
-                <SpinnerValueFactory.DoubleSpinnerValueFactory min="0.01" max="100.0" initialValue="0.0" amountToStepBy="0.01"/>
-            </valueFactory>
-        </Spinner>
-    </GridPane>
-    
-    <Separator/>
-    <HBox spacing="10" alignment="CENTER">
-        <Button text="Cancel" onAction="#handleCancel"/>
-        <Button text="Save" onAction="#handleSave"/>
+        <!-- Ingredients Tab (shown for both beverages and pastries) -->
+        <Tab text="Ingredients">
+            <ScrollPane fitToWidth="true">
+                <VBox fx:id="ingredientsContainer" spacing="10" style="-fx-padding: 10;">
+                    <!-- Header will be added dynamically in controller -->
+                </VBox>
+            </ScrollPane>
+        </Tab>
+
+        <!-- Price Editing Tab (for pastries)
+        <Tab text="Price" fx:id="priceTab">
+            <GridPane hgap="10" vgap="10" visible="false" fx:id="pastryPriceGrid">
+                <columnConstraints>
+                    <ColumnConstraints minWidth="120" halignment="RIGHT"/>
+                    <ColumnConstraints hgrow="ALWAYS"/>
+                </columnConstraints>
+                <Label text="Price:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <Spinner fx:id="priceSpinner" editable="true" prefWidth="180" 
+                         GridPane.rowIndex="0" GridPane.columnIndex="1">
+                    <valueFactory>
+                        <SpinnerValueFactory.DoubleSpinnerValueFactory 
+                            min="0.01" max="100.0" initialValue="0.0" amountToStepBy="0.01"/>
+                    </valueFactory>
+                </Spinner>
+            </GridPane>
+        </Tab> -->
+    </TabPane>
+
+    <!-- Action Buttons -->
+    <HBox spacing="10" alignment="CENTER" style="-fx-padding: 10 0 0 0;">
+        <Button text="Cancel" onAction="#handleCancel" style="-fx-min-width: 80;"/>
+        <Button text="Save" onAction="#handleSave" style="-fx-min-width: 80;"
+                styleClass="save-button"/>
     </HBox>
 </VBox>

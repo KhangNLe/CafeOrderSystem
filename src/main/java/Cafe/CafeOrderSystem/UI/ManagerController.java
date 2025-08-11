@@ -166,6 +166,7 @@ private void handleIngredientSelection(String selectedItem) {
         // Extract name from the display text (assuming format "Name : X units")
         String ingredientName = selectedItem.split(" : ")[0].trim();
         
+        
         // Find the IngredientItem by name
         this.selectedIngredient = inventoryManagement.getList().getIngredients().keySet().stream()
             .filter(item -> item.getIngredient().getName().equals(ingredientName))
@@ -178,8 +179,11 @@ private void handleInventory() {
     if (listView != null) {
         listView.getItems().clear();
     }
-    viewMenuItem.setVisible(false);
-    viewIndgredientItem.setVisible(true);
+    viewMenuItem.setDisable(true);
+    viewIndgredientItem.setDisable(false);
+
+    // viewMenuItem.setVisible(false);
+    // viewIndgredientItem.setVisible(true);
     
     IngredientList list = inventoryManagement.getList();
     Map<IngredientItem, Integer> ingredients = list.getIngredients();
@@ -197,6 +201,8 @@ private void handleInventory() {
         listView.getItems().add(String.format("%s : %d units", 
             entry.getKey().getIngredient().getName(), 
             entry.getValue()));
+
+        
     }
     
     // Set up selection listener
@@ -212,7 +218,7 @@ private void handleInventory() {
 
 
     public void refreshMenu() {
-    Platform.runLater(() -> {
+ Platform.runLater(() -> {
         // Store current selection
         int selectedIndex = listView.getSelectionModel().getSelectedIndex();
         
@@ -220,15 +226,21 @@ private void handleInventory() {
             listView.getItems().clear();
         }
 
-        viewMenuItem.setVisible(true);
-        viewIndgredientItem.setVisible(false);
+        viewMenuItem.setDisable(false);
+        viewIndgredientItem.setDisable(true);
+
+        // viewMenuItem.setVisible(true);
+        // viewIndgredientItem.setVisible(false);
 
         ObservableList<String> items = FXCollections.observableArrayList();
 
         items.add("BEVERAGES");
         List<BeverageItem> beverageItems = menuManagement.getBeverageItems();
-
-        for (BeverageItem bItem : beverageItems) {
+        
+        // Sort beverages by name
+        beverageItems.sort(Comparator.comparing(BeverageItem::name));
+        
+                for (BeverageItem bItem : beverageItems) {
             StringBuilder displayText = new StringBuilder(bItem.name() + ":\n");
 
                 List<BeverageSize> sortedSizes = new ArrayList<>(bItem.cost().keySet());
@@ -248,9 +260,12 @@ private void handleInventory() {
 
             items.add(displayText.toString());
         }
-
         items.add("PASTRIES");
-        List<PastriesItem> pastryItems = menuManagement.getPastriesItems();
+        List<PastriesItem> pastryItems = new ArrayList<>(menuManagement.getPastriesItems());
+        
+        // Explicitly sort pastries by name
+        pastryItems.sort(Comparator.comparing(PastriesItem::name));
+        
         for (PastriesItem pItem : pastryItems) {
             double price = pItem.cost().price();
             pastryDisplayMap.put(pItem.name(), price);
@@ -265,6 +280,7 @@ private void handleInventory() {
             listView.getSelectionModel().select(selectedIndex);
         }
 
+    });
         // Bold only "BEVERAGES" and "PASTRIES"
         listView.setCellFactory(lv -> new ListCell<String>() {
             @Override
@@ -282,8 +298,7 @@ private void handleInventory() {
                 }
             }
         });
-    });
-}
+    };
 
     @FXML
     private void getFulfilledOrders() {
