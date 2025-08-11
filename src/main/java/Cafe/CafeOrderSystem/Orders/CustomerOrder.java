@@ -136,7 +136,7 @@ public class CustomerOrder {
     /**
      * Updates the order's status to the given value.
      *
-     * @param orderStatus the new status to apply
+     * @param newStatus the new status to apply
      * @throws InvalidModifyingException if the transition is invalid
      */
     // public void changeOrderStatus(OrderStatus orderStatus) {

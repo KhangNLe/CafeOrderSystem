@@ -28,6 +28,11 @@ public record BeverageItem(
                 return sb.toString();
         }
 
+        // Ali: To get a simple list
+        public String getShortSummary() {
+                return String.format("%s (%s)", this.name, this.type);
+        }
+
         public BeverageItem copyOf() {
                 Map<BeverageSize, BeverageCost> newCost = cost.entrySet().stream()
                         .collect(Collectors.toMap(Map.Entry::getKey,

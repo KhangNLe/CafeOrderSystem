@@ -125,4 +125,20 @@ private boolean validateRole(String role, String userName, String password) {
         }
     }
 
+    @FXML
+    private void handleLogout() {
+        try {
+            new LoadFXML(
+                    cafeShop,    // Your Cafe facade instance
+                    primaryStage,     // pass existing stage
+                    FxmlView.HELLO,   //access enum
+                    800,            // Width
+                    600             // Height
+            ).load();
+        } catch (IOException e) {
+            // Handle error (show dialog, log, etc.)
+            e.printStackTrace();
+        }
+    }
+
 }
