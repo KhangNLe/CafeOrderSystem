@@ -31,7 +31,7 @@
                 <ScrollPane fx:id="orderScrollPane" fitToWidth="true">
                     <content>
                         <VBox fx:id="orderContainer" spacing="10" style="-fx-padding: 5;">
-                            <ListView fx:id="orderListView" />
+                            <ListView fx:id="orderListView"/>
                         </VBox>
                     </content>
                 </ScrollPane>

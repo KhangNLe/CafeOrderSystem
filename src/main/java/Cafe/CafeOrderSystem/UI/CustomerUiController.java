@@ -35,7 +35,7 @@ public class CustomerUiController {
 
     private Stage primaryStage;
 
-    public void setFacade(Cafe  cafeShop) {
+    public void setFacade(Cafe cafeShop) {
         this.cafeShop = cafeShop;
     }
 

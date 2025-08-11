@@ -85,7 +85,6 @@ private void handleMarkReady() {
 @FXML
 private void selectOrder() {
 
-
     if (selectedOrder != null) {
         try {
             LoadFXML.loadOrderOverlay(

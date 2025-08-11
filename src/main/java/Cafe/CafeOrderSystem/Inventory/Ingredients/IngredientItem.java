@@ -37,7 +37,7 @@ public class IngredientItem{
     }
 
     public void changeAmount(int amount){
-        this.amount += amount;
+        this.amount = amount;
     }
     @Override
     public String toString() {

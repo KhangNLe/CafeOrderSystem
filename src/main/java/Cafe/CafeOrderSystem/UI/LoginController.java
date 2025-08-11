@@ -43,7 +43,7 @@ public class LoginController {
     }
 
         @FXML
-private void handleLogin() throws IOException {
+    private void handleLogin() throws IOException {
     String role = roleComboBox.getValue().trim();
     String user = usernameField.getText().trim();
     String pass = passwordField.getText();
