@@ -87,8 +87,12 @@ public class ManagerController {
     @FXML
     private void handleMenuItems() {
         // Add logic here if needed
-        viewMenuItem.setVisible(true);
-        viewIndgredientItem.setVisible(false);
+
+
+    viewMenuItem.setDisable(false);
+    viewIndgredientItem.setDisable(true);
+        
+        
         refreshMenu();
 
     }
@@ -302,6 +306,9 @@ private void handleInventory() {
 
     @FXML
     private void getFulfilledOrders() {
+    viewMenuItem.setDisable(true);
+    viewIndgredientItem.setDisable(true);
+
     if(listView != null){
         listView.getItems().clear();
     }
