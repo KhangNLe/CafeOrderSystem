@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.effect.*?>
+
+<VBox xmlns="http://javafx.com/javafx/21" 
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="Cafe.CafeOrderSystem.UI.IngredientOverlayController"
+      style="-fx-background-color: white; -fx-padding: 20; -fx-spacing: 10;"
+      alignment="CENTER">
+    
+    <effect>
+        <DropShadow radius="10" color="rgba(0,0,0,0.5)"/>
+    </effect>
+    
+    <Label text="Ingredient Details" style="-fx-font-size: 16; -fx-font-weight: bold;"/>
+    <Label fx:id="ingredientIdLabel"/>
+    <Separator/>
+    
+    <GridPane hgap="10" vgap="10">
+        <columnConstraints>
+            <ColumnConstraints minWidth="120" halignment="RIGHT"/>
+            <ColumnConstraints hgrow="ALWAYS"/>
+        </columnConstraints>
+
+        <!-- Current units row -->
+        <Label text="Current Units:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <Label fx:id="currentUnitsLabel" text="#currentUnits" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+        <!-- New units (editable numeric spinner) -->
+        <Label text="Set Units:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <Spinner fx:id="newUnitsSpinner"
+                 editable="true"
+                 prefWidth="180"
+                 GridPane.rowIndex="1" GridPane.columnIndex="1">
+            <valueFactory>
+                <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="1000000" initialValue="0"/>
+            </valueFactory>
+        </Spinner>
+    </GridPane>
+    
+    <Separator/>
+    <HBox spacing="10" alignment="CENTER">
+        <Button text="Cancel" onAction="#handleCancel"/>
+        <Button text="Save" onAction="#handleSave"/>
+    </HBox>
+</VBox>

@@ -29,7 +29,8 @@
         <HBox>
             <Button fx:id="outButton" text="Quit" onAction="#handleQuit"/>
             <Button fx:id="addNewItemButton" text="+ Add New Item" onAction="#handleAddNewItem"/>
-            <Button fx:id="viewMenuItem" text="View Item" onAction="#viewMenuItem"/>
+            <Button fx:id="viewMenuItem" text="View Menu Item" onAction="#viewMenuItem"/>
+            <Button fx:id="viewIndgredientItem" text="View Ingredient" onAction="#viewIngredientItem"/>
         </HBox>
     </bottom>
 

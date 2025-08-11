@@ -2,6 +2,10 @@ package Cafe.CafeOrderSystem.UI;
 
 import Cafe.CafeOrderSystem.Cafe;
 import Cafe.CafeOrderSystem.CatalogItems.BeverageSize;
+import Cafe.CafeOrderSystem.CatalogItems.Ingredients;
+import Cafe.CafeOrderSystem.Inventory.Inventory;
+import Cafe.CafeOrderSystem.Inventory.Ingredients.IngredientItem;
+import Cafe.CafeOrderSystem.Inventory.Ingredients.IngredientList;
 import Cafe.CafeOrderSystem.Menu.MenuManagement;
 import Cafe.CafeOrderSystem.Menu.Items.BeverageCost;
 import Cafe.CafeOrderSystem.Menu.Items.BeverageItem;
@@ -23,6 +27,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -44,23 +49,35 @@ public class ManagerController {
    @FXML private ListView<String> listView;
     @FXML private Button menuItemsButton;
     @FXML private Button inventoryButton;
+    @FXML private int currentUnits;
     @FXML private Button fulfilledOrdersButton;
     @FXML private Button addNewItemButton;
     @FXML private Button outButton;
     @FXML private ScrollPane scrollPane;
     @FXML private VBox menuItemsContainer;
+    
+
+    @FXML
+    private Button viewMenuItem;
+    @FXML
+    private Button viewIndgredientItem;
+
+    private IngredientItem selectedIngredient;
+
 
     private Map<String, Map<BeverageSize, BeverageCost>> beverageDisplayMap = new HashMap<>();
     private Map<String, Double> pastryDisplayMap = new HashMap<>();
 
     private Stage primaryStage;
     private MenuManagement menuManagement;
+    private Inventory inventoryManagement;
 
     
 
     public void setFacade(Cafe cafeShop) {
         this.cafeShop = cafeShop;
         this.menuManagement = cafeShop.getCafeMenuManagement(); 
+        this.inventoryManagement = cafeShop.getInventoryManagment();
     }
 
     public void setPrimaryStage(Stage stage) {
@@ -70,23 +87,141 @@ public class ManagerController {
     @FXML
     private void handleMenuItems() {
         // Add logic here if needed
-
+        viewMenuItem.setVisible(true);
+        viewIndgredientItem.setVisible(false);
         refreshMenu();
 
     }
 
 
-    @FXML
-    private void viewMenuItem(){
-        
-
+public void viewIngredientItem() {
+    try {
+        selectedIngredient = getSelectedIngredient(); // Implement this
+        LoadFXML.loadIngredientOverlay(cafeShop, selectedIngredient, this::refreshView);
+    } catch (IOException e) {
+        e.printStackTrace();
     }
+}
+
+private IngredientItem getSelectedIngredient() {
+    String selected = listView.getSelectionModel().getSelectedItem();
+    if (selected != null) {
+        // Extract ingredient name (assuming format "Name : X units")
+        String ingredientName = selected.split(" : ")[0].trim();
+        return inventoryManagement.getList().getIngredients().keySet().stream()
+            .filter(i -> i.getIngredient().getName().equals(ingredientName))
+            .findFirst()
+            .orElse(null);
+    }
+    return null;
+}
+
+
+
+public void refreshView() {
+    Platform.runLater(() -> {
+        handleInventory(); // Simply refresh the inventory view
+    });
+    
+
+}
+
+private Object getSelectedMenuItem() {
+    String selected = listView.getSelectionModel().getSelectedItem();
+    if (selected != null) {
+        // Check if it's a beverage
+        for (BeverageItem item : menuManagement.getBeverageItems()) {
+            if (selected.startsWith(item.name() + ":")) {
+                return item;
+            }
+        }
+        // Check if it's a pastry
+        for (PastriesItem item : menuManagement.getPastriesItems()) {
+            if (selected.startsWith(item.name() + " - $")) {
+                return item;
+            }
+        }
+    }
+    return null;
+}
+
+@FXML
+private void viewMenuItem() {
+    try {
+        Object selectedItem = getSelectedMenuItem();
+        if (selectedItem != null) {
+            LoadFXML.loadMenuOverlay(cafeShop, selectedItem, this::refreshMenu);
+        }
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
+
+public static void loadMenuOverlay(Cafe cafe, MenuItem menuItem, Runnable refreshCallback) throws IOException {
+    LoadFXML.loadMenuOverlay(cafe, menuItem, refreshCallback);
+}
+
+private void handleIngredientSelection(String selectedItem) {
+    if (selectedItem != null) {
+        // Extract name from the display text (assuming format "Name : X units")
+        String ingredientName = selectedItem.split(" : ")[0].trim();
+        
+        // Find the IngredientItem by name
+        this.selectedIngredient = inventoryManagement.getList().getIngredients().keySet().stream()
+            .filter(item -> item.getIngredient().getName().equals(ingredientName))
+            .findFirst()
+            .orElse(null);
+    }
+}
+@FXML
+private void handleInventory() {
+    if (listView != null) {
+        listView.getItems().clear();
+    }
+    viewMenuItem.setVisible(false);
+    viewIndgredientItem.setVisible(true);
+    
+    IngredientList list = inventoryManagement.getList();
+    Map<IngredientItem, Integer> ingredients = list.getIngredients();
+
+    // Create a sorted list of entries
+    List<Map.Entry<IngredientItem, Integer>> sortedEntries = new ArrayList<>(ingredients.entrySet());
+    
+    // Sort by ingredient name
+    sortedEntries.sort(Comparator.comparing(
+        entry -> entry.getKey().getIngredient().getName()
+    ));
+
+    // Update the ListView with sorted items
+    for (Map.Entry<IngredientItem, Integer> entry : sortedEntries) {
+        listView.getItems().add(String.format("%s : %d units", 
+            entry.getKey().getIngredient().getName(), 
+            entry.getValue()));
+    }
+    
+    // Set up selection listener
+    listView.getSelectionModel().selectedItemProperty().addListener(
+        (obs, oldVal, newVal) -> {
+            if (newVal != null) {
+                handleIngredientSelection(newVal);
+            }
+        });
+}
+
+
+
 
     public void refreshMenu() {
     Platform.runLater(() -> {
+        // Store current selection
+        int selectedIndex = listView.getSelectionModel().getSelectedIndex();
+        
         if (listView != null) {
             listView.getItems().clear();
         }
+
+        viewMenuItem.setVisible(true);
+        viewIndgredientItem.setVisible(false);
 
         ObservableList<String> items = FXCollections.observableArrayList();
 
@@ -125,6 +260,11 @@ public class ManagerController {
 
         listView.setItems(items);
 
+        // Restore selection if valid
+        if (selectedIndex >= 0 && selectedIndex < listView.getItems().size()) {
+            listView.getSelectionModel().select(selectedIndex);
+        }
+
         // Bold only "BEVERAGES" and "PASTRIES"
         listView.setCellFactory(lv -> new ListCell<String>() {
             @Override
@@ -145,21 +285,11 @@ public class ManagerController {
     });
 }
 
-
-    @FXML
-    private void handleInventory() {
-        Platform.runLater(() -> {
-       if(listView !=null){
-         listView.getItems().clear();
-       }
-
-              });
-    }
-
     @FXML
     private void getFulfilledOrders() {
-
-    listView.getItems().clear();
+    if(listView != null){
+        listView.getItems().clear();
+    }
     List<CustomerOrder> orders = cafeShop.getOrderHistory();
     for(CustomerOrder order : orders){
          listView.getItems().add(order.shortSummary());
@@ -194,7 +324,8 @@ public class ManagerController {
     @FXML
     private void initialize() {
         welcomeLabel.setText("Welcome Manager Jane Doe");
-        refreshMenu();
-        // Could preload items into menuItemsContainer here if you want
+        Platform.runLater(() -> {
+        refreshMenu(); // Simply refresh the inventory view
+    }); // Initialize with inventory view
     }
 }

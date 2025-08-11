@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.effect.*?>
+
+<VBox xmlns="http://javafx.com/javafx/21" 
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="Cafe.CafeOrderSystem.UI.MenuOverlayController"
+      style="-fx-background-color: white; -fx-padding: 20; -fx-spacing: 10;"
+      alignment="CENTER">
+    
+    <effect>
+        <DropShadow radius="10" color="rgba(0,0,0,0.5)"/>
+    </effect>
+    
+    <Label text="#itemName" style="-fx-font-size: 16; -fx-font-weight: bold;"/>
+    <Label fx:id="itemNameLabel" style="-fx-font-weight: bold;"/>
+    <Separator/>
+    
+    <VBox fx:id="sizesContainer" spacing="5"/>
+    
+    <GridPane hgap="10" vgap="10">
+        <columnConstraints>
+            <ColumnConstraints minWidth="120" halignment="RIGHT"/>
+            <ColumnConstraints hgrow="ALWAYS"/>
+        </columnConstraints>
+        
+        <Label text="New Price:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <Spinner fx:id="priceSpinner"
+                 editable="true"
+                 prefWidth="180"
+                 GridPane.rowIndex="0" GridPane.columnIndex="1">
+            <valueFactory>
+                <SpinnerValueFactory.DoubleSpinnerValueFactory min="0.01" max="100.0" initialValue="0.0" amountToStepBy="0.01"/>
+            </valueFactory>
+        </Spinner>
+    </GridPane>
+    
+    <Separator/>
+    <HBox spacing="10" alignment="CENTER">
+        <Button text="Cancel" onAction="#handleCancel"/>
+        <Button text="Save" onAction="#handleSave"/>
+    </HBox>
+</VBox>

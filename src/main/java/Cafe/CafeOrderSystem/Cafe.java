@@ -67,6 +67,11 @@ public class Cafe {
         return ordersManagement;
     }
 
+    
+    public Inventory getInventoryManagment(){
+        return cafeInventory;
+    }
+
     public IngredientList getIngredientList(){return cafeInventory.getList();}
 
     public boolean modifyIngredient(IngredientItem ingredient, int amountChanged){return cafeInventory.modifyInventory(amountChanged, ingredient);}

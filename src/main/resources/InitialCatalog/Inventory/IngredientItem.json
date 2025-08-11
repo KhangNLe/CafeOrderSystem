@@ -21,7 +21,7 @@
 }, {
   "id" : "I-06",
   "ingredient" : "STRAWBERRY",
-  "amount" : 25
+  "amount" : 26
 }, {
   "id" : "I-07",
   "ingredient" : "OATMEAL",
@@ -29,7 +29,7 @@
 }, {
   "id" : "I-08",
   "ingredient" : "RAISIN",
-  "amount" : 25
+  "amount" : 26
 }, {
   "id" : "I-09",
   "ingredient" : "SUGAR",
@@ -37,7 +37,7 @@
 }, {
   "id" : "I-10",
   "ingredient" : "MILK",
-  "amount" : 25
+  "amount" : 30
 }, {
   "id" : "I-11",
   "ingredient" : "OAT_MILK",
@@ -45,7 +45,7 @@
 }, {
   "id" : "I-12",
   "ingredient" : "ALMOND_MILK",
-  "amount" : 25
+  "amount" : 20
 }, {
   "id" : "I-13",
   "ingredient" : "SUGAR_FREE_SYRUP",
@@ -53,7 +53,7 @@
 }, {
   "id" : "I-14",
   "ingredient" : "TEA_LEAVES_BLACK",
-  "amount" : 25
+  "amount" : 26
 }, {
   "id" : "I-15",
   "ingredient" : "TEA_LEAVES_GREEN",
@@ -73,5 +73,5 @@
 }, {
   "id" : "I-19",
   "ingredient" : "DECAF_TEA_LEAVES_BLACK",
-  "amount" : 25
+  "amount" : 27
 } ]
