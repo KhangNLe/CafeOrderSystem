@@ -86,6 +86,19 @@ private void handleSave() {
     }
 }
     @FXML
+    private void handleRemove() {
+        int ingredientIndex = cafeShop.getInventoryManagment().getList().findObject(item);
+
+        if (cafeShop.getIngredientList().findObject(item) != -1 && refreshCallback != null) {
+                cafeShop.getIngredientList().removeObject(ingredientIndex);
+                refreshCallback.run();
+        }
+        
+        stage.close();
+    }
+
+
+    @FXML
     private void handleCancel() {
         if (stage != null) {
             stage.close();

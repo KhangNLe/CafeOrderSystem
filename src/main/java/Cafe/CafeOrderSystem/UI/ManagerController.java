@@ -325,16 +325,9 @@ private void handleInventory() {
     @FXML
     private void handleAddNewItem() {
         try {
-        new LoadFXML(
-            cafeShop,    // Your Cafe facade instance
-            primaryStage,     // pass existing stage
-            FxmlView.NEW_ITEM,   //access enum
-            800,            // Width
-            600             // Height
-        ).load();
-    } catch (IOException e) {
-        // Handle error (show dialog, log, etc.)
-        e.printStackTrace();
+            LoadFXML.loadNewItemOverlay(cafeShop, this::refreshView);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
