@@ -79,18 +79,17 @@ public class CustomerOrder {
      * @param orderItem the item to be added
      */
     public void addOrderItem(OrderItem orderItem) {
-        boolean isNew = true;
-        for (OrderedItem item : orderItems) {
-            if (item.getItem().equals(orderItem)){
-                item.increaseQuantity();
-                isNew = false;
+        // Check if this exact item already exists in the order
+        for (OrderedItem existing : orderItems) {
+            if (existing.getItem().equals(orderItem)) {
+                existing.increaseQuantity();
+                totalPrice += orderItem.getPrice();
+                return;
             }
         }
 
-        if (isNew) {
-            orderItems.add(new OrderedItem(orderItem, 1));
-        }
-
+        // If not, add as new ordered item
+        orderItems.add(new OrderedItem(orderItem, 1));
         totalPrice += orderItem.getPrice();
     }
 

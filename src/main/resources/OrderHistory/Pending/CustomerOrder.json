@@ -17,4 +17,157 @@
   } ],
   "orderStatus" : "PENDING",
   "totalPrice" : 10.0
+}, {
+  "orderDate" : "2025-08-12T15:58:29.470693300",
+  "orderID" : "2025-08-12-7c9193c6-d0ff-430b-a693-4ce48591b887",
+  "orderItems" : [ ],
+  "orderStatus" : "PENDING",
+  "totalPrice" : 0.0
+}, {
+  "orderDate" : "2025-08-12T16:01:15.146532100",
+  "orderID" : "2025-08-12-cba85370-0c29-4563-a27c-a8185dd27b91",
+  "orderItems" : [ ],
+  "orderStatus" : "PENDING",
+  "totalPrice" : 0.0
+}, null, {
+  "orderDate" : "2025-08-12T16:28:08.153906100",
+  "orderID" : "2025-08-12-59413d6f-e0aa-4b59-999c-aa1739100e78",
+  "orderItems" : [ {
+    "item" : {
+      "itemID" : "B-C02",
+      "itemName" : "Cappuccino",
+      "itemType" : "COFFEE",
+      "ingredientsCost" : {
+        "COFFEE_BEAN" : 3,
+        "MILK" : 5,
+        "SUGAR" : 0
+      },
+      "price" : 8.0
+    },
+    "quantity" : 1
+  } ],
+  "orderStatus" : "PENDING",
+  "totalPrice" : 8.0
+}, {
+  "orderDate" : "2025-08-12T16:30:07.974273600",
+  "orderID" : "2025-08-12-359fc397-8e2f-4532-bb9f-ef354e0b9193",
+  "orderItems" : [ {
+    "item" : {
+      "itemID" : "B-C02",
+      "itemName" : "Cappuccino",
+      "itemType" : "COFFEE",
+      "ingredientsCost" : {
+        "COFFEE_BEAN" : 3,
+        "MILK" : 5,
+        "SUGAR" : 0
+      },
+      "price" : 8.0
+    },
+    "quantity" : 1
+  } ],
+  "orderStatus" : "PENDING",
+  "totalPrice" : 8.0
+}, {
+  "orderDate" : "2025-08-12T16:32:13.185576700",
+  "orderID" : "2025-08-12-965d4c08-d58c-4bec-a885-6f8efc8f06a8",
+  "orderItems" : [ {
+    "item" : {
+      "itemID" : "B-C02",
+      "itemName" : "Cappuccino",
+      "itemType" : "COFFEE",
+      "ingredientsCost" : {
+        "COFFEE_BEAN" : 3,
+        "MILK" : 5,
+        "SUGAR" : 0
+      },
+      "price" : 8.0
+    },
+    "quantity" : 1
+  }, {
+    "item" : {
+      "itemID" : "B-C01",
+      "itemName" : "Latte",
+      "itemType" : "COFFEE",
+      "ingredientsCost" : {
+        "COFFEE_BEAN" : 3,
+        "MILK" : 3,
+        "SUGAR" : 0
+      },
+      "price" : 5.0
+    },
+    "quantity" : 1
+  } ],
+  "orderStatus" : "PENDING",
+  "totalPrice" : 13.0
+}, {
+  "orderDate" : "2025-08-12T16:32:22.107571100",
+  "orderID" : "2025-08-12-e4f7496f-1683-484e-8358-2f45f1520ee8",
+  "orderItems" : [ {
+    "item" : {
+      "itemID" : "B-C02",
+      "itemName" : "Cappuccino",
+      "itemType" : "COFFEE",
+      "ingredientsCost" : {
+        "COFFEE_BEAN" : 3,
+        "MILK" : 5,
+        "SUGAR" : 0
+      },
+      "price" : 8.0
+    },
+    "quantity" : 1
+  }, {
+    "item" : {
+      "itemID" : "B-T03",
+      "itemName" : "Herbal Tea",
+      "itemType" : "TEA_HERBAL",
+      "ingredientsCost" : {
+        "TEA_LEAVES_HERBAL" : 7
+      },
+      "price" : 8.0
+    },
+    "quantity" : 1
+  } ],
+  "orderStatus" : "PENDING",
+  "totalPrice" : 16.0
+}, {
+  "orderDate" : "2025-08-12T16:35:09.902435100",
+  "orderID" : "2025-08-12-7003daed-6a43-4ea2-9a49-d645be34402e",
+  "orderItems" : [ {
+    "item" : {
+      "itemID" : "B-C02",
+      "itemName" : "Cappuccino",
+      "itemType" : "COFFEE",
+      "ingredientsCost" : {
+        "COFFEE_BEAN" : 3,
+        "MILK" : 5,
+        "SUGAR" : 0
+      },
+      "price" : 8.0
+    },
+    "quantity" : 1
+  }, {
+    "item" : {
+      "itemID" : "B-T03",
+      "itemName" : "Herbal Tea",
+      "itemType" : "TEA_HERBAL",
+      "ingredientsCost" : {
+        "TEA_LEAVES_HERBAL" : 7
+      },
+      "price" : 8.0
+    },
+    "quantity" : 1
+  }, {
+    "item" : {
+      "itemID" : "B-T03",
+      "itemName" : "Herbal Tea",
+      "itemType" : "TEA_HERBAL",
+      "ingredientsCost" : {
+        "TEA_LEAVES_HERBAL" : 4
+      },
+      "price" : 5.0
+    },
+    "quantity" : 1
+  } ],
+  "orderStatus" : "PENDING",
+  "totalPrice" : 21.0
 } ]

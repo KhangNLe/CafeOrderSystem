@@ -40,20 +40,6 @@ public class IngredientList extends JsonCollection<IngredientItem> {
 
 
     //Trevor: I added this
-//     public List<IngredientItem> getIngredients() {
-//     // Hacky but works - JsonCollection stores items internally
-//     List<IngredientItem> items = new ArrayList<>();
-//     for (int i = 0; ; i++) {
-//         try {
-//             IngredientItem item = getObject(i);
-//             items.add(item);
-//         } catch (Exception e) {
-//             break; // No more items
-//         }
-//     }
-//     return items;
-// }
-
 
     public Map<IngredientItem, Integer> getIngredients() {
     // Hacky but works - JsonCollection stores items internally

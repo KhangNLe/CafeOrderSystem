@@ -4,6 +4,7 @@ import Cafe.CafeOrderSystem.Exceptions.InvalidModifyingException;
 import Cafe.CafeOrderSystem.Exceptions.OrderStatusChangeException;
 import Cafe.CafeOrderSystem.Orders.CustomerOrder;
 import Cafe.CafeOrderSystem.Orders.OrderStatus;
+import Cafe.CafeOrderSystem.Orders.OrdersManagement;
 import Cafe.CafeOrderSystem.utility.FxmlView;
 import Cafe.CafeOrderSystem.utility.LoadFXML;
 import javafx.application.Platform;
@@ -70,6 +71,12 @@ private void closeOverlay() {
 
 @FXML
 private void handleMarkReady() {
+
+    // Ali: Check if selectedOrder and ordersManagement are initialized
+    if (selectedOrder == null || cafeShop == null) {
+        dialog.show("Error", "No order selected or order system not initialized", null);
+        return;
+    }
 
     try {
         cafeShop.getOrdersManagement()

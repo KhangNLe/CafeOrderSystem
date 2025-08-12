@@ -8,6 +8,7 @@ public enum FxmlView {
     ORDER("/Cafe/CafeOrderSystem/order-overlay.fxml"),
     MENU_ORDER("/Cafe/CafeOrderSystem/menu-overlay.fxml"),
     INGREDIENT("/Cafe/CafeOrderSystem/ingredient-overlay.fxml"),
+    NEW_ITEM("/Cafe/CafeOrderSystem/new-item-overlay.fxml"),
     //
     HELLO("/Cafe/CafeOrderSystem/hello-view.fxml"),
 

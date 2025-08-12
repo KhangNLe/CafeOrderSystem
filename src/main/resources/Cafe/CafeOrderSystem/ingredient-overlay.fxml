@@ -43,6 +43,7 @@
     <Separator/>
     <HBox spacing="10" alignment="CENTER">
         <Button text="Cancel" onAction="#handleCancel"/>
+        <Button text="Remove" onAction="#handleRemove"/>
         <Button text="Save" onAction="#handleSave"/>
     </HBox>
 </VBox>

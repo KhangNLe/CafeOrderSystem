@@ -5,6 +5,9 @@ import Cafe.CafeOrderSystem.CatalogItems.BeverageSize;
 import Cafe.CafeOrderSystem.Menu.Items.BeverageItem;
 import Cafe.CafeOrderSystem.Menu.Items.PastriesItem;
 import Cafe.CafeOrderSystem.Menu.MenuManagement;
+import Cafe.CafeOrderSystem.Orders.CustomerOrder;
+import Cafe.CafeOrderSystem.Orders.OrderItem;
+import Cafe.CafeOrderSystem.Orders.OrdersManagement;
 import Cafe.CafeOrderSystem.utility.FxmlView;
 import Cafe.CafeOrderSystem.utility.LoadFXML;
 import javafx.application.Platform;
@@ -38,6 +41,7 @@ public class CustomerUiController {
     private List<BeverageSize> cartItemSizes = new ArrayList<>(); // For beverages
     private List<Integer> cartItemQuantities = new ArrayList<>();
     private double cartTotal = 0.0;
+    private String currentOrderId;
 
 
     public void setFacade(Cafe cafeShop) {
@@ -47,7 +51,6 @@ public class CustomerUiController {
     public void setPrimaryStage(Stage stage) {
         this.primaryStage = stage;
     }
-
 
     @FXML
     public void initialize() {
@@ -190,14 +193,18 @@ public class CustomerUiController {
 
         display.append(" - $").append(String.format("%.2f", basePrice + customizationTotal));
 
-        // Add to cart
-        cartItems.add(display.toString());
+        // Add to ALL cart tracking lists
+        cartItemObjects.add(beverage);
+        cartItemSizes.add(size);
+        cartItemQuantities.add(1); // Default quantity of 1
         cartTotal += basePrice + customizationTotal;
         updateCartDisplay();
     }
 
 
     private void updateCartDisplay() {
+        cartItems.clear(); // Clear existing display
+        cartTotal = 0.0;
 
         for (int i = 0; i < cartItemObjects.size(); i++) {
             Object item = cartItemObjects.get(i);
@@ -235,7 +242,7 @@ public class CustomerUiController {
                     primaryStage,     // pass existing stage
                     FxmlView.HELLO,   //access enum
                     800,            // Width
-                    600             // Height
+                    600            // Height
             ).load();
         } catch (IOException e) {
             // Handle error (show dialog, log, etc.)
@@ -245,7 +252,75 @@ public class CustomerUiController {
 
     @FXML
     private void handleCheckout() {
+        // Checks if the checkout button is clicked
         System.out.println("Checkout clicked!");
+
+        // Checks if the cart is empty
+        if (cartItems.isEmpty()) {
+            showAlert("Empty Cart", "Your cart is empty. Please add items before checkout.");
+            return;
+        }
+        try {
+            OrdersManagement ordersManagement = cafeShop.getOrdersManagement();
+
+            // 1. Create new order
+            String orderId = ordersManagement.createNewOrder();
+
+            // 2. Add all items to the order
+            for (int i = 0; i < cartItemObjects.size(); i++) {
+                Object item = cartItemObjects.get(i);
+                int quantity = cartItemQuantities.get(i);
+
+                if (item instanceof BeverageItem) {
+                    BeverageSize size = cartItemSizes.get(i);
+                    OrderItem orderItem = ordersManagement.createBeverageItem(
+                            (BeverageItem)item, size, null);
+
+                    for (int q = 0; q < quantity; q++) {
+                        ordersManagement.addItemIntoOrder(orderId, orderItem);
+                    }
+                }
+                else if (item instanceof PastriesItem) {
+                    OrderItem orderItem = ordersManagement.createPastriesItem(
+                            (PastriesItem)item);
+
+                    for (int q = 0; q < quantity; q++) {
+                        ordersManagement.addItemIntoOrder(orderId, orderItem);
+                    }
+                }
+            }
+
+            // 3. Finalize the order
+            ordersManagement.finalizeActiveOrder(orderId);
+
+            // 4. Clear cart
+            clearCart();
+
+            // 5. Show single success message
+            showAlert("Success", "Order #" + orderId + " placed successfully!\nTotal: $" + String.format("%.2f", cartTotal));
+
+        } catch (Exception e) {
+            showAlert("Order Error", "An error occurred while placing your order: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    private void clearCart() {
+        cartItems.clear();
+        cartItemObjects.clear();
+        cartItemSizes.clear();
+        cartItemQuantities.clear();
+        cartTotal = 0.0;
+        updateCartDisplay();
+    }
+
+
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
 }
