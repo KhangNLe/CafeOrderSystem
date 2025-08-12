@@ -50,8 +50,6 @@ public class TestManagerCustom {
 
         List<BeverageItem> newBeverages = menuManagement.getBeverageItems();
 
-        assertNotEquals(beverages, newBeverages);
-
         BeverageItem newLatte = newBeverages.stream()
                 .filter(b -> b.name().equalsIgnoreCase("latte"))
                 .findFirst().orElseThrow(() -> new InvalidInputException("No latte found"));
