@@ -76,7 +76,7 @@
   "cost" : {
     "price" : 10.0,
     "ingredients" : {
-      "BUTTER" : 4,
+      "BUTTER" : 8,
       "FLOUR" : 5,
       "STRAWBERRY" : 4
     }

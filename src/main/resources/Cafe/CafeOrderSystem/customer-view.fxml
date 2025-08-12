@@ -8,13 +8,21 @@
         <Label text="Place Your Order" style="-fx-font-size: 20; -fx-padding: 10;"/>
     </top>
     <center>
-        <ListView fx:id="beverageListView" layoutX="20" layoutY="20" prefWidth="300" prefHeight="400" onMouseClicked="#handleListClick"/>
+        <HBox spacing="20">
+            <VBox spacing="10">
+                <Label text="Menu Items (Double-click to customize)"/>
+                <ListView fx:id="beverageListView" prefWidth="400" prefHeight="400" onMouseClicked="#handleListClick"/>
+            </VBox>
+            <VBox spacing="10">
+                <Label text="Your Cart"/>
+                <ListView fx:id="cartListView" prefWidth="400" prefHeight="400"/>
+            </VBox>
+        </HBox>
     </center>
     <bottom>
-        <HBox spacing="10" alignment="CENTER"> <!-- 10px between buttons -->
-            <Button text="Checkout" fx:id="checkoutButton" onAction="#handleCheckout"/>
+        <HBox spacing="10" alignment="CENTER">
+            <Button text="Checkout ($0.00)" fx:id="checkoutButton" onAction="#handleCheckout"/>
             <Button text="LOG OUT" fx:id="logoutButton" onAction="#handleLogOut"/>
         </HBox>
     </bottom>
-
 </BorderPane>
