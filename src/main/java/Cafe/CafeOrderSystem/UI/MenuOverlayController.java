@@ -43,9 +43,10 @@ public class MenuOverlayController {
     @FXML private VBox sizesContainer;
     @FXML private Spinner<Double> priceSpinner;
     @FXML private VBox ingredientsContainer;
-        @FXML private TabPane sizeTabs;
+    @FXML private TabPane sizeTabs;
     @FXML private Tab priceTab;
     @FXML private GridPane pastryPriceGrid;
+   
         
     @FXML private VBox ingredientOverlay;
     @FXML private Label sizeHeaderLabel;
