@@ -13,6 +13,7 @@ import Cafe.CafeOrderSystem.UI.IngredientOverlayController;
 import Cafe.CafeOrderSystem.UI.LoginController;
 import Cafe.CafeOrderSystem.UI.ManagerController;
 import Cafe.CafeOrderSystem.UI.MenuOverlayController;
+import Cafe.CafeOrderSystem.UI.NewItemController;
 import Cafe.CafeOrderSystem.UI.OrderOverlayController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -63,12 +64,22 @@ public class LoadFXML {
         this.refreshCallback = refreshCallback;
     }
 
-        // Specialized constructor for order overlays
-    public LoadFXML(Cafe cafe, Stage stage, FxmlView view, 
-                   double width, double height, 
-                   Object menuItem, Runnable refreshCallback) {
+
+    
+    // Specialized for overlays that edit an existing item (menu, order, ingredient view, etc.)
+    public LoadFXML(Cafe cafe, Stage stage, FxmlView view,
+                double width, double height,
+                Object menuItem, Runnable refreshCallback) {
+    this(cafe, stage, view, width, height);
+    this.menuItem = menuItem;
+    this.refreshCallback = refreshCallback;
+}
+
+    // Specialized for **new item** overlay (no pre-existing item)
+    public LoadFXML(Cafe cafe, Stage stage, FxmlView view,
+                    double width, double height,
+                    Runnable refreshCallback) {
         this(cafe, stage, view, width, height);
-        this.menuItem = menuItem;
         this.refreshCallback = refreshCallback;
     }
 
@@ -121,6 +132,11 @@ public class LoadFXML {
             helloController.setFacade(cafe);
             helloController.setPrimaryStage(stage);
         }
+        if (controller instanceof CustomerUiController) {
+            CustomerUiController customerController = (CustomerUiController) controller;
+            customerController.setFacade(cafe);
+            customerController.setPrimaryStage(stage);
+        }
     
         if (controller instanceof OrderOverlayController) {
             OrderOverlayController overlayController = (OrderOverlayController) controller;
@@ -155,6 +171,14 @@ public class LoadFXML {
             overlayController.setMenuItemData(menuItem, stage, refreshCallback);  // Pass menuItem instead of controller
         }
     }
+        if (controller instanceof NewItemController) {
+            NewItemController c = (NewItemController) controller;
+            c.setStage(stage);
+            c.setIngredientList(cafe.getInventoryManagment().getList());
+        
+            // c.setRefreshCallback(() -> /* refresh your UI here */);
+    }
+
          
         // Add other controller types as needed
     }

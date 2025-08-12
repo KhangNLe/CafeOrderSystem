@@ -4,25 +4,25 @@
   "type" : "COFFEE",
   "cost" : {
     "MEDIUM" : {
-      "price" : 7.0,
+      "price" : 10.0,
       "ingredients" : {
-        "COFFEE_BEAN" : 4,
+        "COFFEE_BEAN" : 2,
         "MILK" : 0,
         "SUGAR" : 0
       }
     },
     "SMALL" : {
-      "price" : 6.0,
+      "price" : 9.0,
       "ingredients" : {
-        "COFFEE_BEAN" : 3,
+        "COFFEE_BEAN" : 1,
         "MILK" : 0,
         "SUGAR" : 0
       }
     },
     "LARGE" : {
-      "price" : 8.0,
+      "price" : 11.0,
       "ingredients" : {
-        "COFFEE_BEAN" : 5,
+        "COFFEE_BEAN" : 3,
         "MILK" : 0,
         "SUGAR" : 0
       }
@@ -35,23 +35,27 @@
   "type" : "TEA_BLACK",
   "cost" : {
     "MEDIUM" : {
-      "price" : 7.0,
+      "price" : 6.0,
       "ingredients" : {
-        "COFFEE_BEAN" : 6,
+        "COFFEE_BEAN" : 0,
         "MILK" : 0,
         "SUGAR" : 0
       }
     },
     "SMALL" : {
-      "price" : 3.0,
+      "price" : 4.0,
       "ingredients" : {
-        "TEA_LEAVES_BLACK" : 2
+        "COFFEE_BEAN" : 0,
+        "MILK" : 0,
+        "SUGAR" : 0
       }
     },
     "LARGE" : {
-      "price" : 4.0,
+      "price" : 10.0,
       "ingredients" : {
-        "TEA_LEAVES_BLACK" : 4
+        "COFFEE_BEAN" : 0,
+        "MILK" : 0,
+        "SUGAR" : 0
       }
     }
   },
