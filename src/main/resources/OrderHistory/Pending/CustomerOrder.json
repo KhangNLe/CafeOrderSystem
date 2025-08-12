@@ -228,4 +228,78 @@
   } ],
   "orderStatus" : "PENDING",
   "totalPrice" : 28.75
+}, {
+  "orderDate" : "2025-08-12T18:11:30.644675700",
+  "orderID" : "2025-08-12-7b0945c3-8745-4345-b327-cb925457e8ff",
+  "orderItems" : [ {
+    "item" : {
+      "itemID" : "B-T01",
+      "itemName" : "Green Tea",
+      "itemType" : "TEA_GREEN",
+      "ingredientsCost" : {
+        "TEA_LEAVES_GREEN" : 2
+      },
+      "price" : 3.5
+    },
+    "quantity" : 1
+  }, {
+    "item" : {
+      "itemID" : "B-C01",
+      "itemName" : "Latte",
+      "itemType" : "COFFEE",
+      "ingredientsCost" : {
+        "COFFEE_BEAN" : 3,
+        "MILK" : 3,
+        "SUGAR" : 0
+      },
+      "price" : 5.0
+    },
+    "quantity" : 1
+  } ],
+  "orderStatus" : "PENDING",
+  "totalPrice" : 8.5
+}, {
+  "orderDate" : "2025-08-12T18:16:28.495371900",
+  "orderID" : "2025-08-12-3dfc6731-3c6e-473f-ac28-9ab6103fd7c0",
+  "orderItems" : [ {
+    "item" : {
+      "itemID" : "B-C02",
+      "itemName" : "Cappuccino",
+      "itemType" : "COFFEE",
+      "ingredientsCost" : {
+        "COFFEE_BEAN" : 4,
+        "MILK" : 6,
+        "SUGAR" : 0
+      },
+      "price" : 11.0
+    },
+    "quantity" : 1
+  }, {
+    "item" : {
+      "itemID" : "B-C03",
+      "itemName" : "Espresso",
+      "itemType" : "COFFEE",
+      "ingredientsCost" : {
+        "COFFEE_BEAN" : 3,
+        "MILK" : 0,
+        "SUGAR" : 0
+      },
+      "price" : 3.0
+    },
+    "quantity" : 1
+  }, {
+    "item" : {
+      "itemID" : "P-Cr01",
+      "itemName" : "Butter Croissant",
+      "itemType" : "CROISSANT",
+      "ingredientsCost" : {
+        "BUTTER" : 3,
+        "FLOUR" : 4
+      },
+      "price" : 5.0
+    },
+    "quantity" : 1
+  } ],
+  "orderStatus" : "PENDING",
+  "totalPrice" : 19.0
 } ]

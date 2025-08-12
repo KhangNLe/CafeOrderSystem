@@ -97,25 +97,10 @@ public class OrdersManagement {
      * @param orderID   the ID of the order to update
      * @param orderItem the item to add
      */
-    public void addItemIntoOrder(String orderID, OrderItem orderItem) {
+    public void addItemIntoOrder(String orderID, OrderItem orderItem){
         CustomerOrder order = orders.lookUpActiveOrder(orderID);
-        if (order != null) {
-            order.addOrderItem(orderItem);
-        } else {
-            throw new InvalidInputException("Order with ID " + orderID + " not found");
-        }
-    }
-
-    // Ali: Used to validate and retrieve an order by its ID.
-
-    /**
-     * Verifies the existence of an active order by its ID.
-     * @param orderId
-     * @return
-     * @throws InvalidInputException
-     */
-    public CustomerOrder verifyOrder(String orderId) throws InvalidInputException {
-        return orders.lookUpActiveOrder(orderId); // Uses the existing CafeOrders access
+        verifyCustomerOrder(order, orderID);
+        order.addOrderItem(orderItem);
     }
 
     /**
