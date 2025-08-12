@@ -5,9 +5,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 
-<StackPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="Cafe.CafeOrderSystem.UI.NewItemOverlayController">
-
+<StackPane xmlns="http://javafx.com/javafx/21"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="Cafe.CafeOrderSystem.UI.NewItemController">
     <!-- Dim background -->
     <Pane style="-fx-background-color: rgba(0,0,0,0.45);" />
 
@@ -54,17 +54,12 @@
                                         <TextField fx:id="ingredientNameField" promptText="e.g., Espresso Beans"
                                                    GridPane.rowIndex="0" GridPane.columnIndex="1" GridPane.columnSpan="3"/>
 
-                                        <!-- Notes -->
-                                        <Label text="Notes" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-                                        <TextArea fx:id="ingredientNotesArea" promptText="Optional: supplier, pack size, SKU"
-                                                  prefRowCount="4"
-                                                  GridPane.rowIndex="1" GridPane.columnIndex="1" GridPane.columnSpan="3"/>
                                     </GridPane>
                                 </content>
                             </Tab>
 
                             <!-- Stock / Cost -->
-                            <Tab fx:id="ingredientStockTab" text="Stock & Cost" closable="false">
+                            <Tab fx:id="ingredientStockTab" text="Stock Cost" closable="false">
                                 <content>
                                     <GridPane hgap="14" vgap="12">
                                         <padding><Insets top="14" right="14" bottom="14" left="14"/></padding>
@@ -75,20 +70,11 @@
                                             <ColumnConstraints hgrow="SOMETIMES"/>
                                         </columnConstraints>
 
-                                        <!-- Cost per item (no units) -->
-                                        <Label text="Cost per Item" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-                                        <Spinner fx:id="unitCostSpinner" editable="true"
-                                                 GridPane.rowIndex="0" GridPane.columnIndex="1"/>
 
                                         <!-- Starting Stock (count) -->
                                         <Label text="Starting Stock" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
                                         <Spinner fx:id="startingStockSpinner" editable="true"
                                                  GridPane.rowIndex="0" GridPane.columnIndex="3"/>
-
-                                        <!-- Reorder Threshold (count) -->
-                                        <Label text="Reorder Threshold" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-                                        <Spinner fx:id="reorderLevelSpinner" editable="true"
-                                                 GridPane.rowIndex="1" GridPane.columnIndex="1"/>
 
                                         <!-- Preview -->
                                         <Label text="Preview" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
@@ -104,7 +90,7 @@
                 <!-- BEVERAGE TAB (stub) -->
                 <Tab fx:id="beverageTab" text="Beverage" closable="false" disable="true">
                     <content>
-                        <VBox spacing="10" padding="14">
+                        <VBox>
                             <Label text="Beverage form goes here (sizes, prices, ingredients per size)." />
                         </VBox>
                     </content>
@@ -113,7 +99,7 @@
                 <!-- PASTRY TAB (stub) -->
                 <Tab fx:id="pastryTab" text="Pastry" closable="false" disable="true">
                     <content>
-                        <VBox spacing="10" padding="14">
+                        <VBox>
                             <Label text="Pastry form goes here (flat price, ingredients)." />
                         </VBox>
                     </content>
