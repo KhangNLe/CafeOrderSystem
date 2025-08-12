@@ -47,68 +47,76 @@ public class NewItemController {
     public void setIngredientSaver(Consumer<IngredientItem> saver) { this.ingredientSaver = saver; }
 
     // --- Actions ---
-    @FXML
-    private void handleSave() {
-        try {
-            String name = trim(ingredientNameField.getText());
-            if (name.isEmpty()) throw new IllegalArgumentException("Please enter an ingredient name.");
+@FXML
+private void handleSave() {
+    try {
+        String name = trim(ingredientNameField.getText());
+        if (name.isEmpty()) throw new IllegalArgumentException("Please enter an ingredient name.");
 
-            int addAmount = safeValue(startingStockSpinner, 0);
-            if (addAmount < 0) throw new IllegalArgumentException("Starting stock must be ≥ 0.");
+        int addAmount = safeValue(startingStockSpinner, 0);
+        if (addAmount < 0) throw new IllegalArgumentException("Starting stock must be ≥ 0.");
 
-            IngredientItem newItem = new IngredientItem(
-                UUID.randomUUID().toString(),
-                new Ingredients(name),   // your Ingredients is a class, not enum
-                addAmount
-            );
-
-            if (ingredientSaver != null) {
-                ingredientSaver.accept(newItem);
-            } else if (ingredientList != null) {
-                saveIntoIngredientList(newItem);
-            } else {
-                throw new IllegalStateException("No IngredientList or saver provided.");
-            }
-
-            if (refreshCallback != null) refreshCallback.run();
-            if (stage != null) stage.close();
-
-        } catch (Exception e) {
-            new Alert(Alert.AlertType.ERROR, "Failed to save: " + e.getMessage()).show();
-            e.printStackTrace();
+        // ← NEW: duplicate check (case-insensitive by ingredient display name)
+        if (ingredientList != null && findByIngredientNameIgnoreCase(name) >= 0) {
+            throw new IllegalArgumentException("Ingredient \"" + name + "\" already exists.");
         }
+
+        IngredientItem newItem = new IngredientItem(
+            UUID.randomUUID().toString(),
+            new Ingredients(name),
+            addAmount
+        );
+
+        if (ingredientSaver != null) {
+            ingredientSaver.accept(newItem);
+        } else if (ingredientList != null) {
+            // safe add (saveIntoIngredientList will also guard)
+            saveIntoIngredientList(newItem);
+        } else {
+            throw new IllegalStateException("No IngredientList or saver provided.");
+        }
+
+        if (refreshCallback != null) refreshCallback.run();
+        if (stage != null) stage.close();
+
+    } catch (Exception e) {
+        new Alert(Alert.AlertType.ERROR, "Failed to save: " + e.getMessage()).show();
+        e.printStackTrace();
     }
+}
+
 
     @FXML
     private void handleCancel() {
         if (stage != null) stage.close();
     }
 
-    // --- Persistence helpers ---
-    private void saveIntoIngredientList(IngredientItem toAdd) throws Exception {
-        int idx = findByIngredient(toAdd.getIngredient());
-        if (idx >= 0) {
-            IngredientItem existing = ingredientList.getObject(idx);
-            int combined = Math.max(0, existing.getAmount() + toAdd.getAmount());
-            existing.changeAmount(combined);
-        } else {
-            ingredientList.addObject(toAdd);
-        }
-        // If your JsonCollection needs an explicit write/flush, call it here.
+private void saveIntoIngredientList(IngredientItem toAdd) throws Exception {
+    // Reject if same ingredient already exists
+    if (findByIngredientNameIgnoreCase(toAdd.getIngredient().getName()) >= 0) {
+        throw new IllegalArgumentException(
+            "Ingredient \"" + toAdd.getIngredient().getName() + "\" already exists."
+        );
     }
+    ingredientList.addObject(toAdd);
+    // if your JsonCollection needs an explicit write, call it here
+}
 
-    /** Linear scan because JsonCollection doesn’t expose a map by ingredient. */
-    private int findByIngredient(Ingredients ingredient) {
-        for (int i = 0; ; i++) {
-            try {
-                IngredientItem it = ingredientList.getObject(i);
-                if (it.getIngredient().equals(ingredient)) return i;
-            } catch (Exception e) {
-                return -1;
-            }
+
+
+private int findByIngredientNameIgnoreCase(String name) {
+    if (name == null) return -1;
+    String needle = name.trim();
+    for (int i = 0; ; i++) {
+        try {
+            IngredientItem it = ingredientList.getObject(i);
+            String got = it.getIngredient().getName();
+            if (got != null && got.equalsIgnoreCase(needle)) return i;
+        } catch (Exception e) {
+            return -1; // reached end
         }
     }
-
+}
     // --- UI helpers ---
     private void updatePreview() {
         String name = trim(ingredientNameField.getText());
