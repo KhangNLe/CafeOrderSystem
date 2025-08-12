@@ -34,6 +34,7 @@ public class CustomerUiController {
     @FXML private Button checkoutButton;
     @FXML private Button logoutButton;
     @FXML private ListView<String> beverageListView;
+    @FXML private ListView<String> pastriesListView;
     @FXML private ListView<String> cartListView;
 
     private ObservableList<String> cartItems = FXCollections.observableArrayList();
@@ -63,12 +64,33 @@ public class CustomerUiController {
                 }
             });
 
+            pastriesListView.setCellFactory(lv -> new ListCell<>() {
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    setText(empty || item == null ? null : item);
+                }
+            });
+
             // Set up cart list
             cartListView.setItems(cartItems);
 
             // Load initial data
-            Platform.runLater(this::displayBeveragesWithCustomizations);
+            Platform.runLater(() -> {
+                displayBeveragesWithCustomizations();
+                displayPastries();
+            });
         });
+    }
+
+    private void displayPastries() {
+        MenuManagement menuManagement = cafeShop.getCafeMenuManagement();
+        List<PastriesItem> pastries = menuManagement.getPastriesItems();
+
+        pastriesListView.getItems().clear();
+        for (PastriesItem pastry : pastries) {
+            pastriesListView.getItems().add(pastry.getShortSummary());
+        }
     }
 
 
@@ -85,7 +107,7 @@ public class CustomerUiController {
 
 
     @FXML
-    private void handleListClick(MouseEvent event) {
+    private void handleBeverageListClick(MouseEvent event) {
 
         if (event.getClickCount() == 2) { // double-click
 
@@ -170,6 +192,42 @@ public class CustomerUiController {
         return new ArrayList<>();
     }
 
+    @FXML
+    private void handlePastryListClick(MouseEvent event) {
+        if (event.getClickCount() == 2) { // double-click
+            String selectedSummary = pastriesListView.getSelectionModel().getSelectedItem();
+
+            if (selectedSummary != null) {
+                MenuManagement menuManagement = cafeShop.getCafeMenuManagement();
+                List<PastriesItem> pastries = menuManagement.getPastriesItems();
+
+                pastries.stream()
+                        .filter(p -> p.getShortSummary().equals(selectedSummary))
+                        .findFirst()
+                        .ifPresent(this::handlePastrySelection);
+            }
+        }
+    }
+
+    private void handlePastrySelection(PastriesItem pastry) {
+        // TODO: Validate if pastry is out of stock
+
+        // Add to cart directly (no customizations for pastries)
+        addPastryToCart(pastry);
+    }
+
+    private void addPastryToCart(PastriesItem pastry) {
+        // Create display string
+        String display = "1 x " + pastry.name() + " - $" + String.format("%.2f", pastry.cost().price());
+
+        // Add to ALL cart tracking lists
+        cartItemObjects.add(pastry);
+        cartItemSizes.add(null); // Add null for size since pastries don't have sizes
+        cartItemQuantities.add(1); // Default quantity of 1
+        cartTotal += pastry.cost().price();
+        updateCartDisplay();
+    }
+
     private void addBeverageToCart(BeverageItem beverage, BeverageSize size,
                                    List<CustomItem> customizations) {
         // Calculate base price
@@ -202,8 +260,9 @@ public class CustomerUiController {
     }
 
 
+
     private void updateCartDisplay() {
-        cartItems.clear(); // Clear existing display
+        cartItems.clear();
         cartTotal = 0.0;
 
         for (int i = 0; i < cartItemObjects.size(); i++) {

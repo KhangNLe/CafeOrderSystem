@@ -170,4 +170,62 @@
   } ],
   "orderStatus" : "PENDING",
   "totalPrice" : 21.0
+}, {
+  "orderDate" : "2025-08-12T17:37:34.037414600",
+  "orderID" : "2025-08-12-19566cd2-e5a5-47f4-9409-05a4d194eaca",
+  "orderItems" : [ {
+    "item" : {
+      "itemID" : "B-T02",
+      "itemName" : "Black Tea",
+      "itemType" : "TEA_BLACK",
+      "ingredientsCost" : {
+        "COFFEE_BEAN" : 0,
+        "MILK" : 0,
+        "SUGAR" : 0
+      },
+      "price" : 6.0
+    },
+    "quantity" : 1
+  }, {
+    "item" : {
+      "itemID" : "P-Cr02",
+      "itemName" : "Chocolate Croissant",
+      "itemType" : "CROISSANT",
+      "ingredientsCost" : {
+        "CHOCOLATE_CHIP" : 3,
+        "BUTTER" : 3,
+        "FLOUR" : 4
+      },
+      "price" : 11.0
+    },
+    "quantity" : 1
+  }, {
+    "item" : {
+      "itemID" : "P-Cr05",
+      "itemName" : "Strawberry Croissant",
+      "itemType" : "CROISSANT",
+      "ingredientsCost" : {
+        "BUTTER" : 3,
+        "FLOUR" : 4,
+        "STRAWBERRY" : 3
+      },
+      "price" : 6.75
+    },
+    "quantity" : 1
+  }, {
+    "item" : {
+      "itemID" : "B-C01",
+      "itemName" : "Latte",
+      "itemType" : "COFFEE",
+      "ingredientsCost" : {
+        "COFFEE_BEAN" : 3,
+        "MILK" : 3,
+        "SUGAR" : 0
+      },
+      "price" : 5.0
+    },
+    "quantity" : 1
+  } ],
+  "orderStatus" : "PENDING",
+  "totalPrice" : 28.75
 } ]

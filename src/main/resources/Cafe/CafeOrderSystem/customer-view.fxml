@@ -9,13 +9,28 @@
     </top>
     <center>
         <HBox spacing="20">
-            <VBox spacing="10">
-                <Label text="Menu Items (Double-click to customize)"/>
-                <ListView fx:id="beverageListView" prefWidth="400" prefHeight="400" onMouseClicked="#handleListClick"/>
-            </VBox>
-            <VBox spacing="10">
+            <!-- Left side: TabPane with Beverages and Pastries -->
+            <TabPane prefWidth="400" prefHeight="400">
+                <Tab text="Beverages" closable="false">
+                    <VBox spacing="10">
+                        <Label text="Menu Items (Double-click to customize)"/>
+                        <ListView fx:id="beverageListView" prefWidth="380" prefHeight="370"
+                                  onMouseClicked="#handleBeverageListClick"/>
+                    </VBox>
+                </Tab>
+                <Tab text="Pastries" closable="false">
+                    <VBox spacing="10">
+                        <Label text="Menu Items (Double-click to add to cart)"/>
+                        <ListView fx:id="pastriesListView" prefWidth="380" prefHeight="370"
+                                  onMouseClicked="#handlePastryListClick"/>
+                    </VBox>
+                </Tab>
+            </TabPane>
+
+            <!-- Right side: Cart -->
+            <VBox spacing="10" prefWidth="400">
                 <Label text="Your Cart"/>
-                <ListView fx:id="cartListView" prefWidth="400" prefHeight="400"/>
+                <ListView fx:id="cartListView" prefWidth="380" prefHeight="400"/>
             </VBox>
         </HBox>
     </center>
