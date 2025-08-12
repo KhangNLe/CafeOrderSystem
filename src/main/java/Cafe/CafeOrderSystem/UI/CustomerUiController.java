@@ -2,7 +2,6 @@ package Cafe.CafeOrderSystem.UI;
 
 import Cafe.CafeOrderSystem.Cafe;
 import Cafe.CafeOrderSystem.CatalogItems.BeverageSize;
-import Cafe.CafeOrderSystem.Menu.CafeMenu;
 import Cafe.CafeOrderSystem.Menu.Items.BeverageItem;
 import Cafe.CafeOrderSystem.Menu.Items.PastriesItem;
 import Cafe.CafeOrderSystem.Menu.MenuManagement;
@@ -16,9 +15,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.scene.Scene;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +24,6 @@ import java.util.stream.Collectors;
 
 import Cafe.CafeOrderSystem.Menu.Items.CustomItem;
 
-// WORK ON IT
 public class CustomerUiController {
     private Cafe cafeShop;
     private Stage primaryStage;
@@ -61,7 +56,7 @@ public class CustomerUiController {
     @FXML
     public void initialize() {
         Platform.runLater(() -> {
-            beverageListView.setCellFactory(lv -> new ListCell<String>() {
+            beverageListView.setCellFactory(lv -> new ListCell<>() {
                 @Override
                 protected void updateItem(String item, boolean empty) {
                     super.updateItem(item, empty);
@@ -105,15 +100,10 @@ public class CustomerUiController {
                 Map<BeverageItem, List<CustomItem>> beveragesWithCustomizations =
                         menuManagement.getBeverageWithCustomizeOption();
 
-                BeverageItem selectedBeverage = beveragesWithCustomizations.keySet().stream()
+                beveragesWithCustomizations.keySet().stream()
                         .filter(b -> b.getShortSummary().equals(selectedSummary))
-                        .findFirst()
-                        .orElse(null);
-
-                if (selectedBeverage != null) {
-                    handleBeverageSelection(selectedBeverage,
-                            beveragesWithCustomizations.get(selectedBeverage));
-                }
+                        .findFirst().ifPresent(selectedBeverage -> handleBeverageSelection(selectedBeverage,
+                                beveragesWithCustomizations.get(selectedBeverage)));
 
 
             }
@@ -122,39 +112,6 @@ public class CustomerUiController {
 
     }
 
-    private void addToCart(BeverageItem item, BeverageSize size) {
-        // Check if item already exists in cart
-        for (int i = 0; i < cartItemObjects.size(); i++) {
-            if (cartItemObjects.get(i) == item && cartItemSizes.get(i) == size) {
-                cartItemQuantities.set(i, cartItemQuantities.get(i) + 1);
-                updateCartDisplay();
-                return;
-            }
-        }
-
-        // Add new item
-        cartItemObjects.add(item);
-        cartItemSizes.add(size);
-        cartItemQuantities.add(1);
-        updateCartDisplay();
-    }
-
-    private void addToCart(PastriesItem item) {
-        // Check if item already exists in cart
-        for (int i = 0; i < cartItemObjects.size(); i++) {
-            if (cartItemObjects.get(i) == item) {
-                cartItemQuantities.set(i, cartItemQuantities.get(i) + 1);
-                updateCartDisplay();
-                return;
-            }
-        }
-
-        // Add new item
-        cartItemObjects.add(item);
-        cartItemSizes.add(null); // No size for pastries
-        cartItemQuantities.add(1);
-        updateCartDisplay();
-    }
 
     private void handleBeverageSelection(BeverageItem beverage, List<CustomItem> customizations) {
         // TODO: Validate Function for Menu Item if Out of Order
@@ -174,7 +131,7 @@ public class CustomerUiController {
 
     private BeverageSize showSizeSelectionDialog(BeverageItem beverage) {
         List<BeverageSize> availableSizes = new ArrayList<>(beverage.cost().keySet());
-        ChoiceDialog<BeverageSize> dialog = new ChoiceDialog<>(availableSizes.get(0), availableSizes);
+        ChoiceDialog<BeverageSize> dialog = new ChoiceDialog<>(availableSizes.getFirst(), availableSizes);
 
         dialog.setTitle("Select Size");
         dialog.setHeaderText("Select size for " + beverage.name());
@@ -195,7 +152,7 @@ public class CustomerUiController {
         // Create checkboxes for each customization
         List<CheckBox> checkBoxes = availableCustomizations.stream()
                 .map(c -> new CheckBox(c.name() + " (+$" + c.additionalPrice() + ")"))
-                .collect(Collectors.toList());
+                .toList();
 
         VBox content = new VBox(10);
         content.getChildren().addAll(checkBoxes);
@@ -249,11 +206,10 @@ public class CustomerUiController {
         for (int i = 0; i < cartItemObjects.size(); i++) {
             Object item = cartItemObjects.get(i);
             int quantity = cartItemQuantities.get(i);
-            double price = 0.0;
+            double price;
             String displayName;
 
-            if (item instanceof BeverageItem) {
-                BeverageItem beverage = (BeverageItem) item;
+            if (item instanceof BeverageItem beverage) {
                 BeverageSize size = cartItemSizes.get(i);
                 price = beverage.cost().get(size).price();
                 displayName = beverage.name() + " (" + size + ")";
@@ -271,18 +227,6 @@ public class CustomerUiController {
         }
 
         checkoutButton.setText(String.format("Checkout ($%.2f)", cartTotal));
-    }
-
-
-    public void displayBeverages() {
-        // Get the list of beverage items from the cafe menu management
-        MenuManagement menuManagement = cafeShop.getCafeMenuManagement();
-
-        List<BeverageItem> observableBeverages = menuManagement.getBeverageItems();
-
-        for (BeverageItem beverage : observableBeverages) {
-            beverageListView.getItems().add(beverage.getShortSummary());
-        }
     }
 
 
