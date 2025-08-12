@@ -39,10 +39,6 @@ public class CustomerUiController {
     private List<Integer> cartItemQuantities = new ArrayList<>();
     private double cartTotal = 0.0;
 
-    private static final BeverageSize SMALL = new BeverageSize("SMALL");
-    private static final BeverageSize MEDIUM = new BeverageSize("MEDIUM");
-    private static final BeverageSize LARGE = new BeverageSize("LARGE");
-
 
     public void setFacade(Cafe cafeShop) {
         this.cafeShop = cafeShop;

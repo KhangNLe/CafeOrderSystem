@@ -139,7 +139,6 @@ public class MenuManagement {
     BeverageItem modifiedItem = beverageModifier.modifyItemSize(size, ingredientCost,
             beverageItem, price);
 
-    // Replace in place instead of remove+append
     cafeMenu.setBeverageItem(beverageIdx, modifiedItem);
 }
 
@@ -166,8 +165,8 @@ public void modifyPastryItem(int pastriesIdx,
     public void removeBeverageSize(int beverageIdx, BeverageSize size){
         BeverageItem beverageItem = getBeverageItem(beverageIdx);
         BeverageItem modifiedItem = beverageModifier.removeItemSize(size, beverageItem);
-        cafeMenu.removeBeverageItem(beverageIdx);
-        cafeMenu.addNewBeverageItem(modifiedItem);
+
+        cafeMenu.setBeverageItem(beverageIdx, modifiedItem);
     }
 
     /**
@@ -191,12 +190,7 @@ public void modifyPastryItem(int pastriesIdx,
         PastriesItem item = getPastriesItem(pastriesIdx);
         PastriesItem newItem = pastriesModifier.modifyPastriesCost(item, price);
 
-        // cafeMenu.removePastriesItem(pastriesIdx);
-        // cafeMenu.addPastriesItem(newItem);
-         cafeMenu.setPastryItem(pastriesIdx, newItem);
-
-
-        
+        cafeMenu.setPastryItem(pastriesIdx, newItem);
     }
 
     /**
@@ -213,10 +207,8 @@ public void modifyPastryItem(int pastriesIdx,
         PastriesItem item = getPastriesItem(pastriesIdx);
         PastriesItem newItem = pastriesModifier.modifyPastriesIngredientsCost(item,
                 newIngredientCost);
-        // cafeMenu.removePastriesItem(pastriesIdx);
-        // cafeMenu.addPastriesItem(newItem);
 
-       
+       cafeMenu.setPastryItem(pastriesIdx, newItem);
     }
 
     

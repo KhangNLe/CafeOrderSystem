@@ -117,4 +117,53 @@
       "ALMOND" : 4
     }
   }
+}, {
+  "id" : "P-C01",
+  "name" : "Sugar Cookie",
+  "type" : "COOKIE",
+  "cost" : {
+    "price" : 2.0,
+    "ingredients" : {
+      "BUTTER" : 1,
+      "FLOUR" : 1,
+      "SUGAR" : 1
+    }
+  }
+}, {
+  "id" : "P-C02",
+  "name" : "Chocolate chip cookie",
+  "type" : "COOKIE",
+  "cost" : {
+    "price" : 4.0,
+    "ingredients" : {
+      "BUTTER" : 1,
+      "FLOUR" : 1,
+      "CHOCOLATE_CHIP" : 1
+    }
+  }
+}, {
+  "id" : "P-C03",
+  "name" : "Oatmeal Raisin Cookie",
+  "type" : "COOKIE",
+  "cost" : {
+    "price" : 4.0,
+    "ingredients" : {
+      "BUTTER" : 1,
+      "FLOUR" : 1,
+      "OATMEAL" : 1,
+      "RAISIN" : 1
+    }
+  }
+}, {
+  "id" : "P-C04",
+  "name" : "Almond Cookie",
+  "type" : "COOKIE",
+  "cost" : {
+    "price" : 4.5,
+    "ingredients" : {
+      "BUTTER" : 1,
+      "FLOUR" : 1,
+      "ALMOND" : 2
+    }
+  }
 } ]
