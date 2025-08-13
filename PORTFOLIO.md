@@ -1,11 +1,11 @@
-🧭 Portfolio Overview: CafeOrderSystem  
+# 🧭 Portfolio Overview: CafeOrderSystem  
 This project was completed as part of **ICS372: Object-Oriented Design and Implementation** at 
 **Metropolitan 
 State University** (Summer 2025).
 
 ---
 
-🚀 Project Summary  
+## 🚀 Project Summary  
 A role-based café ordering and management system that:
 
 - Provides dedicated interfaces for **Customers**, **Baristas**, and **Managers**
@@ -17,7 +17,7 @@ A role-based café ordering and management system that:
 
 ---
 
-🧠 Technologies Used
+## 🧠 Technologies Used
 - Java 21
 - JavaFX 21 (Controls, FXML)
 - Maven
@@ -26,7 +26,7 @@ A role-based café ordering and management system that:
 
 ---
 
-🧩 Key Components Implemented
+## 🧩 Key Components Implemented
 
 **Menu/Items** (record classes):
 - `BeverageCost`, `BeverageItem`, `CustomItem`, `PastriesCost`, `PastriesItem`
@@ -43,7 +43,7 @@ A role-based café ordering and management system that:
 
 ---
 
-📊 Architecture & Design Documentation
+## 📊 Architecture & Design Documentation
 
 - **UML Diagrams**
     - **Use Case Diagram**: Illustrates interactions for Customers, Baristas, and Managers.
@@ -71,7 +71,7 @@ A role-based café ordering and management system that:
 
 ---
 
-📊 Sample Workflow
+## 📊 Sample Workflow
 
 1. Customer browses menu and place order
 2. Order is sent to Barista UI with preparation status updates
@@ -80,7 +80,7 @@ A role-based café ordering and management system that:
 
 ---
 
-🧪 Testing Strategy
+## 🧪 Testing Strategy
 - JUnit 5 unit tests for:
     - Order creation & status changes
     - Inventory depletion logic
@@ -90,7 +90,7 @@ A role-based café ordering and management system that:
 
 ---
 
-💬 What I Learned
+## 💬 What I Learned
 - Designed complete UML artifacts (Use Case, Class, Sequence, Activity diagrams) to validate conceptual design before coding
 - Created wireframes to guide UI development for multiple user roles
 - Applied MVC architecture rigorously, ensuring separation of concerns
@@ -99,7 +99,7 @@ A role-based café ordering and management system that:
 
 ---
 
-🎯 Resume Summary  
+## 🎯 Resume Summary  
 Designed and implemented a role-based café ordering system with JavaFX and Java 21 records, featuring real-time inventory management, custom JSON parsers, and persistent data storage.
 - Produced UML Use Case, Class, Sequence, and Activity diagrams to model system behavior
 - Designed annotated wireframes for role-specific UI screens
