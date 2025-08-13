@@ -30,7 +30,7 @@
 
             <!-- Right side: Cart -->
             <VBox spacing="10" prefWidth="400">
-                <Label text="Your Cart"/>
+                <Label text="Your Cart (Double-click to remove items)"/>
                 <ListView fx:id="cartListView" prefWidth="380" prefHeight="350"
                           onMouseClicked="#handleCartItemClick"/>
             </VBox>
