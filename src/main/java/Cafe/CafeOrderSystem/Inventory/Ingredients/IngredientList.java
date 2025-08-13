@@ -27,11 +27,11 @@ public class IngredientList extends JsonCollection<IngredientItem> {
         IngredientItem tempIngr = (getObject(ingrLoc));// creates temp ingredients
         int tempQuant = tempIngr.getAmount(); // gets its quantity
         tempQuant += amount; // increments it by input
-        if (amount >= 0) {//validating modification amount
+        if (tempQuant >= 0) {//validating modification amount
             System.out.println("amount greater than 0");
             tempIngr.changeAmount(amount);// sets new quant
         }else {
-            System.out.printf("amount less than 0 %d", amount);
+            System.out.printf("amount less than 0 %d", tempQuant);
             return false; //error message
         }
 
