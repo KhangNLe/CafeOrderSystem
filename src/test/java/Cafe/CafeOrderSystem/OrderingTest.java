@@ -30,9 +30,9 @@ public class OrderingTest {
     @Test
     @DisplayName("Test for creating a customer order")
     void testCustomerOrderID(){
-        String orderID = ordersManagement.createNewOrder();
-        String order2 = ordersManagement.createNewOrder();
-        String order3 = ordersManagement.createNewOrder();
+        String orderID = ordersManagement.createNewOrder("Hi");
+        String order2 = ordersManagement.createNewOrder("Ho");
+        String order3 = ordersManagement.createNewOrder("hii");
 
         ordersManagement.finalizeActiveOrder(orderID);
         ordersManagement.finalizeActiveOrder(order2);
@@ -51,7 +51,7 @@ public class OrderingTest {
     @Test
     @DisplayName("Test for adding item into customer order")
     void testAddingItem(){
-        String orderID = ordersManagement.createNewOrder();
+        String orderID = ordersManagement.createNewOrder("Joe");
 
         MenuManagement menu = cafeShop.getCafeMenuManagement();
         BeverageItem item = menu.getBeverageItem(3);
@@ -81,7 +81,7 @@ public class OrderingTest {
     @Test
     @DisplayName("Test with modify beverage order")
     void testModifyBeverageOrder(){
-        String orderID = ordersManagement.createNewOrder();
+        String orderID = ordersManagement.createNewOrder("Hi");
         MenuManagement menu = cafeShop.getCafeMenuManagement();
 
         List<BeverageItem> beverages = menu.getBeverageItems();
@@ -125,7 +125,7 @@ public class OrderingTest {
     @Test
     @DisplayName("Test for Pastries Item")
     void testPastriesItem(){
-        String orderID = ordersManagement.createNewOrder();
+        String orderID = ordersManagement.createNewOrder("HA");
         MenuManagement menu = cafeShop.getCafeMenuManagement();
 
         List<PastriesItem> pastries = menu.getPastriesItems();
