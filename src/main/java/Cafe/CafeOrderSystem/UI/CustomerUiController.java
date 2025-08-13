@@ -3,14 +3,13 @@ package Cafe.CafeOrderSystem.UI;
 import Cafe.CafeOrderSystem.Cafe;
 import Cafe.CafeOrderSystem.CatalogItems.BeverageSize;
 import Cafe.CafeOrderSystem.CatalogItems.Ingredients;
+import Cafe.CafeOrderSystem.Exceptions.InvalidInputException;
 import Cafe.CafeOrderSystem.Inventory.Ingredients.IngredientItem;
 import Cafe.CafeOrderSystem.Inventory.Inventory;
 import Cafe.CafeOrderSystem.Menu.Items.BeverageItem;
 import Cafe.CafeOrderSystem.Menu.Items.PastriesItem;
 import Cafe.CafeOrderSystem.Menu.MenuManagement;
-import Cafe.CafeOrderSystem.Orders.CustomerOrder;
 import Cafe.CafeOrderSystem.Orders.OrderItem;
-import Cafe.CafeOrderSystem.Orders.OrderStatus;
 import Cafe.CafeOrderSystem.Orders.OrdersManagement;
 import Cafe.CafeOrderSystem.utility.FxmlView;
 import Cafe.CafeOrderSystem.utility.LoadFXML;
@@ -54,7 +53,7 @@ public class CustomerUiController {
 
     private ObservableList<String> cartItems = FXCollections.observableArrayList();
     private List<Object> cartItemObjects = new ArrayList<>(); // Stores actual items
-    private List<BeverageSize> cartItemSizes = new ArrayList<>(); // For beverages
+    private final Map<BeverageItem, BeverageSize> cartItemSizes = new HashMap<>(); // For beverages
     private List<Integer> cartItemQuantities = new ArrayList<>();
     private double cartTotal = 0.0;
     private String currentOrderId;
@@ -64,7 +63,7 @@ public class CustomerUiController {
 
     public void setFacade(Cafe cafeShop) {
         this.cafeShop = cafeShop;
-        this.inventory = cafeShop.getInventoryManagment();
+        this.inventory = cafeShop.getInventoryManagement();
     }
 
     public void setPrimaryStage(Stage stage) {
@@ -289,7 +288,6 @@ public class CustomerUiController {
 
         // Add to ALL cart tracking lists
         cartItemObjects.add(pastry);
-        cartItemSizes.add(null); // Add null for size since pastries don't have sizes
         cartItemQuantities.add(1); // Default quantity of 1
         cartTotal += pastry.cost().price();
         updateCartDisplay();
@@ -322,7 +320,7 @@ public class CustomerUiController {
 
         // Add to cart tracking lists
         cartItemObjects.add(beverage);
-        cartItemSizes.add(size);
+        cartItemSizes.put(beverage, size);
         cartItemQuantities.add(1);
         cartTotal += basePrice + customizationTotal;
         updateCartDisplay();
@@ -380,89 +378,6 @@ public class CustomerUiController {
         }
     }
 
-    private boolean deductOrderIngredients() {
-        for (int i = 0; i < cartItemObjects.size(); i++) {
-            Object item = cartItemObjects.get(i);
-            int quantity = cartItemQuantities.get(i);
-
-            if (item instanceof BeverageItem beverage) {
-                BeverageSize size = cartItemSizes.get(i);
-                List<CustomItem> customizations = getCustomizationsForItem(beverage);
-
-                if (!deductBeverageIngredients(beverage, size, customizations, quantity)) {
-                    return false;
-                }
-            }
-            else if (item instanceof PastriesItem pastry) {
-                if (!deductPastryIngredients(pastry, quantity)) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    private boolean deductBeverageIngredients(BeverageItem beverage, BeverageSize size,
-                                              List<CustomItem> customizations, int quantity) {
-        // Get base ingredients
-        Map<Ingredients, Integer> ingredients = beverage.cost().get(size).ingredients();
-
-        // Add customization ingredients
-        for (CustomItem custom : customizations) {
-            if (custom.ingredients() != null) {
-                custom.ingredients().forEach((ingr, amt) ->
-                        ingredients.merge(ingr, amt, Integer::sum)
-                );
-            }
-        }
-
-        // Multiply by quantity and deduct
-        for (Map.Entry<Ingredients, Integer> entry : ingredients.entrySet()) {
-            IngredientItem stockItem = findIngredientItem(entry.getKey());
-            if (stockItem == null) {
-                return false;
-            }
-
-            int amountNeeded = entry.getValue() * quantity;
-            int currentAmount = stockItem.getAmount();
-
-            if (currentAmount < amountNeeded) {
-                return false;
-            }
-
-            // Subtract the amount
-            if (!inventory.modifyInventory(-amountNeeded, stockItem)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private boolean deductPastryIngredients(PastriesItem pastry, int quantity) {
-        Map<Ingredients, Integer> ingredients = pastry.cost().ingredients();
-
-        for (Map.Entry<Ingredients, Integer> entry : ingredients.entrySet()) {
-            IngredientItem stockItem = findIngredientItem(entry.getKey());
-            if (stockItem == null) {
-                return false;
-            }
-
-            int amountNeeded = entry.getValue() * quantity;
-            int currentAmount = stockItem.getAmount();
-
-            if (currentAmount < amountNeeded) {
-                return false;
-            }
-
-            // Subtract the amount
-            if (!inventory.modifyInventory(-amountNeeded, stockItem)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-
     private void updateCartDisplay() {
         cartItems.clear();
         cartTotal = 0.0;
@@ -474,7 +389,7 @@ public class CustomerUiController {
             String displayName;
 
             if (item instanceof BeverageItem beverage) {
-                BeverageSize size = cartItemSizes.get(i);
+                BeverageSize size = cartItemSizes.get(beverage);
                 price = beverage.cost().get(size).price();
                 displayName = beverage.name() + " (" + size + ")";
 
@@ -482,7 +397,7 @@ public class CustomerUiController {
                 List<CustomItem> customizations = getCustomizationsForItem(beverage);
                 if (!customizations.isEmpty()) {
                     displayName += " with " + customizations.stream()
-                            .map(c -> c.name())
+                            .map(CustomItem::name)
                             .collect(Collectors.joining(", "));
                     price += customizations.stream()
                             .mapToDouble(CustomItem::additionalPrice)
@@ -541,6 +456,8 @@ public class CustomerUiController {
         // Checks if the checkout button is clicked
         System.out.println("Checkout clicked!");
 
+        List<OrderItem> potentialOrderItems = new ArrayList<>();
+
         // Validate name field
         String customerName = customerNameField.getText().trim();
         if (customerName.isEmpty()) {
@@ -553,38 +470,33 @@ public class CustomerUiController {
             showAlert("Empty Cart", "Your cart is empty. Please add items before checkout.");
             return;
         }
-        try {
-            OrdersManagement ordersManagement = cafeShop.getOrdersManagement();
-            String orderId = ordersManagement.createNewOrder(customerName);
+        OrdersManagement ordersManagement = cafeShop.getOrdersManagement();
 
-            // Deduct ingredients from inventory
-            if (!deductOrderIngredients()) {
-                showAlert("Order Error",
-                        "Some items are no longer available. Please review your order.");
-                return;
-            }
+        try {
+            String orderId = ordersManagement.createNewOrder(customerName);
 
             for (int i = 0; i < cartItemObjects.size(); i++) {
                 Object item = cartItemObjects.get(i);
                 int quantity = cartItemQuantities.get(i);
 
                 if (item instanceof BeverageItem beverage) {
-                    BeverageSize size = cartItemSizes.get(i);
-                    // Get customizations for this beverage (you'll need to track these)
-                    List<CustomItem> customizations = getCustomizationsForItem(beverage);
-
-                    OrderItem orderItem = ordersManagement.createBeverageItem(beverage, size,
-                            customizations);
-
                     for (int q = 0; q < quantity; q++) {
+                        BeverageSize size = cartItemSizes.get(beverage);
+                        List<CustomItem> customizations = getCustomizationsForItem(beverage);
+
+                        OrderItem orderItem = ordersManagement.createBeverageItem(beverage, size,
+                                customizations);
+
+                        potentialOrderItems.add(orderItem);
                         ordersManagement.addItemIntoOrder(orderId, orderItem);
                     }
                 }
-                else if (item instanceof PastriesItem) {
-                    OrderItem orderItem = ordersManagement.createPastriesItem(
-                            (PastriesItem)item);
-
+                else if (item instanceof PastriesItem pastriesItem) {
                     for (int q = 0; q < quantity; q++) {
+                        OrderItem orderItem = ordersManagement.createPastriesItem(
+                                pastriesItem);
+
+                        potentialOrderItems.add(orderItem);
                         ordersManagement.addItemIntoOrder(orderId, orderItem);
                     }
                 }
@@ -593,12 +505,13 @@ public class CustomerUiController {
             // 3. Finalize the order
             ordersManagement.finalizeActiveOrder(orderId);
 
-            // 4. Clear cart
-            clearCart();
-
-            // 5. Show single success message
             showAlert("Success", "Order #" + orderId + " placed successfully!\nTotal: $" + String.format("%.2f", cartTotal));
 
+            clearCart();
+
+        } catch (InvalidInputException e){
+            ordersManagement.returnIngredientsToInventory(potentialOrderItems);
+            showAlert("Missing Item", e.getMessage());
         } catch (Exception e) {
             showAlert("Order Error", "An error occurred while placing your order: " + e.getMessage());
             e.printStackTrace();

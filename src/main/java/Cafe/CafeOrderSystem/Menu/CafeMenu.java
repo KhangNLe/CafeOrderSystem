@@ -154,7 +154,7 @@ public class CafeMenu {
     }
 
     public void setBeverageItem(int index, BeverageItem item) {
-        List<BeverageItem> items = getBeverageItems(); // or whatever your field/getter is
+        List<BeverageItem> items = getBeverageItems();
 
         if (index < 0 || index >= items.size()) {
             throw new InvalidInputException("Invalid beverage index: " + index);
@@ -171,6 +171,5 @@ public class CafeMenu {
         }
 
         items.set(index, item);
-    // trigger persistence if your add/remove did (e.g., writePastriesJson())
-}
+    }
 }

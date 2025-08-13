@@ -1,11 +1,9 @@
 package Cafe.CafeOrderSystem.UI;
 
 import Cafe.CafeOrderSystem.Cafe;
-import Cafe.CafeOrderSystem.CatalogItems.Ingredients;
 import Cafe.CafeOrderSystem.Inventory.Inventory;
 import Cafe.CafeOrderSystem.Inventory.Ingredients.IngredientItem;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
@@ -44,7 +42,7 @@ public class IngredientOverlayController {
 
     private void updateCurrentUnitsDisplay() {
         if (cafeShop != null && item != null) {
-            int currentUnits = cafeShop.getInventoryManagment().getList().getIngredients().getOrDefault(item, 0);
+            int currentUnits = cafeShop.getInventoryManagement().getList().getIngredients().getOrDefault(item, 0);
             currentUnitsLabel.setText(String.valueOf(currentUnits));
             newUnitsSpinner.getValueFactory().setValue(currentUnits);
         }
@@ -63,7 +61,7 @@ public class IngredientOverlayController {
 private void handleSave() {
     if (item != null && cafeShop != null) {
         int newValue = newUnitsSpinner.getValue();
-        Inventory inventory = cafeShop.getInventoryManagment();
+        Inventory inventory = cafeShop.getInventoryManagement();
         
         // Get current quantity
         int currentValue = inventory.getList().getIngredients().getOrDefault(item, 0);
@@ -87,7 +85,7 @@ private void handleSave() {
 }
     @FXML
     private void handleRemove() {
-        int ingredientIndex = cafeShop.getInventoryManagment().getList().findObject(item);
+        int ingredientIndex = cafeShop.getInventoryManagement().getList().findObject(item);
 
         if (cafeShop.getIngredientList().findObject(item) != -1 && refreshCallback != null) {
                 cafeShop.getIngredientList().removeObject(ingredientIndex);

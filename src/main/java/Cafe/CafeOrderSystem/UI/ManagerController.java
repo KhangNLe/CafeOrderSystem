@@ -2,14 +2,12 @@ package Cafe.CafeOrderSystem.UI;
 
 import Cafe.CafeOrderSystem.Cafe;
 import Cafe.CafeOrderSystem.CatalogItems.BeverageSize;
-import Cafe.CafeOrderSystem.CatalogItems.Ingredients;
 import Cafe.CafeOrderSystem.Inventory.Inventory;
 import Cafe.CafeOrderSystem.Inventory.Ingredients.IngredientItem;
 import Cafe.CafeOrderSystem.Inventory.Ingredients.IngredientList;
 import Cafe.CafeOrderSystem.Menu.MenuManagement;
 import Cafe.CafeOrderSystem.Menu.Items.BeverageCost;
 import Cafe.CafeOrderSystem.Menu.Items.BeverageItem;
-import Cafe.CafeOrderSystem.Menu.Items.PastriesCost;
 import Cafe.CafeOrderSystem.Menu.Items.PastriesItem;
 import Cafe.CafeOrderSystem.Orders.CustomerOrder;
 import Cafe.CafeOrderSystem.utility.FxmlView;
@@ -18,10 +16,6 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -77,7 +71,7 @@ public class ManagerController {
     public void setFacade(Cafe cafeShop) {
         this.cafeShop = cafeShop;
         this.menuManagement = cafeShop.getCafeMenuManagement(); 
-        this.inventoryManagement = cafeShop.getInventoryManagment();
+        this.inventoryManagement = cafeShop.getInventoryManagement();
     }
 
     public void setPrimaryStage(Stage stage) {

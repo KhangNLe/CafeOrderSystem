@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import Cafe.CafeOrderSystem.CatalogItems.Ingredients;
+import Cafe.CafeOrderSystem.Exceptions.InvalidInputException;
 import Cafe.CafeOrderSystem.JsonParser.ItemsParser;
 import Cafe.CafeOrderSystem.JsonParser.JsonCollection;
 
@@ -32,9 +33,31 @@ public class IngredientList extends JsonCollection<IngredientItem> {
             tempIngr.changeAmount(newAmount); // Set the new calculated amount
             return true;
         } else {
-            System.out.println("Insufficient stock for " + targetIngre.getIngredient());
             return false;
         }
+    }
+
+    public boolean modifyQuantity(Ingredients ingredient, int amount){
+        IngredientItem item = getIngredient(ingredient);
+
+        if (item == null){
+            throw new InvalidInputException(
+                    String.format("Ingredient %s is not inside inventory", ingredient)
+            );
+        }
+        return modifyQuantity(item, amount);
+    }
+
+    private IngredientItem getIngredient(Ingredients ingredient){
+        List<IngredientItem> ingredientItems = getCollection();
+
+        for (IngredientItem ingredientItem : ingredientItems) {
+            if (ingredientItem.getIngredient().equals(ingredient)){
+                return ingredientItem;
+            }
+        }
+
+        return null;
     }
 
 
