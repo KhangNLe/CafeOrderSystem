@@ -41,7 +41,7 @@ public class JsonWriterTest {
         BeverageItem bItem = beverages.get(3);
         PastriesItem pItem = pastries.get(2);
 
-        String orderID = ordersManagement.createNewOrder();
+        String orderID = ordersManagement.createNewOrder("Joe");
 
         OrderItem orderItem = ordersManagement.createBeverageItem(bItem,
                 new BeverageSize("small"), null);
@@ -64,7 +64,7 @@ public class JsonWriterTest {
     void testOrderFulfill(){
         PastriesItem pItem = pastries.get(2);
 
-        String orderID = ordersManagement.createNewOrder();
+        String orderID = ordersManagement.createNewOrder("Yo");
 
         OrderItem orderItem = ordersManagement.createPastriesItem(pItem);
 

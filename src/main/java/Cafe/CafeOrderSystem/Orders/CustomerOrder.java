@@ -24,6 +24,7 @@ import java.util.*;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CustomerOrder {
     private final String orderDate;
+    private final String customerName;
     private final String orderID;
     private final List<OrderedItem> orderItems;
     private OrderStatus orderStatus;
@@ -36,9 +37,10 @@ public class CustomerOrder {
      * @return a new {@code CustomerOrder} with the current timestamp, empty item list,
      *         pending status, and zero total price
      */
-    public static CustomerOrder newEmptyOrder(String orderID) {
+    public static CustomerOrder newEmptyOrder(String orderID, String customerName) {
         return new CustomerOrder(
                 LocalDateTime.now().toString(),
+                customerName,
                 orderID,
                 new ArrayList<>(),
                 OrderStatus.PENDING,
@@ -59,12 +61,14 @@ public class CustomerOrder {
     @JsonCreator
     public CustomerOrder(
             @JsonProperty("orderDate") String orderDate,
+            @JsonProperty("customerName") String customerName,
             @JsonProperty("orderID") String orderID,
             @JsonProperty("orderItems") List<OrderedItem> orderedItems,
             @JsonProperty("orderStatus") OrderStatus orderStatus,
             @JsonProperty("totalPrice") double totalPrice
     ){
         this.orderDate = (orderDate == null)? LocalDateTime.now().toString() : orderDate;
+        this.customerName = customerName;
         this.orderID = orderID;
         this.orderItems = (orderedItems == null)? new ArrayList<>(): orderedItems;
         this.orderStatus = (orderStatus == null)? OrderStatus.PENDING : orderStatus;
@@ -180,6 +184,10 @@ public class CustomerOrder {
 
     public List<OrderedItem> getOrderItems() {
         return orderItems;
+    }
+
+    public String getCustomerName(){
+        return customerName;
     }
 
     public double getTotalPrice() {
