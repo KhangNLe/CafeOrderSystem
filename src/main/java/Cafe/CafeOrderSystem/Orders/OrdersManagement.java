@@ -38,9 +38,9 @@ public class OrdersManagement {
      *
      * @return the unique identifier of the newly created order
      */
-    public String createNewOrder(){
+    public String createNewOrder(String customerName){
         String orderId = LocalDate.now() + "-" + UUID.randomUUID();
-        CustomerOrder order = CustomerOrder.newEmptyOrder(orderId);
+        CustomerOrder order = CustomerOrder.newEmptyOrder(orderId, customerName);
         orders.startOrder(order);
 
         return orderId;

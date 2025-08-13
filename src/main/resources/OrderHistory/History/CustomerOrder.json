@@ -1,52 +1,53 @@
 [ {
-  "orderDate" : "2025-08-01T09:40:03.609331018",
-  "orderID" : "2025-08-01-e34d3831-fdd7-4ebb-b186-80e9a3d08099",
+  "orderDate" : "2025-08-12T21:08:20.094855382",
+  "customerName" : "Joe",
+  "orderID" : "2025-08-12-4f9e43fd-d8b2-47fb-819d-b169c58377b2",
   "orderItems" : [ {
     "item" : {
-      "itemID" : "B-C04",
-      "itemName" : "Americano",
+      "itemID" : "B-C03",
+      "itemName" : "Espresso",
       "itemType" : "COFFEE",
       "ingredientsCost" : {
-        "COFFEE_BEAN" : 4,
+        "COFFEE_BEAN" : 3,
         "MILK" : 0,
         "SUGAR" : 0
       },
-      "price" : 6.0
+      "price" : 3.0
     },
     "quantity" : 1
   }, {
     "item" : {
-      "itemID" : "P-M03",
-      "itemName" : "Almond Muffin",
-      "itemType" : "MUFFIN",
+      "itemID" : "P-Cr01",
+      "itemName" : "Butter Croissant",
+      "itemType" : "CROISSANT",
       "ingredientsCost" : {
-        "BUTTER" : 4,
-        "FLOUR" : 5,
-        "ALMOND" : 4
+        "BUTTER" : 3,
+        "FLOUR" : 4
       },
-      "price" : 10.0
+      "price" : 5.0
     },
     "quantity" : 1
   } ],
-  "orderStatus" : "READY",
-  "totalPrice" : 16.0
+  "orderStatus" : "PENDING",
+  "totalPrice" : 8.0
 }, {
-  "orderDate" : "2025-08-01T09:40:03.631649218",
-  "orderID" : "2025-08-01-02c9b4a9-8990-4064-bedc-9ad0b8f75c63",
+  "orderDate" : "2025-08-12T21:08:20.138280757",
+  "customerName" : "Yo",
+  "orderID" : "2025-08-12-fa49b852-79b8-4c4d-b975-f4b3c1037a53",
   "orderItems" : [ {
     "item" : {
-      "itemID" : "P-M03",
-      "itemName" : "Almond Muffin",
-      "itemType" : "MUFFIN",
+      "itemID" : "P-Cr01",
+      "itemName" : "Butter Croissant",
+      "itemType" : "CROISSANT",
       "ingredientsCost" : {
-        "BUTTER" : 4,
-        "FLOUR" : 5,
-        "ALMOND" : 4
+        "BUTTER" : 3,
+        "FLOUR" : 4
       },
-      "price" : 10.0
+      "price" : 5.0
     },
     "quantity" : 1
   } ],
+<<<<<<< HEAD
   "orderStatus" : "READY",
   "totalPrice" : 10.0
 }, {
@@ -272,4 +273,8 @@
   } ],
   "orderStatus" : "READY",
   "totalPrice" : 10.0
+=======
+  "orderStatus" : "PENDING",
+  "totalPrice" : 5.0
+>>>>>>> f43784da15cca0004b2aa5e170c1b9debcfc6950
 } ]
