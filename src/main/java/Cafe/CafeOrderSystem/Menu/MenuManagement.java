@@ -90,15 +90,6 @@ public class MenuManagement {
     public Map<BeverageItem, List<CustomItem>> getBeverageWithCustomizeOption(){
         Map<BeverageItem, List<CustomItem>> items = new HashMap<>();
 
-        System.out.println("Loading beverages: " + cafeMenu.getBeverageItems().size());
-        System.out.println("Loading add-ons: " + cafeMenu.getBeverageAddOn().size());
-
-        // Debug print the mappings
-        items.forEach((beverage, customs) -> {
-            System.out.println("Beverage: " + beverage.name() +
-                    " has " + customs.size() + " customizations");
-        });
-
         initializeMap(items, cafeMenu.getBeverageItems());
         getAddOnForBeverage(items, cafeMenu.getBeverageAddOn());
 
@@ -140,29 +131,29 @@ public class MenuManagement {
 
     //TREVOR: I added these so I could do more streamlined adding and removing, also to normalize the two
     public void modifyBeverageSize(int beverageIdx, BeverageSize size,
-                               Map<Ingredients, Integer> ingredientCost, double price) {
-    validateIngredientCost(ingredientCost);
-    validatePrice(price);
-    BeverageItem beverageItem = getBeverageItem(beverageIdx);
+                                   Map<Ingredients, Integer> ingredientCost, double price) {
+        validateIngredientCost(ingredientCost);
+        validatePrice(price);
+        BeverageItem beverageItem = getBeverageItem(beverageIdx);
 
-    BeverageItem modifiedItem = beverageModifier.modifyItemSize(size, ingredientCost,
-            beverageItem, price);
+        BeverageItem modifiedItem = beverageModifier.modifyItemSize(size, ingredientCost,
+                beverageItem, price);
 
-    cafeMenu.setBeverageItem(beverageIdx, modifiedItem);
-}
+        cafeMenu.setBeverageItem(beverageIdx, modifiedItem);
+    }
 
-public void modifyPastryItem(int pastriesIdx,
-                             Map<Ingredients, Integer> ingredientCost,
-                             double price) {
-    validateIngredientCost(ingredientCost);
-    validatePrice(price);
+    public void modifyPastryItem(int pastriesIdx,
+                                 Map<Ingredients, Integer> ingredientCost,
+                                 double price) {
+        validateIngredientCost(ingredientCost);
+        validatePrice(price);
 
-    PastriesItem base = getPastriesItem(pastriesIdx);
-    PastriesItem modified = pastriesModifier.modifyPastriesIngredientsCost(base, ingredientCost);
-    modified = pastriesModifier.modifyPastriesCost(modified, price);
+        PastriesItem base = getPastriesItem(pastriesIdx);
+        PastriesItem modified = pastriesModifier.modifyPastriesIngredientsCost(base, ingredientCost);
+        modified = pastriesModifier.modifyPastriesCost(modified, price);
 
-    cafeMenu.setPastryItem(pastriesIdx, modified);
-}
+        cafeMenu.setPastryItem(pastriesIdx, modified);
+    }
 
     /**
      * Removes a beverage size from the specified beverage item
@@ -217,10 +208,10 @@ public void modifyPastryItem(int pastriesIdx,
         PastriesItem newItem = pastriesModifier.modifyPastriesIngredientsCost(item,
                 newIngredientCost);
 
-       cafeMenu.setPastryItem(pastriesIdx, newItem);
+        cafeMenu.setPastryItem(pastriesIdx, newItem);
     }
 
-    
+
 
     /**
      * Validates that all ingredient quantities are non-null and greater than zero
@@ -265,25 +256,17 @@ public void modifyPastryItem(int pastriesIdx,
     }
 
     private void getAddOnForBeverage(Map<BeverageItem, List<CustomItem>> items,
-                                     List<CustomItem> addOnItems) {
-        System.out.println("\nMatching add-ons to beverages:");
+                                     List<CustomItem> addOnItems){
         for (BeverageItem beverage : items.keySet()) {
             List<CustomItem> addOns = new ArrayList<>();
-            String beverageType = beverage.type().getMenuType(); // Get the string value
-            System.out.println("\nBeverage: " + beverage.name() + " (" + beverageType + ")");
 
             for (CustomItem customItem : addOnItems) {
-                System.out.println("Checking add-on: " + customItem.name() +
-                        " (applicable to: " + customItem.applicableTo() + ")");
-
-                if (customItem.applicableTo().contains(beverageType)) {
-                    System.out.println("MATCHED: " + customItem.name());
+                if (customItem.applicableTo().equals(beverage.type())){
                     addOns.add(customItem);
                 }
             }
 
             items.put(beverage, addOns);
-            System.out.println("Total matched: " + addOns.size());
         }
     }
 }

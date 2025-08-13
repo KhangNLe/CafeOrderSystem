@@ -35,6 +35,7 @@ public class CustomerUiController {
 
     @FXML private Button checkoutButton;
     @FXML private Button logoutButton;
+    @FXML private Button clearOrderButton;
     @FXML private ListView<String> beverageListView;
     @FXML private ListView<String> pastriesListView;
     @FXML private ListView<String> cartListView;
@@ -349,6 +350,20 @@ public class CustomerUiController {
 
 
     @FXML
+    private void handleClearOrder() {
+        // Show confirmation dialog
+        Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmation.setTitle("Clear Order");
+        confirmation.setHeaderText("Clear current order?");
+        confirmation.setContentText("This will remove all items from your cart.");
+
+        Optional<ButtonType> result = confirmation.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            clearCart();
+        }
+    }
+
+    @FXML
     private void handleLogOut() throws IOException {
 
         try {
@@ -437,8 +452,16 @@ public class CustomerUiController {
         cartItemObjects.clear();
         cartItemSizes.clear();
         cartItemQuantities.clear();
+        cartItemCustomizations.clear();
         cartTotal = 0.0;
-        updateCartDisplay();
+
+        // Reset the checkout button text
+        checkoutButton.setText(String.format("Checkout ($%.2f)", cartTotal));
+
+        // Clear any selection state
+        currentBeverage = null;
+        currentSize = null;
+        selectedCustomizations.clear();
     }
 
 

@@ -37,14 +37,19 @@
     </center>
     <bottom>
         <VBox spacing="10" alignment="CENTER">
-            <!-- Add name field above buttons -->
+            <!-- Name field -->
             <HBox spacing="10" alignment="CENTER">
                 <Label text="Your Name:"/>
                 <TextField fx:id="customerNameField" promptText="Enter your name" prefWidth="200"/>
             </HBox>
+            <!-- Action buttons -->
             <HBox spacing="10" alignment="CENTER">
-                <Button text="Checkout ($0.00)" fx:id="checkoutButton" onAction="#handleCheckout"/>
-                <Button text="LOG OUT" fx:id="logoutButton" onAction="#handleLogOut"/>
+                <Button text="Clear Order" fx:id="clearOrderButton" onAction="#handleClearOrder"
+                        style="-fx-background-color: #ffcccc; -fx-padding: 5 15;"/>
+                <Button text="Checkout ($0.00)" fx:id="checkoutButton" onAction="#handleCheckout"
+                        style="-fx-padding: 5 15;"/>
+                <Button text="LOG OUT" fx:id="logoutButton" onAction="#handleLogOut"
+                        style="-fx-padding: 5 15;"/>
             </HBox>
         </VBox>
     </bottom>
