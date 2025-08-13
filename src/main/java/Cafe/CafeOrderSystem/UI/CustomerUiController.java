@@ -399,29 +399,30 @@ public class CustomerUiController {
                 // Calculate amount to subtract from total
                 double itemPrice = 0;
                 if (item instanceof BeverageItem beverage) {
-                    BeverageSize size = cartItemSizes.get(index);
+                    BeverageSize size = cartItemSizes.get(beverage);
                     itemPrice = beverage.cost().get(size).price();
 
                     // Add customization costs
-                    List<CustomItem> customizations = cartItemCustomizations.get(index);
+                    List<CustomItem> customizations = cartItemCustomizations.get(beverage);
                     if (customizations != null) {
                         itemPrice += customizations.stream()
                                 .mapToDouble(CustomItem::additionalPrice)
                                 .sum();
                     }
-                } else if (item instanceof PastriesItem pastry) {
+
+
+                    cartItemSizes.remove( beverage);
+                    cartItemCustomizations.remove(beverage);
+                }
+                else if (item instanceof PastriesItem pastry) {
                     itemPrice = pastry.cost().price();
                 }
 
                 // Remove from all lists
                 cartItemObjects.remove(index);
-                if (index < cartItemSizes.size()) {
-                    cartItemSizes.remove(index);
-                }
+
                 cartItemQuantities.remove(index);
-                if (index < cartItemCustomizations.size()) {
-                    cartItemCustomizations.remove(index);
-                }
+
 
                 // Update total
                 cartTotal -= itemPrice;
