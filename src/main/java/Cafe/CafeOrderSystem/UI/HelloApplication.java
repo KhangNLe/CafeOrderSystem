@@ -1,6 +1,9 @@
 package Cafe.CafeOrderSystem.UI;
 
 import Cafe.CafeOrderSystem.Cafe;
+import Cafe.CafeOrderSystem.JsonParser.OrderItem.CustomerOrderParser;
+import Cafe.CafeOrderSystem.Orders.CafeOrders;
+import Cafe.CafeOrderSystem.Orders.OrdersManagement;
 import Cafe.CafeOrderSystem.utility.FxmlView;
 import Cafe.CafeOrderSystem.utility.LoadFXML;
 import javafx.application.Application;
@@ -29,7 +32,8 @@ public class HelloApplication extends Application {
         this.cafeShop = new Cafe();
         cafeShop.startShop();
         this.primaryStage = primaryStage;
-        
+
+
         try {
             new LoadFXML(
                 cafeShop,

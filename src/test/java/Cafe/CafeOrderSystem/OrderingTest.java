@@ -99,7 +99,7 @@ public class OrderingTest {
 
         BeverageSize med = new BeverageSize("medium");
         OrderItem orderItem = ordersManagement.createBeverageItem(greenTea, med
-                , decaf);
+                , new ArrayList<>(Collections.singleton(decaf)));
         OrderItem orderItem2 = ordersManagement.createBeverageItem(greenTea, med
                 , null);
 

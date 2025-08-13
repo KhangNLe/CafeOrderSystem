@@ -90,6 +90,15 @@ public class MenuManagement {
     public Map<BeverageItem, List<CustomItem>> getBeverageWithCustomizeOption(){
         Map<BeverageItem, List<CustomItem>> items = new HashMap<>();
 
+        System.out.println("Loading beverages: " + cafeMenu.getBeverageItems().size());
+        System.out.println("Loading add-ons: " + cafeMenu.getBeverageAddOn().size());
+
+        // Debug print the mappings
+        items.forEach((beverage, customs) -> {
+            System.out.println("Beverage: " + beverage.name() +
+                    " has " + customs.size() + " customizations");
+        });
+
         initializeMap(items, cafeMenu.getBeverageItems());
         getAddOnForBeverage(items, cafeMenu.getBeverageAddOn());
 
@@ -256,17 +265,25 @@ public void modifyPastryItem(int pastriesIdx,
     }
 
     private void getAddOnForBeverage(Map<BeverageItem, List<CustomItem>> items,
-                                     List<CustomItem> addOnItems){
+                                     List<CustomItem> addOnItems) {
+        System.out.println("\nMatching add-ons to beverages:");
         for (BeverageItem beverage : items.keySet()) {
             List<CustomItem> addOns = new ArrayList<>();
+            MenuType beverageType = beverage.type(); // Get the string value
+            System.out.println("\nBeverage: " + beverage.name() + " (" + beverageType + ")");
 
             for (CustomItem customItem : addOnItems) {
-                if (customItem.applicableTo().equals(beverage.type())){
+                System.out.println("Checking add-on: " + customItem.name() +
+                        " (applicable to: " + customItem.applicableTo() + ")");
+
+                if (customItem.applicableTo().contains(beverageType)) {
+                    System.out.println("MATCHED: " + customItem.name());
                     addOns.add(customItem);
                 }
             }
 
             items.put(beverage, addOns);
+            System.out.println("Total matched: " + addOns.size());
         }
     }
 }

@@ -12,7 +12,7 @@ public enum FxmlView {
     //
     HELLO("/Cafe/CafeOrderSystem/hello-view.fxml"),
 
-
+    // TODO: (Ali) Create Checkout Screen View here
     LOGIN("/Cafe/CafeOrderSystem/login.fxml");
     
     private final String path;

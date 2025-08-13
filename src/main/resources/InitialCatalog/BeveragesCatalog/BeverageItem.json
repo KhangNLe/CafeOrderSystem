@@ -70,7 +70,8 @@
       "ingredients" : {
         "COFFEE_BEAN" : 4,
         "MILK" : 6,
-        "SUGAR" : 0
+        "SUGAR" : 0,
+        "SUGAR_FREE_SYRUP" : 2
       }
     },
     "SMALL" : {

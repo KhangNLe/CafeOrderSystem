@@ -18,24 +18,23 @@ public class IngredientList extends JsonCollection<IngredientItem> {
         super(new ItemsParser(), folderPath, IngredientItem.class);
     }
 
-    public boolean modifyQuantity(IngredientItem targetIngre, int amount){
+    public boolean modifyQuantity(IngredientItem targetIngre, int amount) {
         int ingrLoc = this.findObject(targetIngre);
-        if (ingrLoc == -1){//checks if ingredient is in collection
-            return false; //item doesn't exist
+        if (ingrLoc == -1) {
+            return false; // item doesn't exist
         }
 
-        IngredientItem tempIngr = (getObject(ingrLoc));// creates temp ingredients
-        int tempQuant = tempIngr.getAmount(); // gets its quantity
-        tempQuant += amount; // increments it by input
-        if (tempQuant >= 0) {//validating modification amount
-            System.out.println("amount greater than 0");
-            tempIngr.changeAmount(amount);// sets new quant
-        }else {
-            System.out.printf("amount less than 0 %d", tempQuant);
-            return false; //error message
-        }
+        IngredientItem tempIngr = getObject(ingrLoc);
+        int currentAmount = tempIngr.getAmount();
+        int newAmount = currentAmount + amount; // Properly adds/subtracts
 
-        return true; //function succeeded
+        if (newAmount >= 0) {
+            tempIngr.changeAmount(newAmount); // Set the new calculated amount
+            return true;
+        } else {
+            System.out.println("Insufficient stock for " + targetIngre.getIngredient());
+            return false;
+        }
     }
 
 

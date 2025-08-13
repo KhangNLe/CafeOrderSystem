@@ -9,7 +9,8 @@
       "FLOUR" : 4,
       "BLUEBERRY" : 3
     }
-  }
+  },
+  "shortSummary" : "Blueberry Croissant (CROISSANT)"
 }, {
   "id" : "P-M04",
   "name" : "Blueberry Muffin",
@@ -21,7 +22,8 @@
       "FLOUR" : 5,
       "BLUEBERRY" : 4
     }
-  }
+  },
+  "shortSummary" : "Blueberry Muffin (MUFFIN)"
 }, {
   "id" : "P-Cr01",
   "name" : "Butter Croissant",
@@ -32,7 +34,8 @@
       "BUTTER" : 3,
       "FLOUR" : 4
     }
-  }
+  },
+  "shortSummary" : "Butter Croissant (CROISSANT)"
 }, {
   "id" : "P-Cr02",
   "name" : "Chocolate Croissant",
@@ -44,7 +47,8 @@
       "FLOUR" : 4,
       "CHOCOLATE_CHIP" : 3
     }
-  }
+  },
+  "shortSummary" : "Chocolate Croissant (CROISSANT)"
 }, {
   "id" : "P-M02",
   "name" : "Chocolate Muffin",
@@ -56,7 +60,8 @@
       "FLOUR" : 5,
       "CHOCOLATE_CHIP" : 4
     }
-  }
+  },
+  "shortSummary" : "Chocolate Muffin (MUFFIN)"
 }, {
   "id" : "P-Cr05",
   "name" : "Strawberry Croissant",
@@ -68,7 +73,8 @@
       "FLOUR" : 4,
       "STRAWBERRY" : 3
     }
-  }
+  },
+  "shortSummary" : "Strawberry Croissant (CROISSANT)"
 }, {
   "id" : "P-M05",
   "name" : "Strawberry Muffin",
@@ -76,11 +82,12 @@
   "cost" : {
     "price" : 10.0,
     "ingredients" : {
-      "BUTTER" : 4,
+      "BUTTER" : 8,
       "FLOUR" : 5,
       "STRAWBERRY" : 4
     }
-  }
+  },
+  "shortSummary" : "Strawberry Muffin (MUFFIN)"
 }, {
   "id" : "P-M01",
   "name" : "Sugar Muffin",
@@ -92,7 +99,8 @@
       "FLOUR" : 5,
       "SUGAR" : 3
     }
-  }
+  },
+  "shortSummary" : "Sugar Muffin (MUFFIN)"
 }, {
   "id" : "P-M03",
   "name" : "Almond Muffin",
@@ -104,7 +112,8 @@
       "FLOUR" : 2,
       "ALMOND" : 3
     }
-  }
+  },
+  "shortSummary" : "Almond Muffin (MUFFIN)"
 }, {
   "id" : "P-Cr03",
   "name" : "Almond Croissant",
@@ -116,7 +125,8 @@
       "FLOUR" : 4,
       "ALMOND" : 4
     }
-  }
+  },
+  "shortSummary" : "Almond Croissant (CROISSANT)"
 }, {
   "id" : "P-C01",
   "name" : "Sugar Cookie",
@@ -128,7 +138,8 @@
       "FLOUR" : 1,
       "SUGAR" : 1
     }
-  }
+  },
+  "shortSummary" : "Sugar Cookie (COOKIE)"
 }, {
   "id" : "P-C02",
   "name" : "Chocolate chip cookie",
@@ -140,7 +151,8 @@
       "FLOUR" : 1,
       "CHOCOLATE_CHIP" : 1
     }
-  }
+  },
+  "shortSummary" : "Chocolate chip cookie (COOKIE)"
 }, {
   "id" : "P-C03",
   "name" : "Oatmeal Raisin Cookie",
@@ -153,7 +165,8 @@
       "OATMEAL" : 1,
       "RAISIN" : 1
     }
-  }
+  },
+  "shortSummary" : "Oatmeal Raisin Cookie (COOKIE)"
 }, {
   "id" : "P-C04",
   "name" : "Almond Cookie",
@@ -165,5 +178,6 @@
       "FLOUR" : 1,
       "ALMOND" : 2
     }
-  }
+  },
+  "shortSummary" : "Almond Cookie (COOKIE)"
 } ]
