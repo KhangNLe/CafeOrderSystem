@@ -144,7 +144,7 @@ public class OrdersManagement {
         OrderItem orderItem = createOrderItem(beverage.id(), beverage.name(), beverage.type(),
                 cost.ingredients(), cost.price());
 
-        if (addOns != null || !addOns.isEmpty()) {
+        if (addOns != null && !addOns.isEmpty()) {
             addOns.forEach(orderItem::modifyOrderItem);
         }
         return orderItem;

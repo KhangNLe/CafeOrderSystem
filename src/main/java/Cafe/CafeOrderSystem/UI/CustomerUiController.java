@@ -207,11 +207,7 @@ public class CustomerUiController {
     }
 
     private List<CustomItem> getCustomizationsForItem(BeverageItem item) {
-        if (cartItemCustomizations.containsKey(item)) {
-            return cartItemCustomizations.get(item);
-        } else {
-            return null;
-        }
+        return cartItemCustomizations.getOrDefault(item, null);
     }
 
     private void showCustomizationDialog(BeverageItem beverage, BeverageSize size,
@@ -391,7 +387,7 @@ public class CustomerUiController {
 
             if (item instanceof BeverageItem beverage) {
                 BeverageSize size = cartItemSizes.get(i);
-                List<CustomItem> customizations = getCustomizationsForItem(i);
+                List<CustomItem> customizations = getCustomizationsForItem(beverage);
 
                 if (!deductBeverageIngredients(beverage, size, customizations, quantity)) {
                     return false;

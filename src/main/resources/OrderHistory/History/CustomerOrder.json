@@ -1,1 +1,46 @@
-[]
+[ {
+  "orderDate" : "2025-08-13T16:05:38.472830931",
+  "customerName" : "r",
+  "orderID" : "2025-08-13-95fb2dbf-c867-464b-a5a2-dd8acde82536",
+  "orderItems" : [ {
+    "item" : {
+      "itemID" : "B-C02",
+      "itemName" : "Cappuccino",
+      "itemType" : "COFFEE",
+      "ingredientsCost" : {
+        "COFFEE_BEAN" : 4,
+        "SUGAR_FREE_SYRUP" : 2,
+        "MILK" : 6,
+        "SUGAR" : 0
+      },
+      "price" : 11.0
+    },
+    "quantity" : 1
+  }, {
+    "item" : {
+      "itemID" : "P-M05",
+      "itemName" : "Strawberry Muffin",
+      "itemType" : "MUFFIN",
+      "ingredientsCost" : {
+        "BUTTER" : 8,
+        "FLOUR" : 5,
+        "STRAWBERRY" : 4
+      },
+      "price" : 10.0
+    },
+    "quantity" : 1
+  }, {
+    "item" : {
+      "itemID" : "B-T01",
+      "itemName" : "Green Tea",
+      "itemType" : "TEA_GREEN",
+      "ingredientsCost" : {
+        "DECAF_TEA_LEAVES_GREEN" : 2
+      },
+      "price" : 4.75
+    },
+    "quantity" : 1
+  } ],
+  "orderStatus" : "READY",
+  "totalPrice" : 25.75
+} ]
