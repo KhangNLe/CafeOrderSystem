@@ -1,9 +1,15 @@
 package Cafe.CafeOrderSystem.utility;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
+
 import Cafe.CafeOrderSystem.Cafe;
 import Cafe.CafeOrderSystem.CatalogItems.Ingredients;
 import Cafe.CafeOrderSystem.Inventory.Ingredients.IngredientItem;
+import Cafe.CafeOrderSystem.Menu.Items.PastriesItem;
 import Cafe.CafeOrderSystem.Orders.CustomerOrder;
 import Cafe.CafeOrderSystem.UI.BaristaUiController;
 import Cafe.CafeOrderSystem.UI.CustomerUiController;
@@ -15,6 +21,7 @@ import Cafe.CafeOrderSystem.UI.ManagerController;
 import Cafe.CafeOrderSystem.UI.MenuOverlayController;
 import Cafe.CafeOrderSystem.UI.NewItemController;
 import Cafe.CafeOrderSystem.UI.OrderOverlayController;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -36,6 +43,8 @@ public class LoadFXML {
     private Object menuItem;
     private IngredientItem ingredient;
     private Runnable refreshCallback;
+    private Consumer<NewItemController> controllerConfigurator;
+
     
     public LoadFXML(Cafe cafe, Stage stage, FxmlView view, double width, double height) {
         this.loader = new FXMLLoader();
@@ -45,6 +54,10 @@ public class LoadFXML {
         this.width = width;
         this.height = height;
     }
+
+
+    
+
 
     // Specialized constructor for order overlays
     public LoadFXML(Cafe cafe, Stage stage, FxmlView view, 
@@ -76,12 +89,18 @@ public class LoadFXML {
 }
 
     // Specialized for **new item** overlay (no pre-existing item)
-    public LoadFXML(Cafe cafe, Stage stage, FxmlView view,
-                    double width, double height,
-                    Runnable refreshCallback) {
-        this(cafe, stage, view, width, height);
-        this.refreshCallback = refreshCallback;
-    }
+    // public LoadFXML(Cafe cafe, Stage stage, FxmlView view,
+    //                 double width, double height,
+    //                 Runnable refreshCallback) {
+    //     this(cafe, stage, view, width, height);
+    //     this.refreshCallback = refreshCallback;
+    // }
+    public LoadFXML(Cafe cafe, Stage stage, FxmlView view, 
+               double width, double height, 
+               Consumer<NewItemController> controllerConfigurator) {
+    this(cafe, stage, view, width, height);
+    this.controllerConfigurator = controllerConfigurator;
+}
 
     
     public void load() throws IOException {
@@ -171,16 +190,20 @@ public class LoadFXML {
             overlayController.setMenuItemData(menuItem, stage, refreshCallback);  // Pass menuItem instead of controller
         }
     }
-         if (controller instanceof NewItemController) {
-            NewItemController c = (NewItemController) controller;
-            c.setStage(stage);
-            c.setIngredientList(cafe.getInventoryManagment().getList());
-            if (refreshCallback != null) c.setRefreshCallback(refreshCallback);
-            // Make it a real overlay dialog:
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initStyle(StageStyle.UNDECORATED);
+        if (controller instanceof NewItemController) {
+        NewItemController overlayController = (NewItemController) controller;
+        
+        // Apply standard configuration
+        overlayController.setStage(stage);
+        overlayController.setFacade(cafe);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initStyle(StageStyle.UNDECORATED);
+        
+        // Apply custom configuration if provided
+        if (controllerConfigurator != null) {
+            controllerConfigurator.accept(overlayController);
         }
-
+}
          
         // Add other controller types as needed
     }
@@ -208,18 +231,36 @@ public class LoadFXML {
 
     
 
-    public static void loadNewItemOverlay(Cafe cafe, Runnable refreshCallback) throws IOException {
-        Stage overlayStage = new Stage();
-        LoadFXML loader = new LoadFXML(
-            cafe,
-            overlayStage,
-            FxmlView.NEW_ITEM,
-            800,
-            800,
-            refreshCallback
-        );
-        loader.load();
-    }
+public static void loadNewItemOverlay(Cafe cafe, Runnable refreshCallback) throws IOException {
+    Stage overlayStage = new Stage();
+    
+    Consumer<NewItemController> configurator = controller -> {
+        controller.setRefreshCallback(refreshCallback);
+        controller.setIngredientList(cafe.getIngredientList());
+        
+        List<IngredientItem> allIngredients = new ArrayList<>(cafe.getIngredientList().getIngredients().keySet());
+controller.getAvailableIngredientsListView().getItems().addAll(allIngredients);
+        
+        controller.setItemSaver(item -> {
+            if (item instanceof PastriesItem pastry) {
+                cafe.getCafeMenuManagement().getPastriesItems().add(pastry);
+            } else if (item instanceof IngredientItem ingredient) {
+                cafe.modifyIngredient(ingredient, ingredient.getAmount());
+            }
+            refreshCallback.run();
+        });
+    };
+    
+    LoadFXML loader = new LoadFXML(
+        cafe, overlayStage, FxmlView.NEW_ITEM, 800, 800, configurator
+    );
+    
+    loader.load();
+    overlayStage.showAndWait();
+}
+
+
+
 
 
     public static void loadMenuOverlay(Cafe cafe, Object menuItem, 

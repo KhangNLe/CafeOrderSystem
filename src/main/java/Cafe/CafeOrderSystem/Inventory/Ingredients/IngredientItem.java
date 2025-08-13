@@ -36,6 +36,10 @@ public class IngredientItem{
         return amount;
     }
 
+    public String getName() {
+    return this.ingredient.getName();
+}
+
     public void changeAmount(int amount){
         this.amount = amount;
     }
