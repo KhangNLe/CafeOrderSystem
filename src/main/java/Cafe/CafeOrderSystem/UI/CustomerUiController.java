@@ -50,7 +50,7 @@ public class CustomerUiController {
     private BeverageSize currentSize;
     private List<CustomItem> selectedCustomizations = new ArrayList<>();
     private double currentCustomizationPrice;
-    private List<List<CustomItem>> cartItemCustomizations = new ArrayList<>();
+    private final Map<BeverageItem, List<CustomItem>> cartItemCustomizations = new HashMap<>();
 
     private ObservableList<String> cartItems = FXCollections.observableArrayList();
     private List<Object> cartItemObjects = new ArrayList<>(); // Stores actual items
@@ -206,10 +206,12 @@ public class CustomerUiController {
         return dialog.showAndWait().orElse(null);
     }
 
-    private List<CustomItem> getCustomizationsForItem(int index) {
-        return index < cartItemCustomizations.size() ?
-                cartItemCustomizations.get(index) :
-                new ArrayList<>();
+    private List<CustomItem> getCustomizationsForItem(BeverageItem item) {
+        if (cartItemCustomizations.containsKey(item)) {
+            return cartItemCustomizations.get(item);
+        } else {
+            return null;
+        }
     }
 
     private void showCustomizationDialog(BeverageItem beverage, BeverageSize size,
@@ -318,7 +320,7 @@ public class CustomerUiController {
                     .collect(Collectors.joining(", ")));
         }
 
-        cartItemCustomizations.add(new ArrayList<>(customizations));
+        cartItemCustomizations.put(beverage, new ArrayList<>(customizations));
 
         display.append(" - $").append(String.format("%.2f", basePrice + customizationTotal));
 
@@ -481,7 +483,7 @@ public class CustomerUiController {
                 displayName = beverage.name() + " (" + size + ")";
 
                 // Add customizations to display
-                List<CustomItem> customizations = getCustomizationsForItem(i);
+                List<CustomItem> customizations = getCustomizationsForItem(beverage);
                 if (!customizations.isEmpty()) {
                     displayName += " with " + customizations.stream()
                             .map(c -> c.name())
@@ -573,15 +575,10 @@ public class CustomerUiController {
                 if (item instanceof BeverageItem beverage) {
                     BeverageSize size = cartItemSizes.get(i);
                     // Get customizations for this beverage (you'll need to track these)
-                    List<CustomItem> customizations = getCustomizationsForItem(i);
+                    List<CustomItem> customizations = getCustomizationsForItem(beverage);
 
                     OrderItem orderItem = ordersManagement.createBeverageItem(beverage, size,
-                            customizations.isEmpty() ? null : customizations.get(0));
-
-                    // Add remaining customizations
-                    for (int c = 1; c < customizations.size(); c++) {
-                        orderItem.modifyOrderItem(customizations.get(c));
-                    }
+                            customizations);
 
                     for (int q = 0; q < quantity; q++) {
                         ordersManagement.addItemIntoOrder(orderId, orderItem);

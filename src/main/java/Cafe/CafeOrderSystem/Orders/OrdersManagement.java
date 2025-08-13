@@ -134,17 +134,18 @@ public class OrdersManagement {
      *
      * @param item   the base beverage menu item
      * @param size   the desired beverage size
-     * @param addOn  optional customization (can be {@code null})
+     * @param addOns  optional customization (can be {@code null})
      * @return the constructed {@link OrderItem}
      */
-    public OrderItem createBeverageItem(BeverageItem item, BeverageSize size, CustomItem addOn){
+    public OrderItem createBeverageItem(BeverageItem item, BeverageSize size,
+                                        List<CustomItem> addOns){
         BeverageItem beverage = item.copyOf();
         BeverageCost cost = beverage.cost().get(size);
         OrderItem orderItem = createOrderItem(beverage.id(), beverage.name(), beverage.type(),
                 cost.ingredients(), cost.price());
 
-        if (addOn != null){
-            orderItem.modifyOrderItem(addOn);
+        if (addOns != null || !addOns.isEmpty()) {
+            addOns.forEach(orderItem::modifyOrderItem);
         }
         return orderItem;
     }
