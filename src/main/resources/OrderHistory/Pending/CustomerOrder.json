@@ -1,65 +1,97 @@
 [ {
-  "orderDate" : "2025-08-12T21:08:59.729645752",
-  "customerName" : "Joe",
-  "orderID" : "2025-08-12-8384bbec-8772-4c43-96c4-5fd937b7f1f6",
-  "orderItems" : [ {
-    "item" : {
-      "itemID" : "B-C03",
-      "itemName" : "Espresso",
-      "itemType" : "COFFEE",
-      "ingredientsCost" : {
-        "COFFEE_BEAN" : 3,
-        "MILK" : 0,
-        "SUGAR" : 0
-      },
-      "price" : 3.0
-    },
-    "quantity" : 1
-  }, {
-    "item" : {
-      "itemID" : "P-Cr01",
-      "itemName" : "Butter Croissant",
-      "itemType" : "CROISSANT",
-      "ingredientsCost" : {
-        "BUTTER" : 3,
-        "FLOUR" : 4
-      },
-      "price" : 5.0
-    },
-    "quantity" : 1
-  } ],
-  "orderStatus" : "PENDING",
-  "totalPrice" : 8.0
-}, {
-  "orderDate" : "2025-08-12T21:08:59.775408553",
-  "customerName" : "Yo",
-  "orderID" : "2025-08-12-ccdfa75f-810c-4e86-9cc8-4787212c7d1b",
-  "orderItems" : [ {
-    "item" : {
-      "itemID" : "P-Cr01",
-      "itemName" : "Butter Croissant",
-      "itemType" : "CROISSANT",
-      "ingredientsCost" : {
-        "BUTTER" : 3,
-        "FLOUR" : 4
-      },
-      "price" : 5.0
-    },
-    "quantity" : 1
-  } ],
-  "orderStatus" : "PENDING",
-  "totalPrice" : 5.0
-}, {
-  "orderDate" : "2025-08-13T11:27:19.521632900",
+  "orderDate" : "2025-08-13T14:53:21.457624500",
   "customerName" : "Tom",
-  "orderID" : "2025-08-13-3a1df670-e0b8-42d5-8a22-f4ea4f7a8a49",
+  "orderID" : "2025-08-13-2ed94010-7a12-488e-8061-9d108b105dc1",
   "orderItems" : [ {
     "item" : {
-      "itemID" : "B-T01",
-      "itemName" : "Green Tea",
-      "itemType" : "TEA_GREEN",
+      "itemID" : "P-Cr04",
+      "itemName" : "Blueberry Croissant",
+      "itemType" : "CROISSANT",
       "ingredientsCost" : {
-        "TEA_LEAVES_GREEN" : 3
+        "BUTTER" : 3,
+        "FLOUR" : 4,
+        "BLUEBERRY" : 3
+      },
+      "price" : 6.75
+    },
+    "quantity" : 1
+  } ],
+  "orderStatus" : "PENDING",
+  "totalPrice" : 6.75
+}, {
+  "orderDate" : "2025-08-13T15:01:41.064518400",
+  "customerName" : "tom",
+  "orderID" : "2025-08-13-aa3a8756-0fd8-4e8a-a311-3941273c00e4",
+  "orderItems" : [ {
+    "item" : {
+      "itemID" : "P-Cr04",
+      "itemName" : "Blueberry Croissant",
+      "itemType" : "CROISSANT",
+      "ingredientsCost" : {
+        "BUTTER" : 3,
+        "FLOUR" : 4,
+        "BLUEBERRY" : 3
+      },
+      "price" : 6.75
+    },
+    "quantity" : 1
+  } ],
+  "orderStatus" : "PENDING",
+  "totalPrice" : 6.75
+}, {
+  "orderDate" : "2025-08-13T15:01:43.981537200",
+  "customerName" : "tom",
+  "orderID" : "2025-08-13-f7f73cb7-fa77-489f-8ef9-f25ed403fcc3",
+  "orderItems" : [ {
+    "item" : {
+      "itemID" : "P-Cr04",
+      "itemName" : "Blueberry Croissant",
+      "itemType" : "CROISSANT",
+      "ingredientsCost" : {
+        "BUTTER" : 3,
+        "FLOUR" : 4,
+        "BLUEBERRY" : 3
+      },
+      "price" : 6.75
+    },
+    "quantity" : 1
+  } ],
+  "orderStatus" : "PENDING",
+  "totalPrice" : 6.75
+}, {
+  "orderDate" : "2025-08-13T15:02:51.634700800",
+  "customerName" : "Tom",
+  "orderID" : "2025-08-13-fbbcdca7-6790-47b9-9064-7d1ca4bb9904",
+  "orderItems" : [ {
+    "item" : {
+      "itemID" : "P-Cr04",
+      "itemName" : "Blueberry Croissant",
+      "itemType" : "CROISSANT",
+      "ingredientsCost" : {
+        "BUTTER" : 3,
+        "FLOUR" : 4,
+        "BLUEBERRY" : 3
+      },
+      "price" : 6.75
+    },
+    "quantity" : 1
+  } ],
+  "orderStatus" : "PENDING",
+  "totalPrice" : 6.75
+}, {
+  "orderDate" : "2025-08-13T15:03:50.288654100",
+  "customerName" : "tom",
+  "orderID" : "2025-08-13-9e3786cc-ea88-41cf-9a58-dbbb16009191",
+  "orderItems" : [ {
+    "item" : {
+      "itemID" : "P-C03",
+      "itemName" : "Oatmeal Raisin Cookie",
+      "itemType" : "COOKIE",
+      "ingredientsCost" : {
+        "BUTTER" : 1,
+        "FLOUR" : 1,
+        "RAISIN" : 1,
+        "OATMEAL" : 1
       },
       "price" : 4.0
     },
@@ -67,4 +99,24 @@
   } ],
   "orderStatus" : "PENDING",
   "totalPrice" : 4.0
+}, {
+  "orderDate" : "2025-08-13T15:04:41.546199700",
+  "customerName" : "jenny",
+  "orderID" : "2025-08-13-8d5b294d-b218-45c8-a0da-e28bb26baa07",
+  "orderItems" : [ {
+    "item" : {
+      "itemID" : "B-C02",
+      "itemName" : "Cappuccino",
+      "itemType" : "COFFEE",
+      "ingredientsCost" : {
+        "COFFEE_BEAN" : 4,
+        "MILK" : 6,
+        "SUGAR" : 0
+      },
+      "price" : 11.0
+    },
+    "quantity" : 1
+  } ],
+  "orderStatus" : "PENDING",
+  "totalPrice" : 11.0
 } ]

@@ -2,6 +2,9 @@ package Cafe.CafeOrderSystem.UI;
 
 import Cafe.CafeOrderSystem.Cafe;
 import Cafe.CafeOrderSystem.CatalogItems.BeverageSize;
+import Cafe.CafeOrderSystem.CatalogItems.Ingredients;
+import Cafe.CafeOrderSystem.Inventory.Ingredients.IngredientItem;
+import Cafe.CafeOrderSystem.Inventory.Inventory;
 import Cafe.CafeOrderSystem.Menu.Items.BeverageItem;
 import Cafe.CafeOrderSystem.Menu.Items.PastriesItem;
 import Cafe.CafeOrderSystem.Menu.MenuManagement;
@@ -21,10 +24,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import Cafe.CafeOrderSystem.Menu.Items.CustomItem;
@@ -59,9 +59,12 @@ public class CustomerUiController {
     private double cartTotal = 0.0;
     private String currentOrderId;
 
+    private Inventory inventory;
+
 
     public void setFacade(Cafe cafeShop) {
         this.cafeShop = cafeShop;
+        this.inventory = cafeShop.getInventoryManagment();
     }
 
     public void setPrimaryStage(Stage stage) {
@@ -104,7 +107,11 @@ public class CustomerUiController {
 
         pastriesListView.getItems().clear();
         for (PastriesItem pastry : pastries) {
-            pastriesListView.getItems().add(pastry.getShortSummary());
+            String summary = pastry.getShortSummary();
+            if (!isPastryAvailable(pastry)) {
+                summary += " (Out of Stock)";
+            }
+            pastriesListView.getItems().add(summary);
         }
     }
 
@@ -114,8 +121,16 @@ public class CustomerUiController {
         Map<BeverageItem, List<CustomItem>> beveragesWithCustomizations =
                 menuManagement.getBeverageWithCustomizeOption();
 
+        beverageListView.getItems().clear();
         for (BeverageItem beverage : beveragesWithCustomizations.keySet()) {
-            beverageListView.getItems().add(beverage.getShortSummary());
+            String summary = beverage.getShortSummary();
+            boolean available = isBeverageAvailable(beverage, beverage.cost().keySet().iterator().next(),
+                    new ArrayList<>());
+
+            if (!available) {
+                summary += " (Out of Stock)";
+            }
+            beverageListView.getItems().add(summary);
         }
     }
 
@@ -160,6 +175,13 @@ public class CustomerUiController {
         BeverageSize size = showSizeSelectionDialog(beverage);
         if (size == null) return;
         this.currentSize = size;
+
+        if (!isBeverageAvailable(beverage, size, customizations)) {
+            showAlert("Out of Stock",
+                    "Sorry, we don't have enough ingredients for " + beverage.name() +
+                            " (" + size + "). Please choose another item.");
+            return;
+        }
 
         // Step 2: Show customization dialog if available
         if (!customizations.isEmpty()) {
@@ -254,9 +276,12 @@ public class CustomerUiController {
     }
 
     private void handlePastrySelection(PastriesItem pastry) {
-        // TODO: Validate if pastry is out of stock
-
-        // Add to cart directly (no customizations for pastries)
+        if (!isPastryAvailable(pastry)) {
+            showAlert("Out of Stock",
+                    "Sorry, we don't have enough ingredients for " + pastry.name() +
+                            ". Please choose another item.");
+            return;
+        }
         addPastryToCart(pastry);
     }
 
@@ -305,6 +330,139 @@ public class CustomerUiController {
         updateCartDisplay();
     }
 
+
+    private boolean isBeverageAvailable(BeverageItem beverage, BeverageSize size,
+                                        List<CustomItem> customizations) {
+        // Get base ingredients for the size
+        Map<Ingredients, Integer> requiredIngredients = new HashMap<>(
+                beverage.cost().get(size).ingredients()
+        );
+
+        // Add customization ingredients
+        for (CustomItem custom : customizations) {
+            if (custom.ingredients() != null) {
+                custom.ingredients().forEach((ingredient, amount) ->
+                        requiredIngredients.merge(ingredient, amount, Integer::sum)
+                );
+            }
+        }
+
+        // Check each ingredient
+        for (Map.Entry<Ingredients, Integer> entry : requiredIngredients.entrySet()) {
+            IngredientItem stockItem = findIngredientItem(entry.getKey());
+            if (stockItem == null || stockItem.getAmount() < entry.getValue()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean isPastryAvailable(PastriesItem pastry) {
+        Map<Ingredients, Integer> requiredIngredients = pastry.cost().ingredients();
+
+        for (Map.Entry<Ingredients, Integer> entry : requiredIngredients.entrySet()) {
+            IngredientItem stockItem = findIngredientItem(entry.getKey());
+            if (stockItem == null || stockItem.getAmount() < entry.getValue()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private IngredientItem findIngredientItem(Ingredients ingredient) {
+        try {
+            for (int i = 0; ; i++) {
+                IngredientItem item = inventory.getList().getObject(i);
+                if (item.getIngredient().equals(ingredient)) {
+                    return item;
+                }
+            }
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    private boolean deductOrderIngredients() {
+        for (int i = 0; i < cartItemObjects.size(); i++) {
+            Object item = cartItemObjects.get(i);
+            int quantity = cartItemQuantities.get(i);
+
+            if (item instanceof BeverageItem beverage) {
+                BeverageSize size = cartItemSizes.get(i);
+                List<CustomItem> customizations = getCustomizationsForItem(i);
+
+                if (!deductBeverageIngredients(beverage, size, customizations, quantity)) {
+                    return false;
+                }
+            }
+            else if (item instanceof PastriesItem pastry) {
+                if (!deductPastryIngredients(pastry, quantity)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private boolean deductBeverageIngredients(BeverageItem beverage, BeverageSize size,
+                                              List<CustomItem> customizations, int quantity) {
+        // Get base ingredients
+        Map<Ingredients, Integer> ingredients = beverage.cost().get(size).ingredients();
+
+        // Add customization ingredients
+        for (CustomItem custom : customizations) {
+            if (custom.ingredients() != null) {
+                custom.ingredients().forEach((ingr, amt) ->
+                        ingredients.merge(ingr, amt, Integer::sum)
+                );
+            }
+        }
+
+        // Multiply by quantity and deduct
+        for (Map.Entry<Ingredients, Integer> entry : ingredients.entrySet()) {
+            IngredientItem stockItem = findIngredientItem(entry.getKey());
+            if (stockItem == null) {
+                return false;
+            }
+
+            int amountNeeded = entry.getValue() * quantity;
+            int currentAmount = stockItem.getAmount();
+
+            if (currentAmount < amountNeeded) {
+                return false;
+            }
+
+            // Subtract the amount
+            if (!inventory.modifyInventory(-amountNeeded, stockItem)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean deductPastryIngredients(PastriesItem pastry, int quantity) {
+        Map<Ingredients, Integer> ingredients = pastry.cost().ingredients();
+
+        for (Map.Entry<Ingredients, Integer> entry : ingredients.entrySet()) {
+            IngredientItem stockItem = findIngredientItem(entry.getKey());
+            if (stockItem == null) {
+                return false;
+            }
+
+            int amountNeeded = entry.getValue() * quantity;
+            int currentAmount = stockItem.getAmount();
+
+            if (currentAmount < amountNeeded) {
+                return false;
+            }
+
+            // Subtract the amount
+            if (!inventory.modifyInventory(-amountNeeded, stockItem)) {
+                return false;
+            }
+        }
+        return true;
+    }
 
 
     private void updateCartDisplay() {
@@ -400,6 +558,13 @@ public class CustomerUiController {
         try {
             OrdersManagement ordersManagement = cafeShop.getOrdersManagement();
             String orderId = ordersManagement.createNewOrder(customerName);
+
+            // Deduct ingredients from inventory
+            if (!deductOrderIngredients()) {
+                showAlert("Order Error",
+                        "Some items are no longer available. Please review your order.");
+                return;
+            }
 
             for (int i = 0; i < cartItemObjects.size(); i++) {
                 Object item = cartItemObjects.get(i);
