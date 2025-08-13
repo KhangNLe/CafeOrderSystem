@@ -2,6 +2,9 @@ package Cafe.CafeOrderSystem.Orders;
 
 import Cafe.CafeOrderSystem.Exceptions.InvalidInputException;
 import Cafe.CafeOrderSystem.Exceptions.InvalidModifyingException;
+import Cafe.CafeOrderSystem.Inventory.Ingredients.IngredientItem;
+import Cafe.CafeOrderSystem.Inventory.Ingredients.IngredientList;
+import Cafe.CafeOrderSystem.Inventory.Inventory;
 import Cafe.CafeOrderSystem.JsonParser.OrderItem.CustomerOrderParser;
 import Cafe.CafeOrderSystem.Menu.Items.*;
 import Cafe.CafeOrderSystem.CatalogItems.*;
@@ -20,14 +23,16 @@ import java.util.*;
  */
 public class OrdersManagement {
     private final CafeOrders orders;
+    private final Inventory cafeInventory;
 
     /**
      * Constructs an {@code OrdersManagement} instance with a given {@code CafeOrders} manager.
      *
      * @param orders the underlying order system managing active, pending, and fulfilled orders
      */
-    public OrdersManagement(CafeOrders orders) {
+    public OrdersManagement(CafeOrders orders,  Inventory cafeInventory) {
         this.orders = orders;
+        this.cafeInventory = cafeInventory;
     }
 
     /**
@@ -147,6 +152,8 @@ public class OrdersManagement {
         if (addOns != null && !addOns.isEmpty()) {
             addOns.forEach(orderItem::modifyOrderItem);
         }
+
+        checkForAvailableIngredients(orderItem);
         return orderItem;
     }
 
@@ -159,8 +166,20 @@ public class OrdersManagement {
     public OrderItem createPastriesItem(PastriesItem item){
         PastriesItem pastries = item.copyOf();
         PastriesCost cost = pastries.cost();
-        return createOrderItem(pastries.id(), pastries.name(), pastries.type(),
+        OrderItem orderItem = createOrderItem(pastries.id(), pastries.name(), pastries.type(),
                 cost.ingredients(), cost.price());
+
+        checkForAvailableIngredients(orderItem);
+        return orderItem;
+    }
+
+    public void returnIngredientsToInventory(List<OrderItem> items){
+        items.forEach(this::returnIngredients);
+    }
+
+    private void returnIngredients(OrderItem item){
+        Map<Ingredients, Integer> ingredients = item.getIngredientsCost();
+        ingredients.forEach(cafeInventory::modifyInventory);
     }
 
     /**
@@ -212,6 +231,20 @@ public class OrdersManagement {
             );
         }
     }
+
+    private void checkForAvailableIngredients(OrderItem orderItem){
+        Map<Ingredients, Integer> ingredients = orderItem.getIngredientsCost();
+
+        ingredients.forEach((ingredient,amount)->{
+            if (!cafeInventory.modifyInventory(ingredient, -amount)){
+                throw new InvalidInputException(
+                        String.format("Not enough %s for the %s",
+                                ingredient.getName(), orderItem.getItemName())
+                );
+            }
+        });
+    }
+
 // Trevor: I had to add this so I could reflect front end chnages on the back end
         public boolean updateOrderStatus(String orderID, OrderStatus newStatus) {
         try {

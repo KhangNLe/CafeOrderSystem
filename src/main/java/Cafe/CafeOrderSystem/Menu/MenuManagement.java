@@ -90,15 +90,6 @@ public class MenuManagement {
     public Map<BeverageItem, List<CustomItem>> getBeverageWithCustomizeOption(){
         Map<BeverageItem, List<CustomItem>> items = new HashMap<>();
 
-        System.out.println("Loading beverages: " + cafeMenu.getBeverageItems().size());
-        System.out.println("Loading add-ons: " + cafeMenu.getBeverageAddOn().size());
-
-        // Debug print the mappings
-        items.forEach((beverage, customs) -> {
-            System.out.println("Beverage: " + beverage.name() +
-                    " has " + customs.size() + " customizations");
-        });
-
         initializeMap(items, cafeMenu.getBeverageItems());
         getAddOnForBeverage(items, cafeMenu.getBeverageAddOn());
 
@@ -126,19 +117,6 @@ public class MenuManagement {
      * @param price the new price for the size
      * @throws InvalidModifyingException if the ingredient map or price is invalid
      */
-    // public void modifyBeverageSize(int beverageIdx, BeverageSize size,
-    //                                Map<Ingredients, Integer> ingredientCost, double price){
-
-    //     validateIngredientCost(ingredientCost);
-    //     validatePrice(price);
-    //     BeverageItem beverageItem = getBeverageItem(beverageIdx);
-    //     BeverageItem modifiedItem = beverageModifier.modifyItemSize(size, ingredientCost,
-    //             beverageItem, price);
-    //     cafeMenu.removeBeverageItem(beverageIdx);
-    //     cafeMenu.addNewBeverageItem(modifiedItem);
-    // }
-
-    //TREVOR: I added these so I could do more streamlined adding and removing, also to normalize the two
     public void modifyBeverageSize(int beverageIdx, BeverageSize size,
                                Map<Ingredients, Integer> ingredientCost, double price) {
     validateIngredientCost(ingredientCost);
@@ -266,24 +244,16 @@ public void modifyPastryItem(int pastriesIdx,
 
     private void getAddOnForBeverage(Map<BeverageItem, List<CustomItem>> items,
                                      List<CustomItem> addOnItems) {
-        System.out.println("\nMatching add-ons to beverages:");
-        for (BeverageItem beverage : items.keySet()) {
+        items.keySet().forEach(beverage -> {
             List<CustomItem> addOns = new ArrayList<>();
-            MenuType beverageType = beverage.type(); // Get the string value
-            System.out.println("\nBeverage: " + beverage.name() + " (" + beverageType + ")");
 
-            for (CustomItem customItem : addOnItems) {
-                System.out.println("Checking add-on: " + customItem.name() +
-                        " (applicable to: " + customItem.applicableTo() + ")");
-
-                if (customItem.applicableTo().contains(beverageType)) {
-                    System.out.println("MATCHED: " + customItem.name());
-                    addOns.add(customItem);
+            addOnItems.forEach(addOn -> {
+                if (addOn.applicableTo().contains(beverage.type())){
+                    addOns.add(addOn);
                 }
-            }
+            });
 
             items.put(beverage, addOns);
-            System.out.println("Total matched: " + addOns.size());
-        }
+        });
     }
 }

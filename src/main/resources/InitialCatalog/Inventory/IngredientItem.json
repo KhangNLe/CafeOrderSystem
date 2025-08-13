@@ -49,7 +49,7 @@
 }, {
   "id" : "I-13",
   "ingredient" : "SUGAR_FREE_SYRUP",
-  "amount" : 23
+  "amount" : 21
 }, {
   "id" : "I-14",
   "ingredient" : "TEA_LEAVES_BLACK",
@@ -57,7 +57,7 @@
 }, {
   "id" : "I-15",
   "ingredient" : "TEA_LEAVES_GREEN",
-  "amount" : 23
+  "amount" : 19
 }, {
   "id" : "I-16",
   "ingredient" : "TEA_LEAVES_HERBAL",
