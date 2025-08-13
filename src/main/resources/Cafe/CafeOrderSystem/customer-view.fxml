@@ -31,7 +31,8 @@
             <!-- Right side: Cart -->
             <VBox spacing="10" prefWidth="400">
                 <Label text="Your Cart"/>
-                <ListView fx:id="cartListView" prefWidth="380" prefHeight="350"/>
+                <ListView fx:id="cartListView" prefWidth="380" prefHeight="350"
+                          onMouseClicked="#handleCartItemClick"/>
             </VBox>
         </HBox>
     </center>

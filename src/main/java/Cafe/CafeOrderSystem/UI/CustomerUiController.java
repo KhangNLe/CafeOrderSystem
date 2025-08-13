@@ -90,6 +90,14 @@ public class CustomerUiController {
                 }
             });
 
+            cartListView.setCellFactory(lv -> new ListCell<>() {
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    setText(empty || item == null ? null : item);
+                }
+            });
+
             // Set up cart list
             cartListView.setItems(cartItems);
 
@@ -260,6 +268,16 @@ public class CustomerUiController {
     }
 
     @FXML
+    private void handleCartItemClick(MouseEvent event) {
+        if (event.getClickCount() == 2) { // Double-click
+            int selectedIndex = cartListView.getSelectionModel().getSelectedIndex();
+            if (selectedIndex >= 0) {
+                removeCartItem(selectedIndex);
+            }
+        }
+    }
+
+    @FXML
     private void handleAddCustomizedToCart() {
         if (currentBeverage != null && currentSize != null) {
             addBeverageToCart(currentBeverage, currentSize, selectedCustomizations);
@@ -365,6 +383,53 @@ public class CustomerUiController {
             }
         }
         return true;
+    }
+
+    private void removeCartItem(int index) {
+        // Show confirmation dialog
+        Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmation.setTitle("Remove Item");
+        confirmation.setHeaderText("Remove this item from your order?");
+        confirmation.setContentText("This will remove the selected item from your cart.");
+
+        Optional<ButtonType> result = confirmation.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            // Remove from all tracking lists
+            if (index < cartItemObjects.size()) {
+                Object item = cartItemObjects.get(index);
+
+                // Calculate amount to subtract from total
+                double itemPrice = 0;
+                if (item instanceof BeverageItem beverage) {
+                    BeverageSize size = cartItemSizes.get(index);
+                    itemPrice = beverage.cost().get(size).price();
+
+                    // Add customization costs
+                    List<CustomItem> customizations = cartItemCustomizations.get(index);
+                    if (customizations != null) {
+                        itemPrice += customizations.stream()
+                                .mapToDouble(CustomItem::additionalPrice)
+                                .sum();
+                    }
+                } else if (item instanceof PastriesItem pastry) {
+                    itemPrice = pastry.cost().price();
+                }
+
+                // Remove from all lists
+                cartItemObjects.remove(index);
+                if (index < cartItemSizes.size()) {
+                    cartItemSizes.remove(index);
+                }
+                cartItemQuantities.remove(index);
+                if (index < cartItemCustomizations.size()) {
+                    cartItemCustomizations.remove(index);
+                }
+
+                // Update total
+                cartTotal -= itemPrice;
+                updateCartDisplay();
+            }
+        }
     }
 
     private IngredientItem findIngredientItem(Ingredients ingredient) {
@@ -518,6 +583,8 @@ public class CustomerUiController {
             clearCart();
         }
     }
+
+
 
     @FXML
     private void handleLogOut() throws IOException {
