@@ -49,4 +49,22 @@
   } ],
   "orderStatus" : "PENDING",
   "totalPrice" : 5.0
+}, {
+  "orderDate" : "2025-08-13T11:27:19.521632900",
+  "customerName" : "Tom",
+  "orderID" : "2025-08-13-3a1df670-e0b8-42d5-8a22-f4ea4f7a8a49",
+  "orderItems" : [ {
+    "item" : {
+      "itemID" : "B-T01",
+      "itemName" : "Green Tea",
+      "itemType" : "TEA_GREEN",
+      "ingredientsCost" : {
+        "TEA_LEAVES_GREEN" : 3
+      },
+      "price" : 4.0
+    },
+    "quantity" : 1
+  } ],
+  "orderStatus" : "PENDING",
+  "totalPrice" : 4.0
 } ]

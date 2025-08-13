@@ -17,6 +17,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import java.io.IOException;
@@ -37,6 +38,18 @@ public class CustomerUiController {
     @FXML private ListView<String> beverageListView;
     @FXML private ListView<String> pastriesListView;
     @FXML private ListView<String> cartListView;
+    @FXML private TextField customerNameField;
+    @FXML private Pane customizationOverlay;
+    @FXML private VBox customizationPane;
+    @FXML private VBox customizationOptionsContainer;
+    @FXML private Label customizationBeverageName;
+    @FXML private Label customizationTotalLabel;
+
+    private BeverageItem currentBeverage;
+    private BeverageSize currentSize;
+    private List<CustomItem> selectedCustomizations = new ArrayList<>();
+    private double currentCustomizationPrice;
+    private List<List<CustomItem>> cartItemCustomizations = new ArrayList<>();
 
     private ObservableList<String> cartItems = FXCollections.observableArrayList();
     private List<Object> cartItemObjects = new ArrayList<>(); // Stores actual items
@@ -137,16 +150,24 @@ public class CustomerUiController {
 
     private void handleBeverageSelection(BeverageItem beverage, List<CustomItem> customizations) {
         // TODO: Validate Function for Menu Item if Out of Order
+        this.currentBeverage = beverage;
+
+        System.out.println("Selected beverage: " + beverage.name());
+        System.out.println("Available customizations: " + customizations.size());
 
         // Step 1: Select size
         BeverageSize size = showSizeSelectionDialog(beverage);
         if (size == null) return;
+        this.currentSize = size;
 
-        // Step 2: Select customizations
-        List<CustomItem> selectedCustomizations = showCustomizationDialog(customizations);
-
-        // Step 3: Add to cart
-        addBeverageToCart(beverage, size, selectedCustomizations);
+        // Step 2: Show customization dialog if available
+        if (!customizations.isEmpty()) {
+            System.out.println("Showing customization dialog with " + customizations.size() + " options");
+            showCustomizationDialog(beverage, size, customizations);
+        } else {
+            System.out.println("No customizations available for this beverage");
+            addBeverageToCart(beverage, size, new ArrayList<>());
+        }
     }
 
 
@@ -162,35 +183,42 @@ public class CustomerUiController {
         return dialog.showAndWait().orElse(null);
     }
 
-    private List<CustomItem> showCustomizationDialog(List<CustomItem> availableCustomizations) {
-        if (availableCustomizations.isEmpty()) {
-            return new ArrayList<>();
-        }
+    private List<CustomItem> getCustomizationsForItem(int index) {
+        return index < cartItemCustomizations.size() ?
+                cartItemCustomizations.get(index) :
+                new ArrayList<>();
+    }
 
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Customize Your Drink");
-        alert.setHeaderText("Available Customizations");
+    private void showCustomizationDialog(BeverageItem beverage, BeverageSize size,
+                                         List<CustomItem> availableCustomizations) {
+        customizationBeverageName.setText(beverage.name() + " (" + size + ")");
+        customizationOptionsContainer.getChildren().clear();
+        selectedCustomizations.clear();
+
+        // Calculate base price
+        double basePrice = beverage.cost().get(size).price();
+        currentCustomizationPrice = basePrice;
 
         // Create checkboxes for each customization
-        List<CheckBox> checkBoxes = availableCustomizations.stream()
-                .map(c -> new CheckBox(c.name() + " (+$" + c.additionalPrice() + ")"))
-                .toList();
-
-        VBox content = new VBox(10);
-        content.getChildren().addAll(checkBoxes);
-        alert.getDialogPane().setContent(content);
-
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            List<CustomItem> selected = new ArrayList<>();
-            for (int i = 0; i < checkBoxes.size(); i++) {
-                if (checkBoxes.get(i).isSelected()) {
-                    selected.add(availableCustomizations.get(i));
+        for (CustomItem custom : availableCustomizations) {
+            CheckBox checkBox = new CheckBox(custom.name() + " (+$" + custom.additionalPrice() + ")");
+            checkBox.setUserData(custom);
+            checkBox.selectedProperty().addListener((obs, wasSelected, isSelected) -> {
+                if (isSelected) {
+                    selectedCustomizations.add(custom);
+                    currentCustomizationPrice += custom.additionalPrice();
+                } else {
+                    selectedCustomizations.remove(custom);
+                    currentCustomizationPrice -= custom.additionalPrice();
                 }
-            }
-            return selected;
+                customizationTotalLabel.setText(String.format("Total: $%.2f", currentCustomizationPrice));
+            });
+            customizationOptionsContainer.getChildren().add(checkBox);
         }
-        return new ArrayList<>();
+
+        customizationTotalLabel.setText(String.format("Total: $%.2f", currentCustomizationPrice));
+        customizationOverlay.setVisible(true);
+        customizationPane.setVisible(true);
     }
 
     @FXML
@@ -208,6 +236,20 @@ public class CustomerUiController {
                         .ifPresent(this::handlePastrySelection);
             }
         }
+    }
+
+    @FXML
+    private void handleAddCustomizedToCart() {
+        if (currentBeverage != null && currentSize != null) {
+            addBeverageToCart(currentBeverage, currentSize, selectedCustomizations);
+            closeCustomizationOverlay();
+        }
+    }
+
+    @FXML
+    private void closeCustomizationOverlay() {
+        customizationOverlay.setVisible(false);
+        customizationPane.setVisible(false);
     }
 
     private void handlePastrySelection(PastriesItem pastry) {
@@ -250,12 +292,14 @@ public class CustomerUiController {
                     .collect(Collectors.joining(", ")));
         }
 
+        cartItemCustomizations.add(new ArrayList<>(customizations));
+
         display.append(" - $").append(String.format("%.2f", basePrice + customizationTotal));
 
-        // Add to ALL cart tracking lists
+        // Add to cart tracking lists
         cartItemObjects.add(beverage);
         cartItemSizes.add(size);
-        cartItemQuantities.add(1); // Default quantity of 1
+        cartItemQuantities.add(1);
         cartTotal += basePrice + customizationTotal;
         updateCartDisplay();
     }
@@ -276,6 +320,17 @@ public class CustomerUiController {
                 BeverageSize size = cartItemSizes.get(i);
                 price = beverage.cost().get(size).price();
                 displayName = beverage.name() + " (" + size + ")";
+
+                // Add customizations to display
+                List<CustomItem> customizations = getCustomizationsForItem(i);
+                if (!customizations.isEmpty()) {
+                    displayName += " with " + customizations.stream()
+                            .map(c -> c.name())
+                            .collect(Collectors.joining(", "));
+                    price += customizations.stream()
+                            .mapToDouble(CustomItem::additionalPrice)
+                            .sum();
+                }
             } else {
                 PastriesItem pastry = (PastriesItem) item;
                 price = pastry.cost().price();
@@ -315,6 +370,13 @@ public class CustomerUiController {
         // Checks if the checkout button is clicked
         System.out.println("Checkout clicked!");
 
+        // Validate name field
+        String customerName = customerNameField.getText().trim();
+        if (customerName.isEmpty()) {
+            showAlert("Name Required", "Please fill in your name");
+            return;
+        }
+
         // Checks if the cart is empty
         if (cartItems.isEmpty()) {
             showAlert("Empty Cart", "Your cart is empty. Please add items before checkout.");
@@ -322,19 +384,24 @@ public class CustomerUiController {
         }
         try {
             OrdersManagement ordersManagement = cafeShop.getOrdersManagement();
+            String orderId = ordersManagement.createNewOrder(customerName);
 
-            // 1. Create new order
-            String orderId = ordersManagement.createNewOrder();
-
-            // 2. Add all items to the order
             for (int i = 0; i < cartItemObjects.size(); i++) {
                 Object item = cartItemObjects.get(i);
                 int quantity = cartItemQuantities.get(i);
 
-                if (item instanceof BeverageItem) {
+                if (item instanceof BeverageItem beverage) {
                     BeverageSize size = cartItemSizes.get(i);
-                    OrderItem orderItem = ordersManagement.createBeverageItem(
-                            (BeverageItem)item, size, null);
+                    // Get customizations for this beverage (you'll need to track these)
+                    List<CustomItem> customizations = getCustomizationsForItem(i);
+
+                    OrderItem orderItem = ordersManagement.createBeverageItem(beverage, size,
+                            customizations.isEmpty() ? null : customizations.get(0));
+
+                    // Add remaining customizations
+                    for (int c = 1; c < customizations.size(); c++) {
+                        orderItem.modifyOrderItem(customizations.get(c));
+                    }
 
                     for (int q = 0; q < quantity; q++) {
                         ordersManagement.addItemIntoOrder(orderId, orderItem);
