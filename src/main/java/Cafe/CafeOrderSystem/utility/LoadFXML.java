@@ -9,6 +9,7 @@ import java.util.function.Consumer;
 import Cafe.CafeOrderSystem.Cafe;
 import Cafe.CafeOrderSystem.CatalogItems.Ingredients;
 import Cafe.CafeOrderSystem.Inventory.Ingredients.IngredientItem;
+import Cafe.CafeOrderSystem.Menu.Items.BeverageItem;
 import Cafe.CafeOrderSystem.Menu.Items.PastriesItem;
 import Cafe.CafeOrderSystem.Orders.CustomerOrder;
 import Cafe.CafeOrderSystem.UI.BaristaUiController;
@@ -196,6 +197,7 @@ public class LoadFXML {
         // Apply standard configuration
         overlayController.setStage(stage);
         overlayController.setFacade(cafe);
+        
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initStyle(StageStyle.UNDECORATED);
         
@@ -229,37 +231,34 @@ public class LoadFXML {
 
     }
 
-    
 
 public static void loadNewItemOverlay(Cafe cafe, Runnable refreshCallback) throws IOException {
     Stage overlayStage = new Stage();
-    
-    Consumer<NewItemController> configurator = controller -> {
-        controller.setRefreshCallback(refreshCallback);
-        controller.setIngredientList(cafe.getIngredientList());
-        
-        List<IngredientItem> allIngredients = new ArrayList<>(cafe.getIngredientList().getIngredients().keySet());
-controller.getAvailableIngredientsListView().getItems().addAll(allIngredients);
-        
-        controller.setItemSaver(item -> {
-            if (item instanceof PastriesItem pastry) {
-                cafe.getCafeMenuManagement().getPastriesItems().add(pastry);
-            } else if (item instanceof IngredientItem ingredient) {
-                cafe.modifyIngredient(ingredient, ingredient.getAmount());
-            }
-            refreshCallback.run();
-        });
-    };
-    
     LoadFXML loader = new LoadFXML(
-        cafe, overlayStage, FxmlView.NEW_ITEM, 800, 800, configurator
+        cafe,
+        overlayStage,
+        FxmlView.NEW_ITEM,
+        800,  // width
+        800,  // height
+        // ✅ controllerConfigurator wires the NewItemController post-load
+        (NewItemController c) -> {
+            c.setStage(overlayStage);
+            c.setFacade(cafe);
+            c.setIngredientList(cafe.getIngredientList());
+            c.setRefreshCallback(refreshCallback);
+            c.setItemSaver(obj -> {
+                if (obj instanceof BeverageItem b) {
+                    cafe.getCafeMenuManagement().getBeverageItems().add(b);
+                } else if (obj instanceof PastriesItem p) {
+                    cafe.getCafeMenuManagement().getPastriesItems().add(p);
+                } else if (obj instanceof IngredientItem ing) {
+                    cafe.getIngredientList().addObject(ing);
+                }
+            });
+        }
     );
-    
     loader.load();
-    overlayStage.showAndWait();
 }
-
-
 
 
 
