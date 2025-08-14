@@ -178,6 +178,41 @@
       "FLOUR" : 1,
       "ALMOND" : 2
     }
+<<<<<<< HEAD
+  }
+}, {
+  "id" : "579d2952-0858-43c9-a401-94a0ffaa37e8",
+  "name" : "test",
+  "type" : "PASTRY",
+  "cost" : {
+    "price" : 2.99,
+    "ingredients" : { }
+  }
+}, {
+  "id" : "c883a248-cdc2-4c9b-b95f-72787737c82b",
+  "name" : "pie",
+  "type" : "PASTRY",
+  "cost" : {
+    "price" : 2.99,
+    "ingredients" : {
+      "TEA_LEAVES_BLACK" : 3,
+      "FLOUR" : 3
+    }
+  }
+}, {
+  "id" : "a2f15c0f-091b-44ee-b018-954c9c58ef50",
+  "name" : "katar",
+  "type" : "PASTRY",
+  "cost" : {
+    "price" : 6.7,
+    "ingredients" : {
+      "CHOCOLATE_CHIP" : 22,
+      "SUGAR" : 22,
+      "MILK" : 22
+    }
+  }
+=======
   },
   "shortSummary" : "Almond Cookie (COOKIE)"
+>>>>>>> 5de3dd91f68586d9f9f36c3907d29e36424c3bf6
 } ]

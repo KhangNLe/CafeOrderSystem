@@ -235,4 +235,29 @@
     }
   },
   "shortSummary" : "Latte (COFFEE)"
+}, {
+  "id" : "e8a70bc1-5489-4664-bc80-37dfdfe8317b",
+  "name" : "gilk",
+  "type" : "BEVERAGE",
+  "cost" : {
+    "SMALL" : {
+      "price" : 2.99,
+      "ingredients" : {
+        "BUTTER" : 1
+      }
+    },
+    "MEDIUM" : {
+      "price" : 3.99,
+      "ingredients" : {
+        "BUTTER" : 2
+      }
+    },
+    "LARGE" : {
+      "price" : 4.99,
+      "ingredients" : {
+        "BUTTER" : 3
+      }
+    }
+  },
+  "shortSummary" : "gilk (BEVERAGE)"
 } ]

@@ -4,6 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
+<?import javafx.collections.FXCollections?>
 
 <StackPane xmlns="http://javafx.com/javafx/21"
            xmlns:fx="http://javafx.com/fxml/1"
@@ -33,7 +34,7 @@
         <!-- Body -->
         <center>
             <TabPane fx:id="typeTabPane" tabClosingPolicy="UNAVAILABLE" prefHeight="520">
-                <!-- INGREDIENT TAB (no Unit field) -->
+                <!-- INGREDIENT TAB -->
                 <Tab fx:id="ingredientTab" text="Ingredient" closable="false">
                     <content>
                         <TabPane fx:id="ingredientInnerTabs" tabClosingPolicy="UNAVAILABLE">
@@ -53,7 +54,6 @@
                                         <Label text="Name" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
                                         <TextField fx:id="ingredientNameField" promptText="e.g., Espresso Beans"
                                                    GridPane.rowIndex="0" GridPane.columnIndex="1" GridPane.columnSpan="3"/>
-
                                     </GridPane>
                                 </content>
                             </Tab>
@@ -69,7 +69,6 @@
                                             <ColumnConstraints minWidth="160" halignment="RIGHT"/>
                                             <ColumnConstraints hgrow="SOMETIMES"/>
                                         </columnConstraints>
-
 
                                         <!-- Starting Stock (count) -->
                                         <Label text="Starting Stock" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
@@ -87,31 +86,149 @@
                     </content>
                 </Tab>
 
-                <!-- BEVERAGE TAB (stub) -->
-                <Tab fx:id="beverageTab" text="Beverage" closable="false" disable="true">
-                    <content>
-                        <VBox>
-                            <Label text="Beverage form goes here (sizes, prices, ingredients per size)." />
-                        </VBox>
-                    </content>
-                </Tab>
 
-                <!-- PASTRY TAB (stub) -->
-                <Tab fx:id="pastryTab" text="Pastry" closable="false" disable="true">
-                    <content>
-                        <VBox>
-                            <Label text="Pastry form goes here (flat price, ingredients)." />
-                        </VBox>
-                    </content>
-                </Tab>
+                <!-- PASTRY TAB -->
+            <Tab fx:id="pastryTab" text="Pastry" closable="false">
+            <content>
+                <GridPane hgap="14" vgap="12">
+                <padding><Insets top="14" right="14" bottom="14" left="14"/></padding>
+
+                <columnConstraints>
+                    <ColumnConstraints minWidth="160" halignment="RIGHT"/>
+                    <ColumnConstraints hgrow="ALWAYS"/>
+                    <ColumnConstraints minWidth="160" halignment="RIGHT"/>
+                    <ColumnConstraints hgrow="ALWAYS"/>
+                </columnConstraints>
+
+                <!-- rows: 0 Name, 1 Price, 2 Ingredients label, 3 Ingredients HBox, 4 Preview -->
+                <rowConstraints>
+                    <RowConstraints minHeight="30"/>        <!-- 0 -->
+                    <RowConstraints minHeight="30"/>        <!-- 1 -->
+                    <RowConstraints minHeight="30"/>        <!-- 2 -->
+                    <RowConstraints vgrow="ALWAYS" minHeight="200"/> <!-- 3 -->
+                    <RowConstraints minHeight="30"/>        <!-- 4 -->
+                </rowConstraints>
+
+                <!-- Name -->
+                <Label text="Name" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <TextField fx:id="pastryNameField" promptText="e.g., Croissant"
+                            GridPane.rowIndex="0" GridPane.columnIndex="1" GridPane.columnSpan="3"/>
+
+                <!-- Price -->
+                <Label text="Price ($)" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <Spinner fx:id="pastryPriceSpinner" editable="true"
+                        GridPane.rowIndex="1" GridPane.columnIndex="1" GridPane.halignment="LEFT">
+                    <GridPane.margin><Insets left="10"/></GridPane.margin>
+                </Spinner>
+
+                <!-- Ingredients label -->
+                <Label text="Ingredients" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+
+                <!-- Pastry: Ingredients Selection (same functionality, no overlap) -->
+                <HBox spacing="10" alignment="CENTER"
+                        GridPane.rowIndex="3" GridPane.columnIndex="0" GridPane.columnSpan="4">
+                    <VBox spacing="5" prefWidth="200">
+                    <Label text="Available Ingredients"/>
+                    <ListView fx:id="availableIngredientsListView" prefHeight="150" VBox.vgrow="ALWAYS"/>
+                    </VBox>
+
+                    <VBox spacing="10" alignment="CENTER">
+                    <Label text="Quantity"/>
+                    <Spinner fx:id="ingredientQuantitySpinner" prefWidth="80"/>
+                    <Button text="Add →" onAction="#addSelectedIngredient" mnemonicParsing="false"/>
+                    <Button text="← Remove" onAction="#removeSelectedIngredient" mnemonicParsing="false"/>
+                    </VBox>
+
+                    <VBox spacing="5" prefWidth="200">
+                    <Label text="Selected Ingredients"/>
+                    <ListView fx:id="selectedIngredientsListView" prefHeight="150" VBox.vgrow="ALWAYS"/>
+                    </VBox>
+                </HBox>
+
+                <!-- Preview -->
+                <Label text="Preview" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                <Label fx:id="pastryPreviewLabel" text="—"
+                        GridPane.rowIndex="4" GridPane.columnIndex="1" GridPane.columnSpan="3"/>
+                </GridPane>
+            </content>
+            </Tab>
+
+            <Tab fx:id="beverageTab" text="Beverage" closable="false">
+    <content>
+        <GridPane hgap="14" vgap="12">
+            <padding><Insets top="14" right="14" bottom="14" left="14"/></padding>
+            <columnConstraints>
+                <ColumnConstraints minWidth="160" halignment="RIGHT"/>
+                <ColumnConstraints hgrow="ALWAYS"/>
+                <ColumnConstraints minWidth="160" halignment="RIGHT"/>
+                <ColumnConstraints hgrow="SOMETIMES"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="30"/>
+                <RowConstraints minHeight="30"/>
+                <RowConstraints minHeight="30"/>
+                <RowConstraints minHeight="30"/>
+                <RowConstraints minHeight="200"/>
+                <RowConstraints minHeight="30"/>
+            </rowConstraints>
+
+            <!-- Name -->
+            <Label text="Name" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <TextField fx:id="beverageNameField" promptText="e.g., Latte"
+                    GridPane.rowIndex="0" GridPane.columnIndex="1" GridPane.columnSpan="3"/>
+
+            <!-- Prices -->
+            <Label text="Prices" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <HBox spacing="10" GridPane.rowIndex="1" GridPane.columnIndex="1" GridPane.columnSpan="3">
+                <Label text="Small:"/>
+                <Spinner fx:id="smallPriceSpinner" prefWidth="80"/>
+                <Label text="Medium:"/>
+                <Spinner fx:id="mediumPriceSpinner" prefWidth="80"/>
+                <Label text="Large:"/>
+                <Spinner fx:id="largePriceSpinner" prefWidth="80"/>
+            </HBox>
+
+            <Label text="Size" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+            <ListView fx:id="beverageSizeListView" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+        <!-- Beverage: Ingredients Selection (FIXED) -->
+        <Label text="Ingredients" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+        <HBox spacing="10" alignment="CENTER" GridPane.rowIndex="4" GridPane.columnIndex="0" GridPane.columnSpan="4">
+            <VBox spacing="5" prefWidth="200">
+                <Label text="Available Ingredients"/>
+                <!-- was: fx:id="availableIngredientsListView" (WRONG) -->
+                <ListView fx:id="beverageAvailableIngredientsListView" prefHeight="150"/>
+            </VBox>
+
+            <VBox spacing="10" alignment="CENTER">
+                <Label text="Quantity"/>
+                <!-- give Beverage its own quantity spinner to avoid duplicate fx:id -->
+                <Spinner fx:id="beverageQuantitySpinner" prefWidth="80"/>
+                <Button text="Add →" onAction="#addBeverageIngredient" mnemonicParsing="false"/>
+                <Button text="← Remove" onAction="#removeBeverageIngredient" mnemonicParsing="false"/>
+            </VBox>
+
+            <VBox spacing="5" prefWidth="200">
+                <Label text="Selected Ingredients"/>
+                <ListView fx:id="beverageIngredientsListView" prefHeight="150"/>
+            </VBox>
+        </HBox>
+            <!-- Preview -->
+            <Label text="Preview" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+            <Label fx:id="beveragePreviewLabel" text="—"
+                GridPane.rowIndex="5" GridPane.columnIndex="1" GridPane.columnSpan="3"/>
+        </GridPane>
+    </content>
+</Tab>
             </TabPane>
         </center>
+        
 
         <!-- Footer -->
         <bottom>
             <HBox alignment="CENTER_RIGHT" spacing="10">
                 <Button fx:id="cancelBtn" text="Cancel" onAction="#handleCancel"/>
-                <Button fx:id="saveBtn"   text="Save"   onAction="#handleSave" defaultButton="true"/>
+                <Button fx:id="saveBtn" text="Save" onAction="#handleSave" defaultButton="true"/>
             </HBox>
         </bottom>
     </BorderPane>

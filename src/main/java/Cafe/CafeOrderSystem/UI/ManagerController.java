@@ -17,6 +17,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
@@ -179,9 +183,6 @@ private void handleInventory() {
     }
     viewMenuItem.setDisable(true);
     viewIndgredientItem.setDisable(false);
-
-    // viewMenuItem.setVisible(false);
-    // viewIndgredientItem.setVisible(true);
     
     IngredientList list = inventoryManagement.getList();
     Map<IngredientItem, Integer> ingredients = list.getIngredients();
@@ -316,14 +317,33 @@ private void handleInventory() {
 
     }
 
-    @FXML
-    private void handleAddNewItem() {
-        try {
-            LoadFXML.loadNewItemOverlay(cafeShop, this::refreshView);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+@FXML
+private void handleAddNewItem() {
+    try {
+        LoadFXML.loadNewItemOverlay(cafeShop, () -> {
+            // This callback will be executed after the new item is created
+            Platform.runLater(() -> {
+                refreshMenu(); // Refresh the menu display
+            });
+        });
+    } catch (IOException e) {
+        new Alert(Alert.AlertType.ERROR, "Failed to load new item form: " + e.getMessage()).show();
+        e.printStackTrace();
     }
+}
+
+    private void handleNewItemCreated(Object newItem) {
+    if (newItem instanceof IngredientItem) {
+        // Handle ingredient creation
+        cafeShop.modifyIngredient((IngredientItem) newItem, ((IngredientItem) newItem).getAmount());
+        refreshView();
+    } else if (newItem instanceof PastriesItem) {
+        // Handle pastry creation
+        menuManagement.getPastriesItems().add((PastriesItem) newItem);
+        refreshMenu();
+    }
+}
+
 
     @FXML
     private void handleQuit() throws IOException {

@@ -48,13 +48,13 @@ public class HelloApplication extends Application {
         }
     }
 
-    public void setFacade(Cafe cafeShop){
-        this.cafeShop = cafeShop;
-    }
+        public void setFacade(Cafe cafeShop){
+            this.cafeShop = cafeShop;
+        }
 
-    public void setPrimaryStage(Stage stage) {
-        this.primaryStage = stage;
-    }
+        public void setPrimaryStage(Stage stage) {
+            this.primaryStage = stage;
+        }
 
 
     private void openLoginScreen() throws IOException {
@@ -70,8 +70,6 @@ public class HelloApplication extends Application {
         // Handle error (show dialog, log, etc.)
         e.printStackTrace();
         }
-
-
     }
     
        

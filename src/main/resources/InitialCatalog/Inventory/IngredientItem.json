@@ -9,15 +9,18 @@
 }, {
   "id" : "I-03",
   "ingredient" : "CHOCOLATE_CHIP",
-  "amount" : 25
+  "amount" : 25,
+  "name" : "CHOCOLATE_CHIP"
 }, {
   "id" : "I-04",
   "ingredient" : "ALMOND",
-  "amount" : 25
+  "amount" : 25,
+  "name" : "ALMOND"
 }, {
   "id" : "I-05",
   "ingredient" : "BLUEBERRY",
-  "amount" : 25
+  "amount" : 25,
+  "name" : "BLUEBERRY"
 }, {
   "id" : "I-06",
   "ingredient" : "STRAWBERRY",
@@ -25,15 +28,18 @@
 }, {
   "id" : "I-07",
   "ingredient" : "OATMEAL",
-  "amount" : 25
+  "amount" : 25,
+  "name" : "OATMEAL"
 }, {
   "id" : "I-08",
   "ingredient" : "RAISIN",
-  "amount" : 26
+  "amount" : 26,
+  "name" : "RAISIN"
 }, {
   "id" : "I-09",
   "ingredient" : "SUGAR",
-  "amount" : 25
+  "amount" : 40,
+  "name" : "SUGAR"
 }, {
   "id" : "I-10",
   "ingredient" : "MILK",
@@ -41,11 +47,13 @@
 }, {
   "id" : "I-11",
   "ingredient" : "OAT_MILK",
-  "amount" : 25
+  "amount" : 25,
+  "name" : "OAT_MILK"
 }, {
   "id" : "I-12",
   "ingredient" : "ALMOND_MILK",
-  "amount" : 25
+  "amount" : 25,
+  "name" : "ALMOND_MILK"
 }, {
   "id" : "I-13",
   "ingredient" : "SUGAR_FREE_SYRUP",
@@ -53,7 +61,8 @@
 }, {
   "id" : "I-14",
   "ingredient" : "TEA_LEAVES_BLACK",
-  "amount" : 26
+  "amount" : 26,
+  "name" : "TEA_LEAVES_BLACK"
 }, {
   "id" : "I-15",
   "ingredient" : "TEA_LEAVES_GREEN",
@@ -61,7 +70,8 @@
 }, {
   "id" : "I-16",
   "ingredient" : "TEA_LEAVES_HERBAL",
-  "amount" : 25
+  "amount" : 25,
+  "name" : "TEA_LEAVES_HERBAL"
 }, {
   "id" : "I-17",
   "ingredient" : "COFFEE_BEAN",
@@ -69,9 +79,11 @@
 }, {
   "id" : "I-18",
   "ingredient" : "DECAF_COFFEE_BEAN",
-  "amount" : 25
+  "amount" : 25,
+  "name" : "DECAF_COFFEE_BEAN"
 }, {
   "id" : "I-19",
   "ingredient" : "DECAF_TEA_LEAVES_BLACK",
-  "amount" : 27
+  "amount" : 27,
+  "name" : "DECAF_TEA_LEAVES_BLACK"
 } ]
