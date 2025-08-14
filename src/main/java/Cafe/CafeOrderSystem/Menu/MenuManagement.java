@@ -235,6 +235,13 @@ public void modifyPastryItem(int pastriesIdx,
         }
     }
 
+    /**
+     * Setting each {@link BeverageItem} key inside the map with a new {@code ArrayList<>()}
+     *
+     * @param items The given {@code Map} with List of {@code CustomItem} indexed by
+     * {@code BeverageItem}
+     * @param beverageItems The List of {@link BeverageItem} to populated into the Map
+     */
     private void initializeMap(Map<BeverageItem, List<CustomItem>> items,
                                List<BeverageItem> beverageItems){
         beverageItems.forEach(item -> {
@@ -242,6 +249,12 @@ public void modifyPastryItem(int pastriesIdx,
         });
     }
 
+    /**
+     * Get any {@link CustomItem} that would be applicable with the {@link BeverageItem}
+     *
+     * @param items The Map of {@code CustomItem} List indexed by {@code BeverageItem}
+     * @param addOnItems The List of {@code CustomItem}
+     */
     private void getAddOnForBeverage(Map<BeverageItem, List<CustomItem>> items,
                                      List<CustomItem> addOnItems) {
         items.keySet().forEach(beverage -> {

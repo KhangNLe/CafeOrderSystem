@@ -30,7 +30,7 @@ public class OrdersManagement {
      *
      * @param orders the underlying order system managing active, pending, and fulfilled orders
      */
-    public OrdersManagement(CafeOrders orders,  Inventory cafeInventory) {
+    public OrdersManagement(CafeOrders orders, Inventory cafeInventory) {
         this.orders = orders;
         this.cafeInventory = cafeInventory;
     }
@@ -43,7 +43,7 @@ public class OrdersManagement {
      *
      * @return the unique identifier of the newly created order
      */
-    public String createNewOrder(String customerName){
+    public String createNewOrder(String customerName) {
         String orderId = LocalDate.now() + "-" + UUID.randomUUID();
         CustomerOrder order = CustomerOrder.newEmptyOrder(orderId, customerName);
         orders.startOrder(order);
@@ -56,7 +56,7 @@ public class OrdersManagement {
      *
      * @return a list of pending {@link CustomerOrder}s
      */
-    public List<CustomerOrder> getPendingOrder(){
+    public List<CustomerOrder> getPendingOrder() {
         return orders.getPendingOrders();
     }
 
@@ -65,7 +65,7 @@ public class OrdersManagement {
      *
      * @return a list of fulfilled {@link CustomerOrder}s representing order history
      */
-    public List<CustomerOrder> getOrderHistory(){
+    public List<CustomerOrder> getOrderHistory() {
         return orders.getOrderHistory();
     }
 
@@ -74,7 +74,7 @@ public class OrdersManagement {
      *
      * @param orderID the ID of the order to finalize
      */
-    public void finalizeActiveOrder(String orderID){
+    public void finalizeActiveOrder(String orderID) {
         orders.finalizeActiveOrder(orderID);
     }
 
@@ -83,7 +83,7 @@ public class OrdersManagement {
      *
      * @return the next pending {@link CustomerOrder}, or {@code null} if the queue is empty
      */
-    public CustomerOrder getNextOrder(){
+    public CustomerOrder getNextOrder() {
         return orders.getNextPendingOrder();
     }
 
@@ -92,7 +92,7 @@ public class OrdersManagement {
      *
      * @param order the order to mark as fulfilled
      */
-    public void fulfilledOrder(CustomerOrder order){
+    public void fulfilledOrder(CustomerOrder order) {
         orders.fulfilledOrder(order);
     }
 
@@ -102,7 +102,7 @@ public class OrdersManagement {
      * @param orderID   the ID of the order to update
      * @param orderItem the item to add
      */
-    public void addItemIntoOrder(String orderID, OrderItem orderItem){
+    public void addItemIntoOrder(String orderID, OrderItem orderItem) {
         CustomerOrder order = orders.lookUpActiveOrder(orderID);
         verifyCustomerOrder(order, orderID);
         order.addOrderItem(orderItem);
@@ -128,7 +128,7 @@ public class OrdersManagement {
      * @param orderID   the ID of the order to update
      * @param orderItem the item to remove
      */
-    public void removeItemFromOrder(String orderID, OrderItem orderItem){
+    public void removeItemFromOrder(String orderID, OrderItem orderItem) {
         CustomerOrder order = orders.lookUpActiveOrder(orderID);
         verifyCustomerOrder(order, orderID);
         order.removeOrderItem(orderItem);
@@ -139,11 +139,11 @@ public class OrdersManagement {
      *
      * @param item   the base beverage menu item
      * @param size   the desired beverage size
-     * @param addOns  optional customization (can be {@code null})
+     * @param addOns optional customization (can be {@code null})
      * @return the constructed {@link OrderItem}
      */
     public OrderItem createBeverageItem(BeverageItem item, BeverageSize size,
-                                        List<CustomItem> addOns){
+                                        List<CustomItem> addOns) {
         BeverageItem beverage = item.copyOf();
         BeverageCost cost = beverage.cost().get(size);
         OrderItem orderItem = createOrderItem(beverage.id(), beverage.name(), beverage.type(),
@@ -163,7 +163,7 @@ public class OrdersManagement {
      * @param item the base pastries menu item
      * @return the constructed {@link OrderItem}
      */
-    public OrderItem createPastriesItem(PastriesItem item){
+    public OrderItem createPastriesItem(PastriesItem item) {
         PastriesItem pastries = item.copyOf();
         PastriesCost cost = pastries.cost();
         OrderItem orderItem = createOrderItem(pastries.id(), pastries.name(), pastries.type(),
@@ -173,11 +173,22 @@ public class OrdersManagement {
         return orderItem;
     }
 
-    public void returnIngredientsToInventory(List<OrderItem> items){
+    /**
+     * Safety check for if {@link OrderItem}s are created but Customer canceled the order.
+     * All the required ingredients will be returned to the inventory.
+     *
+     * @param items the List of {@code OrderItem} from a {@link CustomerOrder}
+     */
+    public void returnIngredientsToInventory(List<OrderItem> items) {
         items.forEach(this::returnIngredients);
     }
 
-    private void returnIngredients(OrderItem item){
+    /**
+     * Retuned the ingredient requirement from one {@link OrderItem} back into inventory
+     *
+     * @param item The {@code OrderItem} to get the ingredient to be returned.
+     */
+    private void returnIngredients(OrderItem item) {
         Map<Ingredients, Integer> ingredients = item.getIngredientsCost();
         ingredients.forEach(cafeInventory::modifyInventory);
     }
@@ -189,8 +200,8 @@ public class OrdersManagement {
      * @param orderID the order ID for error messaging
      * @throws InvalidInputException if the order is {@code null}
      */
-    private void verifyCustomerOrder(CustomerOrder order, String orderID){
-        if (order == null){
+    private void verifyCustomerOrder(CustomerOrder order, String orderID) {
+        if (order == null) {
             throw new InvalidInputException(
                     String.format("Order with id %s does not exist", orderID)
             );
@@ -200,15 +211,15 @@ public class OrdersManagement {
     /**
      * Factory method to construct a new {@link OrderItem}.
      *
-     * @param id     the item ID
-     * @param name   the item name
-     * @param type   the item type (e.g., beverage, pastry)
-     * @param cost   the map of ingredient costs
-     * @param price  the item's price
+     * @param id    the item ID
+     * @param name  the item name
+     * @param type  the item type (e.g., beverage, pastry)
+     * @param cost  the map of ingredient costs
+     * @param price the item's price
      * @return a new {@link OrderItem}
      */
     private OrderItem createOrderItem(String id, String name, MenuType type, Map<Ingredients,
-            Integer> cost, double price){
+            Integer> cost, double price) {
         return new OrderItem(id, name, type, cost, price);
     }
 
@@ -220,23 +231,30 @@ public class OrdersManagement {
      *
      * @param order the order to validate
      */
-    private void validateCustomerOrder(CustomerOrder order){
-        if (order == null){
+    private void validateCustomerOrder(CustomerOrder order) {
+        if (order == null) {
             throw new InvalidInputException("The given order is null");
         }
 
-        if (order.getOrderItems().isEmpty()){
+        if (order.getOrderItems().isEmpty()) {
             throw new InvalidInputException(
                     String.format("Cannot add order %s into the pending orders", order)
             );
         }
     }
 
-    private void checkForAvailableIngredients(OrderItem orderItem){
+    /**
+     * Validate and check if there is enough {@link Ingredients} stocked inside {@link Inventory}
+     * in order to produce an {@link OrderItem}
+     *
+     * @param orderItem The {@code OrderItem} that will be checked for ingredient availability to
+     *                  produce
+     */
+    private void checkForAvailableIngredients(OrderItem orderItem) {
         Map<Ingredients, Integer> ingredients = orderItem.getIngredientsCost();
 
-        ingredients.forEach((ingredient,amount)->{
-            if (!cafeInventory.modifyInventory(ingredient, -amount)){
+        ingredients.forEach((ingredient, amount) -> {
+            if (!cafeInventory.modifyInventory(ingredient, -amount)) {
                 throw new InvalidInputException(
                         String.format("Not enough %s for the %s",
                                 ingredient.getName(), orderItem.getItemName())
@@ -245,10 +263,9 @@ public class OrdersManagement {
         });
     }
 
-// Trevor: I had to add this so I could reflect front end chnages on the back end
-        public boolean updateOrderStatus(String orderID, OrderStatus newStatus) {
+    // Trevor: I had to add this so I could reflect front end chnages on the back end
+    public boolean updateOrderStatus(String orderID, OrderStatus newStatus) {
         try {
-            // First check pending orders
             List<CustomerOrder> pending = orders.getPendingOrders();
             Iterator<CustomerOrder> pendingIterator = pending.iterator();
             while (pendingIterator.hasNext()) {
@@ -256,7 +273,7 @@ public class OrdersManagement {
                 if (order.getOrderID().equals(orderID)) {
                     order.changeOrderStatus(newStatus);
                     pendingIterator.remove();
-                    
+
                     if (newStatus == OrderStatus.IN_PROCESS) {
                         orders.startOrder(order); // Move to active orders
                     } else if (newStatus == OrderStatus.READY) {
@@ -266,7 +283,6 @@ public class OrdersManagement {
                 }
             }
 
-            // Then check active orders
             try {
                 CustomerOrder activeOrder = orders.lookUpActiveOrder(orderID);
                 if (activeOrder != null) {

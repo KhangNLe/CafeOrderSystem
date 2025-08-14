@@ -66,20 +66,17 @@ private void handleSave() {
         // Get current quantity
         int currentValue = inventory.getList().getIngredients().getOrDefault(item, 0);
 
-        
-        // Only modify if there's a change
+        boolean success = inventory.modifyInventory(
+            newValue,
+            item  // Use the existing IngredientItem instead of creating new one
+        );
 
-            boolean success = inventory.modifyInventory(
-                newValue, 
-                item  // Use the existing IngredientItem instead of creating new one
-            );
+        System.out.println(success);
 
-            System.out.println(success);
-            
-            if (success && refreshCallback != null) {
-                refreshCallback.run();
-            }
-        
+        if (success && refreshCallback != null) {
+            refreshCallback.run();
+        }
+
         stage.close();
     }
 }

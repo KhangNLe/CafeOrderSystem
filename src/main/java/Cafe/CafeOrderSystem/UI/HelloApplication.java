@@ -1,26 +1,14 @@
 package Cafe.CafeOrderSystem.UI;
 
 import Cafe.CafeOrderSystem.Cafe;
-import Cafe.CafeOrderSystem.JsonParser.OrderItem.CustomerOrderParser;
-import Cafe.CafeOrderSystem.Orders.CafeOrders;
-import Cafe.CafeOrderSystem.Orders.OrdersManagement;
 import Cafe.CafeOrderSystem.utility.FxmlView;
 import Cafe.CafeOrderSystem.utility.LoadFXML;
 import javafx.application.Application;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.scene.Parent;
 
 
 import java.io.IOException;
 
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 
 public class HelloApplication extends Application {
     private Cafe cafeShop;
@@ -48,28 +36,28 @@ public class HelloApplication extends Application {
         }
     }
 
-        public void setFacade(Cafe cafeShop){
+    public void setFacade(Cafe cafeShop){
             this.cafeShop = cafeShop;
         }
 
-        public void setPrimaryStage(Stage stage) {
+    public void setPrimaryStage(Stage stage) {
             this.primaryStage = stage;
         }
 
 
     private void openLoginScreen() throws IOException {
         try {
-        new LoadFXML(
-            cafeShop,    // Your Cafe facade instance
-            primaryStage,     // pass existing stage
-            FxmlView.HELLO,   //access enum
-            800,            // Width
-            600             // Height
-        ).load();
-    } catch (IOException e) {
-        // Handle error (show dialog, log, etc.)
-        e.printStackTrace();
-        }
+            new LoadFXML(
+                cafeShop,    // Your Cafe facade instance
+                primaryStage,     // pass existing stage
+                FxmlView.HELLO,   //access enum
+                800,            // Width
+                600             // Height
+            ).load();
+        } catch (IOException e) {
+            // Handle error (show dialog, log, etc.)
+            e.printStackTrace();
+            }
     }
     
        

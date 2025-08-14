@@ -32,18 +32,30 @@ public class CustomerUiController {
     private Cafe cafeShop;
     private Stage primaryStage;
 
-    @FXML private Button checkoutButton;
-    @FXML private Button logoutButton;
-    @FXML private Button clearOrderButton;
-    @FXML private ListView<String> beverageListView;
-    @FXML private ListView<String> pastriesListView;
-    @FXML private ListView<String> cartListView;
-    @FXML private TextField customerNameField;
-    @FXML private Pane customizationOverlay;
-    @FXML private VBox customizationPane;
-    @FXML private VBox customizationOptionsContainer;
-    @FXML private Label customizationBeverageName;
-    @FXML private Label customizationTotalLabel;
+    @FXML
+    private Button checkoutButton;
+    @FXML
+    private Button logoutButton;
+    @FXML
+    private Button clearOrderButton;
+    @FXML
+    private ListView<String> beverageListView;
+    @FXML
+    private ListView<String> pastriesListView;
+    @FXML
+    private ListView<String> cartListView;
+    @FXML
+    private TextField customerNameField;
+    @FXML
+    private Pane customizationOverlay;
+    @FXML
+    private VBox customizationPane;
+    @FXML
+    private VBox customizationOptionsContainer;
+    @FXML
+    private Label customizationBeverageName;
+    @FXML
+    private Label customizationTotalLabel;
 
     private BeverageItem currentBeverage;
     private BeverageSize currentSize;
@@ -142,7 +154,6 @@ public class CustomerUiController {
     }
 
 
-
     @FXML
     private void handleBeverageListClick(MouseEvent event) {
 
@@ -199,7 +210,6 @@ public class CustomerUiController {
             addBeverageToCart(beverage, size, new ArrayList<>());
         }
     }
-
 
 
     private BeverageSize showSizeSelectionDialog(BeverageItem beverage) {
@@ -411,10 +421,9 @@ public class CustomerUiController {
                     }
 
 
-                    cartItemSizes.remove( beverage);
+                    cartItemSizes.remove(beverage);
                     cartItemCustomizations.remove(beverage);
-                }
-                else if (item instanceof PastriesItem pastry) {
+                } else if (item instanceof PastriesItem pastry) {
                     itemPrice = pastry.cost().price();
                 }
 
@@ -501,7 +510,6 @@ public class CustomerUiController {
     }
 
 
-
     @FXML
     private void handleLogOut() throws IOException {
 
@@ -558,8 +566,7 @@ public class CustomerUiController {
                         potentialOrderItems.add(orderItem);
                         ordersManagement.addItemIntoOrder(orderId, orderItem);
                     }
-                }
-                else if (item instanceof PastriesItem pastriesItem) {
+                } else if (item instanceof PastriesItem pastriesItem) {
                     for (int q = 0; q < quantity; q++) {
                         OrderItem orderItem = ordersManagement.createPastriesItem(
                                 pastriesItem);
@@ -577,7 +584,7 @@ public class CustomerUiController {
 
             clearCart();
 
-        } catch (InvalidInputException e){
+        } catch (InvalidInputException e) {
             ordersManagement.returnIngredientsToInventory(potentialOrderItems);
             showAlert("Missing Item", e.getMessage());
         } catch (Exception e) {
@@ -611,5 +618,4 @@ public class CustomerUiController {
         alert.setContentText(message);
         alert.showAndWait();
     }
-
 }

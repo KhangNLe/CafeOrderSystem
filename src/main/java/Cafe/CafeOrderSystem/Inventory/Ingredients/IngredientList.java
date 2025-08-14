@@ -13,6 +13,7 @@ import Cafe.CafeOrderSystem.JsonParser.JsonCollection;
 public class IngredientList extends JsonCollection<IngredientItem> {
     /**
      * This class is responsible for creating and managing a collection of Ingredients
+     *
      * @param folderPath The folder from which the collection fills and writes to
      */
     public IngredientList(String folderPath) {
@@ -37,10 +38,10 @@ public class IngredientList extends JsonCollection<IngredientItem> {
         }
     }
 
-    public boolean modifyQuantity(Ingredients ingredient, int amount){
+    public boolean modifyQuantity(Ingredients ingredient, int amount) {
         IngredientItem item = getIngredient(ingredient);
 
-        if (item == null){
+        if (item == null) {
             throw new InvalidInputException(
                     String.format("Ingredient %s is not inside inventory", ingredient)
             );
@@ -48,11 +49,11 @@ public class IngredientList extends JsonCollection<IngredientItem> {
         return modifyQuantity(item, amount);
     }
 
-    private IngredientItem getIngredient(Ingredients ingredient){
+    private IngredientItem getIngredient(Ingredients ingredient) {
         List<IngredientItem> ingredientItems = getCollection();
 
         for (IngredientItem ingredientItem : ingredientItems) {
-            if (ingredientItem.getIngredient().equals(ingredient)){
+            if (ingredientItem.getIngredient().equals(ingredient)) {
                 return ingredientItem;
             }
         }
@@ -60,27 +61,21 @@ public class IngredientList extends JsonCollection<IngredientItem> {
         return null;
     }
 
-
-    //Trevor: I added this
-
     public Map<IngredientItem, Integer> getIngredients() {
-    // Hacky but works - JsonCollection stores items internally
-    Map<IngredientItem, Integer> items = new HashMap<>();
+        Map<IngredientItem, Integer> items = new HashMap<>();
 
         for (int i = 0; ; i++) {
             try {
-            IngredientItem ingredientItem = getObject(i);
-            int quantity = ingredientItem.getAmount();
+                IngredientItem ingredientItem = getObject(i);
+                int quantity = ingredientItem.getAmount();
 
-            items.put(ingredientItem, quantity);
-            
-        } catch (Exception e) {
-            break; // No more items
+                items.put(ingredientItem, quantity);
+
+            } catch (Exception e) {
+                break; // No more items
+            }
         }
+
+        return items;
     }
-
-    return items;
-}
-
-
 }

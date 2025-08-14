@@ -222,7 +222,6 @@ public class CustomerOrder {
     }
 
 
-    // Trevor: I added this so I could do some formatting for the retreival of the order on the back end
     public String shortSummary() {
         return String.format("Order #%s | %d item(s) | $%.2f | %s",
             orderID,
