@@ -23,13 +23,13 @@ import Cafe.CafeOrderSystem.JsonParser.OrderItem.*;
  * <p>This class is not meant to be instantiated.</p>
  */
 public class ParserManagement {
-    private static final String BEVERAGE_DIR = "src/main/resources/InitialCatalog/BeveragesCatalog";
-    private static final String PASTRIES_DIR = "src/main/resources/InitialCatalog/PastriesCatalog";
-    private static final String ADDON_DIR = "src/main/resources/InitialCatalog/AddonCatalog";
-    private static final String INVENTORY_DIR = "src/main/resources/InitialCatalog/Inventory";
-    private static final String PENDING_DIR = "src/main/resources/OrderHistory/Pending";
-    private static final String HISTORY_DIR = "src/main/resources/OrderHistory/History";
-    private static final String EMPLOYEE_DIR = "src/main/resources/EmployeeAcc/";
+    private static final String BEVERAGE_DIR = "/InitialCatalog/BeveragesCatalog";
+    private static final String PASTRIES_DIR = "/InitialCatalog/PastriesCatalog";
+    private static final String ADDON_DIR = "/InitialCatalog/AddonCatalog";
+    private static final String INVENTORY_DIR = "/InitialCatalog/Inventory";
+    private static final String PENDING_DIR = "/OrderHistory/Pending";
+    private static final String HISTORY_DIR = "/OrderHistory/History";
+    private static final String EMPLOYEE_DIR = "/EmployeeAcc/";
 
     /**
      * Private to prevent instantiation

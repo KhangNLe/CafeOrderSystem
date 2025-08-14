@@ -1,7 +1,6 @@
 package Cafe.CafeOrderSystem.JsonParser;
 
-import java.io.File;
-import java.time.LocalTime;
+import java.io.*;
 import java.util.*;
 
 public class JsonCollection<T> implements Parsers {
@@ -20,8 +19,9 @@ public class JsonCollection<T> implements Parsers {
     public JsonCollection (ItemsParser fileParser, String folderPath, Class<T> type) {
         this.parser = fileParser;
         this.type = type;
-        this.directory = getFolderLocation(folderPath);
-        this.dirFiles = getDirFiles();
+        this.directory = JarFilesExtractor.getDirFile(folderPath, this.getClass());
+        this.dirFiles = Arrays.asList(Objects.requireNonNull(directory.listFiles(
+                (f, name) -> name.endsWith(".json"))));
         this.collectionList = new ArrayList<>();
     }
 
@@ -102,27 +102,5 @@ public class JsonCollection<T> implements Parsers {
 
     public List<T> getCollection(){
         return this.collectionList;
-    }
-
-    private File getFolderLocation(String folderPath){
-        File folder = new File(folderPath);
-        if(!folder.exists()){
-            throw new IllegalArgumentException(
-                    String.format("Folder %s does not exist", folderPath)
-                    );
-        }
-
-        if(!folder.isDirectory()){
-            throw new IllegalArgumentException(
-                    String.format("Folder %s is not a directory", folderPath)
-            );
-        }
-
-        return folder;
-    }
-
-    private List<File> getDirFiles(){
-        return Arrays.stream(Objects.requireNonNull(directory.listFiles())).
-                filter(file -> file.getName().endsWith(".json")).toList();
     }
 }

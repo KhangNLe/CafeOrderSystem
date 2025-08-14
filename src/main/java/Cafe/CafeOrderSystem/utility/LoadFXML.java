@@ -1,9 +1,6 @@
 package Cafe.CafeOrderSystem.utility;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import java.util.function.Consumer;
 
 import Cafe.CafeOrderSystem.Cafe;
@@ -13,14 +10,13 @@ import Cafe.CafeOrderSystem.Menu.Items.PastriesItem;
 import Cafe.CafeOrderSystem.Orders.CustomerOrder;
 import Cafe.CafeOrderSystem.UI.BaristaUiController;
 import Cafe.CafeOrderSystem.UI.CustomerUiController;
-import Cafe.CafeOrderSystem.UI.HelloController;
+import Cafe.CafeOrderSystem.UI.CafeAppController;
 import Cafe.CafeOrderSystem.UI.IngredientOverlayController;
 import Cafe.CafeOrderSystem.UI.LoginController;
 import Cafe.CafeOrderSystem.UI.ManagerController;
 import Cafe.CafeOrderSystem.UI.MenuOverlayController;
 import Cafe.CafeOrderSystem.UI.NewItemController;
 import Cafe.CafeOrderSystem.UI.OrderOverlayController;
-import javafx.collections.FXCollections;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -143,10 +139,10 @@ public class LoadFXML {
             loginController.setFacade(cafe);
             loginController.setPrimaryStage(stage);
         }
-        if (controller instanceof HelloController) {
-            HelloController helloController = (HelloController) controller;
-            helloController.setFacade(cafe);
-            helloController.setPrimaryStage(stage);
+        if (controller instanceof CafeAppController) {
+            CafeAppController cafeAppController = (CafeAppController) controller;
+            cafeAppController.setFacade(cafe);
+            cafeAppController.setPrimaryStage(stage);
         }
         if (controller instanceof CustomerUiController) {
             CustomerUiController customerController = (CustomerUiController) controller;
