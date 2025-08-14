@@ -215,37 +215,7 @@ private void handleSave() {
         }
     }
 
-// private void savePastry() {
-//     try {
-//         String name = trim(pastryNameField.getText());
-//         if (name.isEmpty()) throw new IllegalArgumentException("Please enter a pastry name.");
 
-//         double price = safeValue(pastryPriceSpinner, 0.0);
-//         if (price <= 0) throw new IllegalArgumentException("Price must be greater than 0.");
-
-//         // Create empty ingredients map - can be populated later
-//         Map<Ingredients, Integer> ingredients = new HashMap<>();
-
-//         PastriesItem newPastry = new PastriesItem(
-//             UUID.randomUUID().toString(),
-//             name,
-//             new MenuType("PASTRY"),
-//             new PastriesCost(price, ingredients)
-//         );
-
-//         if (itemSaver != null) {
-//             itemSaver.accept(newPastry);
-//         } else if (cafeShop != null) {
-//             // If no item saver is provided but we have cafeShop, add directly to menu
-//             cafeShop.getCafeMenuManagement().getPastriesItems().add(newPastry);
-//         } else {
-//             throw new IllegalStateException("No way to save pastry item - missing both saver and cafeShop reference");
-//         }
-//     } catch (Exception e) {
-//         new Alert(Alert.AlertType.ERROR, "Failed to save pastry: " + e.getMessage()).show();
-//         throw e; // Re-throw to be caught by handleSave()
-//     }
-// }
 
         private void savePastry() {
     try {

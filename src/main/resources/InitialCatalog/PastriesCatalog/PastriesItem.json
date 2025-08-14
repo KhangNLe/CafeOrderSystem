@@ -185,4 +185,16 @@
       "FLOUR" : 3
     }
   }
+}, {
+  "id" : "a2f15c0f-091b-44ee-b018-954c9c58ef50",
+  "name" : "katar",
+  "type" : "PASTRY",
+  "cost" : {
+    "price" : 6.7,
+    "ingredients" : {
+      "CHOCOLATE_CHIP" : 22,
+      "SUGAR" : 22,
+      "MILK" : 22
+    }
+  }
 } ]
