@@ -187,32 +187,30 @@ public class LoadFXML {
             overlayController.setMenuItemData(menuItem, stage, refreshCallback);  // Pass menuItem instead of controller
         }
     }
-<<<<<<< HEAD
         if (controller instanceof NewItemController) {
-        NewItemController overlayController = (NewItemController) controller;
-        
-        // Apply standard configuration
-        overlayController.setStage(stage);
-        overlayController.setFacade(cafe);
-        
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.initStyle(StageStyle.UNDECORATED);
-        
-        // Apply custom configuration if provided
-        if (controllerConfigurator != null) {
-            controllerConfigurator.accept(overlayController);
-=======
-         if (controller instanceof NewItemController) {
-            NewItemController c = (NewItemController) controller;
-            c.setStage(stage);
-            c.setIngredientList(cafe.getInventoryManagement().getList());
-            if (refreshCallback != null) c.setRefreshCallback(refreshCallback);
-            // Make it a real overlay dialog:
+            NewItemController overlayController = (NewItemController) controller;
+
+            // Apply standard configuration
+            overlayController.setStage(stage);
+            overlayController.setFacade(cafe);
+
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initStyle(StageStyle.UNDECORATED);
->>>>>>> 5de3dd91f68586d9f9f36c3907d29e36424c3bf6
+
+            // Apply custom configuration if provided
+            if (controllerConfigurator != null) {
+                controllerConfigurator.accept(overlayController);
+                if (controller instanceof NewItemController) {
+                    NewItemController c = (NewItemController) controller;
+                    c.setStage(stage);
+                    c.setIngredientList(cafe.getInventoryManagement().getList());
+                    if (refreshCallback != null) c.setRefreshCallback(refreshCallback);
+                    // Make it a real overlay dialog:
+                    stage.initModality(Modality.APPLICATION_MODAL);
+                    stage.initStyle(StageStyle.UNDECORATED);
+                }
+            }
         }
-}
          
         // Add other controller types as needed
     }

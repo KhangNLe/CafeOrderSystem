@@ -153,6 +153,12 @@ public class CafeMenu {
         return item;
     }
 
+    /**
+     * Replace a beverage item at a certain index with a new item
+     *
+     * @param item The {@link BeverageItem} to replaced with
+     * @param index The index of the item inside the list
+     */
     public void setBeverageItem(int index, BeverageItem item) {
         List<BeverageItem> items = getBeverageItems();
 
@@ -163,6 +169,12 @@ public class CafeMenu {
         items.set(index, item);
     }
 
+    /**
+     * Replace a pastry item at a certain index with a new item
+     *
+     * @param item The {@link PastriesItem} to replaced with
+     * @param index The index of the item inside the list
+     */
     public void setPastryItem(int index, PastriesItem item) {
         List<PastriesItem> items = getPastriesItems();
 

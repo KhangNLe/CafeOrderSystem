@@ -25,10 +25,14 @@ public class NewItemController {
     private Cafe cafeShop;
 
     // Tabs
-    @FXML private TabPane typeTabPane;
-    @FXML private Tab ingredientTab;
-    @FXML private Tab beverageTab;
-    @FXML private Tab pastryTab;
+    @FXML
+    private TabPane typeTabPane;
+    @FXML
+    private Tab ingredientTab;
+    @FXML
+    private Tab beverageTab;
+    @FXML
+    private Tab pastryTab;
 
     // Wiring/context
     private Stage stage;
@@ -37,51 +41,69 @@ public class NewItemController {
     private Consumer<Object> itemSaver;    // optional external saver
 
     // Ingredient tab
-    @FXML private TextField ingredientNameField;
-    @FXML private Spinner<Integer> startingStockSpinner;
-    @FXML private Label ingredientPreviewLabel;
+    @FXML
+    private TextField ingredientNameField;
+    @FXML
+    private Spinner<Integer> startingStockSpinner;
+    @FXML
+    private Label ingredientPreviewLabel;
 
     // Pastry tab
-    @FXML private TextField pastryNameField;
-    @FXML private Spinner<Double> pastryPriceSpinner;
-    @FXML private ListView<IngredientItem> availableIngredientsListView;
-    @FXML private ListView<IngredientItem> selectedIngredientsListView;
-    @FXML private Spinner<Integer> ingredientQuantitySpinner;
-    @FXML private Button addIngredientButton;    // optional: only needed if not using onAction in FXML
-    @FXML private Button removeIngredientButton; // optional: only needed if not using onAction in FXML
+    @FXML
+    private TextField pastryNameField;
+    @FXML
+    private Spinner<Double> pastryPriceSpinner;
+    @FXML
+    private ListView<IngredientItem> availableIngredientsListView;
+    @FXML
+    private ListView<IngredientItem> selectedIngredientsListView;
+    @FXML
+    private Spinner<Integer> ingredientQuantitySpinner;
+    @FXML
+    private Button addIngredientButton;    // optional: only needed if not using onAction in FXML
+    @FXML
+    private Button removeIngredientButton; // optional: only needed if not using onAction in FXML
 
     // Beverage tab
-    @FXML private TextField beverageNameField;
-    @FXML private ListView<IngredientItem> beverageAvailableIngredientsListView;
-    @FXML private ListView<IngredientItem> beverageIngredientsListView;
-    @FXML private ListView<String> beverageSizeListView;
-    @FXML private Spinner<Double> smallPriceSpinner;
-    @FXML private Spinner<Double> mediumPriceSpinner;
-    @FXML private Spinner<Double> largePriceSpinner;
-    @FXML private Spinner<Integer> beverageQuantitySpinner;
+    @FXML
+    private TextField beverageNameField;
+    @FXML
+    private ListView<IngredientItem> beverageAvailableIngredientsListView;
+    @FXML
+    private ListView<IngredientItem> beverageIngredientsListView;
+    @FXML
+    private ListView<String> beverageSizeListView;
+    @FXML
+    private Spinner<Double> smallPriceSpinner;
+    @FXML
+    private Spinner<Double> mediumPriceSpinner;
+    @FXML
+    private Spinner<Double> largePriceSpinner;
+    @FXML
+    private Spinner<Integer> beverageQuantitySpinner;
 
 
     // Per-size ingredient maps
-    private final Map<BeverageSize, Map<IngredientItem,Integer>> sizeIngredientMaps = new HashMap<>();
-    private static final BeverageSize SMALL  = new BeverageSize("SMALL");
+    private final Map<BeverageSize, Map<IngredientItem, Integer>> sizeIngredientMaps = new HashMap<>();
+    private static final BeverageSize SMALL = new BeverageSize("SMALL");
     private static final BeverageSize MEDIUM = new BeverageSize("MEDIUM");
-    private static final BeverageSize LARGE  = new BeverageSize("LARGE");
+    private static final BeverageSize LARGE = new BeverageSize("LARGE");
     private BeverageSize currentSize = SMALL;
 
     // Pastry selected ingredients (single map)
-    private final Map<IngredientItem,Integer> selectedIngredients = new HashMap<>();
+    private final Map<IngredientItem, Integer> selectedIngredients = new HashMap<>();
 
     @FXML
     private void initialize() {
         // Init per-size maps BEFORE any cell factories/listeners use them
-        sizeIngredientMaps.put(SMALL,  new HashMap<>());
+        sizeIngredientMaps.put(SMALL, new HashMap<>());
         sizeIngredientMaps.put(MEDIUM, new HashMap<>());
-        sizeIngredientMaps.put(LARGE,  new HashMap<>());
+        sizeIngredientMaps.put(LARGE, new HashMap<>());
 
         // Ingredient tab
         if (startingStockSpinner != null) {
             startingStockSpinner.setValueFactory(
-                new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 1_000_000, 0, 1)
+                    new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 1_000_000, 0, 1)
             );
             startingStockSpinner.setEditable(true);
         }
@@ -89,31 +111,30 @@ public class NewItemController {
         // Pastry tab
         if (pastryPriceSpinner != null) {
             pastryPriceSpinner.setValueFactory(
-                new SpinnerValueFactory.DoubleSpinnerValueFactory(0.01, 100.0, 2.99, 0.5)
+                    new SpinnerValueFactory.DoubleSpinnerValueFactory(0.01, 100.0, 2.99, 0.5)
             );
             pastryPriceSpinner.setEditable(true);
         }
         if (ingredientQuantitySpinner != null) {
             ingredientQuantitySpinner.setValueFactory(
-                new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, 1, 1)
+                    new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, 1, 1)
             );
         }
 
-        
 
         // Beverage tab
         if (beverageQuantitySpinner != null) {
-    beverageQuantitySpinner.setValueFactory(
-        new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, 1, 1)
-    );
-}
+            beverageQuantitySpinner.setValueFactory(
+                    new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, 1, 1)
+            );
+        }
         beverageTab.setDisable(false);
         smallPriceSpinner.setValueFactory(
-            new SpinnerValueFactory.DoubleSpinnerValueFactory(0.01, 100.0, 2.99, 0.5));
+                new SpinnerValueFactory.DoubleSpinnerValueFactory(0.01, 100.0, 2.99, 0.5));
         mediumPriceSpinner.setValueFactory(
-            new SpinnerValueFactory.DoubleSpinnerValueFactory(0.01, 100.0, 3.99, 0.5));
+                new SpinnerValueFactory.DoubleSpinnerValueFactory(0.01, 100.0, 3.99, 0.5));
         largePriceSpinner.setValueFactory(
-            new SpinnerValueFactory.DoubleSpinnerValueFactory(0.01, 100.0, 4.99, 0.5));
+                new SpinnerValueFactory.DoubleSpinnerValueFactory(0.01, 100.0, 4.99, 0.5));
 
         // Populate size choices and keep currentSize in sync (fixes VerifyError)
         beverageSizeListView.getItems().setAll("Small", "Medium", "Large");
@@ -122,10 +143,10 @@ public class NewItemController {
         beverageSizeListView.getSelectionModel().selectedItemProperty().addListener((obs, ov, nv) -> {
             if (nv == null) return;
             switch (nv.toUpperCase()) {
-                case "SMALL"  -> currentSize = SMALL;
+                case "SMALL" -> currentSize = SMALL;
                 case "MEDIUM" -> currentSize = MEDIUM;
-                case "LARGE"  -> currentSize = LARGE;
-                default       -> currentSize = SMALL;
+                case "LARGE" -> currentSize = LARGE;
+                default -> currentSize = SMALL;
             }
             refreshBeverageIngredientsView();
         });
@@ -133,36 +154,46 @@ public class NewItemController {
         // Cell factories (single definitions, null-safe)
         if (availableIngredientsListView != null) {
             availableIngredientsListView.setCellFactory(lv -> new ListCell<>() {
-                @Override protected void updateItem(IngredientItem item, boolean empty) {
+                @Override
+                protected void updateItem(IngredientItem item, boolean empty) {
                     super.updateItem(item, empty);
                     setText(empty || item == null ? "" : item.getName());
                 }
             });
         }
-       if (beverageAvailableIngredientsListView != null) {
-        beverageAvailableIngredientsListView.setCellFactory(lv -> new ListCell<>() {
-            @Override protected void updateItem(IngredientItem item, boolean empty) {
-                super.updateItem(item, empty);
-                setText(empty || item == null ? "" : item.getName());
-            }
-        });
-    }
-    if (beverageIngredientsListView != null) {
-    beverageIngredientsListView.setCellFactory(lv -> new ListCell<>() {
-        @Override protected void updateItem(IngredientItem item, boolean empty) {
-            super.updateItem(item, empty);
-            if (empty || item == null) { setText(""); return; }
-            int qty = sizeIngredientMaps.getOrDefault(currentSize, Map.of())
-                                         .getOrDefault(item, 0);
-            setText(item.getName() + " (" + qty + ")");
+        if (beverageAvailableIngredientsListView != null) {
+            beverageAvailableIngredientsListView.setCellFactory(lv -> new ListCell<>() {
+                @Override
+                protected void updateItem(IngredientItem item, boolean empty) {
+                    super.updateItem(item, empty);
+                    setText(empty || item == null ? "" : item.getName());
+                }
+            });
         }
-    });
-}
+        if (beverageIngredientsListView != null) {
+            beverageIngredientsListView.setCellFactory(lv -> new ListCell<>() {
+                @Override
+                protected void updateItem(IngredientItem item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null) {
+                        setText("");
+                        return;
+                    }
+                    int qty = sizeIngredientMaps.getOrDefault(currentSize, Map.of())
+                            .getOrDefault(item, 0);
+                    setText(item.getName() + " (" + qty + ")");
+                }
+            });
+        }
         if (selectedIngredientsListView != null) {
             selectedIngredientsListView.setCellFactory(lv -> new ListCell<>() {
-                @Override protected void updateItem(IngredientItem item, boolean empty) {
+                @Override
+                protected void updateItem(IngredientItem item, boolean empty) {
                     super.updateItem(item, empty);
-                    if (empty || item == null) { setText(""); return; }
+                    if (empty || item == null) {
+                        setText("");
+                        return;
+                    }
                     int qty = selectedIngredients.getOrDefault(item, 0);
                     setText(item.getName() + " (" + qty + ")");
                 }
@@ -170,8 +201,10 @@ public class NewItemController {
         }
 
         // Wire pastry buttons IF you chose fx:id approach (safe if absent)
-        if (addIngredientButton != null)    addIngredientButton.setOnAction(e -> addSelectedIngredient());
-        if (removeIngredientButton != null) removeIngredientButton.setOnAction(e -> removeSelectedIngredient());
+        if (addIngredientButton != null)
+            addIngredientButton.setOnAction(e -> addSelectedIngredient());
+        if (removeIngredientButton != null)
+            removeIngredientButton.setOnAction(e -> removeSelectedIngredient());
 
         // Live preview
         if (ingredientNameField != null)
@@ -187,15 +220,27 @@ public class NewItemController {
     }
 
     // --- Public setters for wiring ---
-    public void setStage(Stage stage) { this.stage = stage; }
-    public void setFacade(Cafe cafeShop){ this.cafeShop = cafeShop; }
-    public void setRefreshCallback(Runnable r) { this.refreshCallback = r; }
-    public void setIngredientList(IngredientList list) { 
-        this.ingredientList = list; 
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
+    public void setFacade(Cafe cafeShop) {
+        this.cafeShop = cafeShop;
+    }
+
+    public void setRefreshCallback(Runnable r) {
+        this.refreshCallback = r;
+    }
+
+    public void setIngredientList(IngredientList list) {
+        this.ingredientList = list;
         // Optionally pre-populate the Available lists when injected
         tryPopulateAvailableLists();
     }
-    public void setItemSaver(Consumer<Object> saver) { this.itemSaver = saver; }
+
+    public void setItemSaver(Consumer<Object> saver) {
+        this.itemSaver = saver;
+    }
 
     // --- Pastry actions ---
     @FXML
@@ -207,6 +252,7 @@ public class NewItemController {
             refreshSelectedListView();
         }
     }
+
     @FXML
     private void removeSelectedIngredient() {
         IngredientItem selected = selectedIngredientsListView.getSelectionModel().getSelectedItem();
@@ -215,26 +261,29 @@ public class NewItemController {
             refreshSelectedListView();
         }
     }
+
     private void refreshSelectedListView() {
         selectedIngredientsListView.getItems().setAll(selectedIngredients.keySet());
     }
-    private Map<Ingredients,Integer> getSelectedIngredients() {
-        Map<Ingredients,Integer> out = new HashMap<>();
+
+    private Map<Ingredients, Integer> getSelectedIngredients() {
+        Map<Ingredients, Integer> out = new HashMap<>();
         selectedIngredients.forEach((item, qty) -> out.put(item.getIngredient(), qty));
         return out;
     }
 
     // --- Beverage actions ---
-@FXML
-private void addBeverageIngredient() {
-    IngredientItem selected = beverageAvailableIngredientsListView.getSelectionModel().getSelectedItem();
-    if (selected != null) {
-        int quantity = (beverageQuantitySpinner != null ? beverageQuantitySpinner.getValue()
-                                                        : ingredientQuantitySpinner.getValue());
-        sizeIngredientMaps.get(currentSize).put(selected, quantity);
-        refreshBeverageIngredientsView();
+    @FXML
+    private void addBeverageIngredient() {
+        IngredientItem selected = beverageAvailableIngredientsListView.getSelectionModel().getSelectedItem();
+        if (selected != null) {
+            int quantity = (beverageQuantitySpinner != null ? beverageQuantitySpinner.getValue()
+                    : ingredientQuantitySpinner.getValue());
+            sizeIngredientMaps.get(currentSize).put(selected, quantity);
+            refreshBeverageIngredientsView();
+        }
     }
-}
+
     @FXML
     private void removeBeverageIngredient() {
         IngredientItem selected = beverageIngredientsListView.getSelectionModel().getSelectedItem();
@@ -243,8 +292,9 @@ private void addBeverageIngredient() {
             refreshBeverageIngredientsView();
         }
     }
+
     private void refreshBeverageIngredientsView() {
-        Map<IngredientItem,Integer> m = sizeIngredientMaps.getOrDefault(currentSize, Map.of());
+        Map<IngredientItem, Integer> m = sizeIngredientMaps.getOrDefault(currentSize, Map.of());
         beverageIngredientsListView.getItems().setAll(m.keySet());
     }
 
@@ -269,6 +319,7 @@ private void addBeverageIngredient() {
             e.printStackTrace();
         }
     }
+
     @FXML
     private void handleCancel() {
         if (stage != null) stage.close();
@@ -286,8 +337,9 @@ private void addBeverageIngredient() {
         if (itemSaver != null) {
             itemSaver.accept(newItem);
         } else if (ingredientList != null) {
-            try { saveIntoIngredientList(newItem); }
-            catch (Exception e) {
+            try {
+                saveIntoIngredientList(newItem);
+            } catch (Exception e) {
                 new Alert(Alert.AlertType.ERROR, "Failed to save Ingredient: " + e.getMessage()).show();
                 e.printStackTrace();
             }
@@ -303,12 +355,12 @@ private void addBeverageIngredient() {
             double price = safeValue(pastryPriceSpinner, 0.0);
             if (price <= 0) throw new IllegalArgumentException("Price must be greater than 0.");
 
-            Map<Ingredients,Integer> ingredients = getSelectedIngredients();
+            Map<Ingredients, Integer> ingredients = getSelectedIngredients();
             PastriesItem newPastry = new PastriesItem(
-                UUID.randomUUID().toString(),
-                name,
-                new MenuType("PASTRY"),
-                new PastriesCost(price, ingredients)
+                    UUID.randomUUID().toString(),
+                    name,
+                    new MenuType("PASTRY"),
+                    new PastriesCost(price, ingredients)
             );
             if (itemSaver != null) {
                 itemSaver.accept(newPastry);
@@ -328,12 +380,12 @@ private void addBeverageIngredient() {
         try {
             String name = trim(beverageNameField.getText());
             if (name.isEmpty()) throw new IllegalArgumentException("Please enter a beverage name.");
-            Map<BeverageSize,BeverageCost> costs = getBeverageCosts();
+            Map<BeverageSize, BeverageCost> costs = getBeverageCosts();
             BeverageItem newBeverage = new BeverageItem(
-                UUID.randomUUID().toString(),
-                name,
-                new MenuType("BEVERAGE"),
-                costs
+                    UUID.randomUUID().toString(),
+                    name,
+                    new MenuType("BEVERAGE"),
+                    costs
             );
             if (itemSaver != null) {
                 itemSaver.accept(newBeverage);
@@ -348,15 +400,16 @@ private void addBeverageIngredient() {
         }
     }
 
-    private Map<BeverageSize,BeverageCost> getBeverageCosts() {
-        Map<BeverageSize,BeverageCost> costs = new HashMap<>();
-        costs.put(SMALL,  new BeverageCost(safeValue(smallPriceSpinner,  0.0), convertToIngredientsMap(sizeIngredientMaps.get(SMALL))));
+    private Map<BeverageSize, BeverageCost> getBeverageCosts() {
+        Map<BeverageSize, BeverageCost> costs = new HashMap<>();
+        costs.put(SMALL, new BeverageCost(safeValue(smallPriceSpinner, 0.0), convertToIngredientsMap(sizeIngredientMaps.get(SMALL))));
         costs.put(MEDIUM, new BeverageCost(safeValue(mediumPriceSpinner, 0.0), convertToIngredientsMap(sizeIngredientMaps.get(MEDIUM))));
-        costs.put(LARGE,  new BeverageCost(safeValue(largePriceSpinner,  0.0), convertToIngredientsMap(sizeIngredientMaps.get(LARGE))));
+        costs.put(LARGE, new BeverageCost(safeValue(largePriceSpinner, 0.0), convertToIngredientsMap(sizeIngredientMaps.get(LARGE))));
         return costs;
     }
-    private Map<Ingredients,Integer> convertToIngredientsMap(Map<IngredientItem,Integer> input) {
-        Map<Ingredients,Integer> out = new HashMap<>();
+
+    private Map<Ingredients, Integer> convertToIngredientsMap(Map<IngredientItem, Integer> input) {
+        Map<Ingredients, Integer> out = new HashMap<>();
         if (input != null) input.forEach((item, qty) -> out.put(item.getIngredient(), qty));
         return out;
     }
@@ -377,15 +430,25 @@ private void addBeverageIngredient() {
     }
 
     // --- Utility/wiring helpers ---
-    public ListView<IngredientItem> getAvailableIngredientsListView() { return availableIngredientsListView; }
-    public ListView<IngredientItem> getSelectedIngredientsListView()  { return selectedIngredientsListView; }
-    public void setItemSaverAndRefresh(Consumer<Object> saver, Runnable refresh) { this.itemSaver = saver; this.refreshCallback = refresh; }
+    public ListView<IngredientItem> getAvailableIngredientsListView() {
+        return availableIngredientsListView;
+    }
+
+    public ListView<IngredientItem> getSelectedIngredientsListView() {
+        return selectedIngredientsListView;
+    }
+
+    public void setItemSaverAndRefresh(Consumer<Object> saver, Runnable refresh) {
+        this.itemSaver = saver;
+        this.refreshCallback = refresh;
+    }
 
     private void saveIntoIngredientList(IngredientItem toAdd) throws Exception {
         if (findByIngredientNameIgnoreCase(toAdd.getIngredient().getName()) >= 0)
             throw new IllegalArgumentException("Ingredient \"" + toAdd.getIngredient().getName() + "\" already exists.");
         ingredientList.addObject(toAdd);
     }
+
     private int findByIngredientNameIgnoreCase(String name) {
         if (ingredientList == null || name == null) return -1;
         String needle = name.trim();
@@ -394,7 +457,9 @@ private void addBeverageIngredient() {
                 IngredientItem it = ingredientList.getObject(i);
                 String got = it.getIngredient().getName();
                 if (got != null && got.equalsIgnoreCase(needle)) return i;
-            } catch (Exception e) { return -1; }
+            } catch (Exception e) {
+                return -1;
+            }
         }
     }
 
@@ -406,18 +471,28 @@ private void addBeverageIngredient() {
             for (int i = 0; ; i++) {
                 try {
                     all.add(ingredientList.getObject(i));
-                } catch (Exception end) { break; }
+                } catch (Exception end) {
+                    break;
+                }
             }
             if (availableIngredientsListView != null)
                 availableIngredientsListView.getItems().setAll(all);
             if (beverageAvailableIngredientsListView != null)
                 beverageAvailableIngredientsListView.getItems().setAll(all);
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
     }
 
-    private static String trim(String s) { return s == null ? "" : s.trim(); }
+    private static String trim(String s) {
+        return s == null ? "" : s.trim();
+    }
+
     private static <T> T safeValue(Spinner<T> s, T fallback) {
-        try { T v = s.getValue(); return v == null ? fallback : v; }
-        catch (Exception e) { return fallback; }
+        try {
+            T v = s.getValue();
+            return v == null ? fallback : v;
+        } catch (Exception e) {
+            return fallback;
+        }
     }
 }

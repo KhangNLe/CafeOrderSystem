@@ -61,22 +61,6 @@ public class HelloController {
     }
     @FXML
     private void handleLogin() throws IOException{
-        // Navigate to login screen
-
-    // FXMLLoader loader = new FXMLLoader(getClass().getResource("/Cafe/CafeOrderSystem/login.fxml"));
-    // Parent root = loader.load();
-    
-    // // Get the controller JavaFX created
-    // LoginController loginController = loader.getController();
-    // loginController.setFacade(cafeShop);
-    
-    // // Pass the stage forward
-    // loginController.setPrimaryStage(primaryStage);
-    
-    // // Show the new screen
-    // primaryStage.setScene(new Scene(root, LOGIN_WIDTH, LOGIN_HEIGHT));
-    // primaryStage.setTitle("Barista Dashboard");
-
         new LoadFXML(
             cafeShop,    // Your Cafe facade instance
             primaryStage,     // Or pass existing stage

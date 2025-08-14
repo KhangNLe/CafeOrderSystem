@@ -18,12 +18,15 @@ import java.io.IOException;
 public class LoginController {
     private Cafe cafeShop;
     private LoadFXML load;
-    @FXML private TextField usernameField;
-    @FXML private PasswordField passwordField;
-    @FXML private ComboBox<String> roleComboBox;
+    @FXML
+    private TextField usernameField;
+    @FXML
+    private PasswordField passwordField;
+    @FXML
+    private ComboBox<String> roleComboBox;
     private final double LOGIN_WIDTH = 800;
     private final double LOGIN_HEIGHT = 600;
-    
+
     private Stage primaryStage;
 
     ShowErrorDialog popup = new ShowErrorDialog();
@@ -42,23 +45,23 @@ public class LoginController {
         roleComboBox.setValue("Barista");
     }
 
-        @FXML
+    @FXML
     private void handleLogin() throws IOException {
-    String role = roleComboBox.getValue().trim();
-    String user = usernameField.getText().trim();
-    String pass = passwordField.getText();
+        String role = roleComboBox.getValue().trim();
+        String user = usernameField.getText().trim();
+        String pass = passwordField.getText();
 
 
-    if (validateRole(role, user, pass)) {
-        switch (role) {
-            case "Barista" -> openBaristaScreen(); // don't trim passwords
-            case "Manager" -> openManagerScreen();
+        if (validateRole(role, user, pass)) {
+            switch (role) {
+                case "Barista" -> openBaristaScreen(); // don't trim passwords
+                case "Manager" -> openManagerScreen();
+            }
         }
     }
-}
 
 
-private boolean validateRole(String role, String userName, String password) {
+    private boolean validateRole(String role, String userName, String password) {
         try {
             if (role.isEmpty() || userName.isEmpty() || password.isEmpty()) {
                 throw new InvalidInputException("Role or Username or password must not be empty");
@@ -72,56 +75,54 @@ private boolean validateRole(String role, String userName, String password) {
             }
 
             return true;
-        } catch (InvalidInputException e){
+        } catch (InvalidInputException e) {
             popup.show("Error", e.getMessage(), e);
         }
 
         return false;
-}
-        
+    }
+
 
     private void openBaristaScreen() throws IOException {
- 
+
         new LoadFXML(
-            cafeShop,    // Your Cafe facade instance
-            primaryStage,     // Or pass existing stage
-            FxmlView.BARISTA,
-            800,            // Width
-            600             // Height
+                cafeShop,    // Your Cafe facade instance
+                primaryStage,     // Or pass existing stage
+                FxmlView.BARISTA,
+                800,            // Width
+                600             // Height
         ).load();
     }
 
 
-
     private void openCustomerScreen() throws IOException {
-    try {
-        new LoadFXML(
-            cafeShop,    // Your Cafe facade instance
-            primaryStage,     // pass existing stage
-            FxmlView.MANAGER,   //access enum
-            800,            // Width
-            600             // Height
-        ).load();
-    } catch (IOException e) {
-        // Handle error (show dialog, log, etc.)
-        e.printStackTrace();
+        try {
+            new LoadFXML(
+                    cafeShop,    // Your Cafe facade instance
+                    primaryStage,     // pass existing stage
+                    FxmlView.MANAGER,   //access enum
+                    800,            // Width
+                    600             // Height
+            ).load();
+        } catch (IOException e) {
+            // Handle error (show dialog, log, etc.)
+            e.printStackTrace();
         }
     }
 
 
-
     private void openManagerScreen() throws IOException {
-    try {
-        new LoadFXML(
-            cafeShop,    // Your Cafe facade instance
-            primaryStage,     // pass existing stage
-            FxmlView.MANAGER,   //access enum
-            800,            // Width
-            600             // Height
-        ).load();
-    } catch (IOException e) {
-        // Handle error (show dialog, log, etc.)
-        e.printStackTrace();
+        try {
+            new LoadFXML(
+                    cafeShop,    // Your Cafe facade instance
+                    primaryStage,     // pass existing stage
+                    FxmlView.MANAGER,   //access enum
+                    800,            // Width
+                    600             // Height
+            ).load();
+        } catch (IOException e) {
+            // Handle error (show dialog, log, etc.)
+            e.printStackTrace();
         }
     }
 

@@ -29,20 +29,31 @@ import java.util.Queue;
 
 
 
-public class BaristaUiController extends Controller{
+public class BaristaUiController extends Controller {
     private Cafe cafeShop;
     // @FXML private ListView<String> orderListView;
-    @FXML private Button changeStatusButton;
-    @FXML private VBox menuItemsContainer;
-    @FXML private ListView<CustomerOrder> orderListView;
-    @FXML private Button checkoutButton;
-    @FXML private Button fulfilledOrdersButton;
-    @FXML private Button pendingOrdersButton;
-    @FXML private VBox overlayPane;
-    @FXML private Label orderIdLabel;
-    @FXML private VBox orderItemsContainer;
-    @FXML private Label orderTotalLabel;
-    @FXML private Pane overlayBackground;
+    @FXML
+    private Button changeStatusButton;
+    @FXML
+    private VBox menuItemsContainer;
+    @FXML
+    private ListView<CustomerOrder> orderListView;
+    @FXML
+    private Button checkoutButton;
+    @FXML
+    private Button fulfilledOrdersButton;
+    @FXML
+    private Button pendingOrdersButton;
+    @FXML
+    private VBox overlayPane;
+    @FXML
+    private Label orderIdLabel;
+    @FXML
+    private VBox orderItemsContainer;
+    @FXML
+    private Label orderTotalLabel;
+    @FXML
+    private Pane overlayBackground;
 
 
     private CustomerOrder selectedOrder;
@@ -54,170 +65,165 @@ public class BaristaUiController extends Controller{
     private ShowErrorDialog dialog = new ShowErrorDialog();
 
 
-    
-    public void setFacade(Cafe cafeShop){
+    public void setFacade(Cafe cafeShop) {
         this.cafeShop = cafeShop;
     }
-    
+
     public void setPrimaryStage(Stage stage) {
         this.primaryStage = stage;
     }
 
-@FXML
-private void closeOverlay() {
-    overlayBackground.setVisible(false);
-    overlayPane.setVisible(false);
-}
-
-@FXML
-private void handleMarkReady() {
-
-    // Ali: Check if selectedOrder and ordersManagement are initialized
-    if (selectedOrder == null || cafeShop == null) {
-        dialog.show("Error", "No order selected or order system not initialized", null);
-        return;
+    @FXML
+    private void closeOverlay() {
+        overlayBackground.setVisible(false);
+        overlayPane.setVisible(false);
     }
 
-    try {
-        cafeShop.getOrdersManagement()
-        .updateOrderStatus(selectedOrder.getOrderID(), OrderStatus.READY);
-        closeOverlay();
-        getFufilledOrders();
-        getPendingOrders();
-    } catch (InvalidModifyingException e) {
-        dialog.show("Error", "Failed to update order status", e);
-    }
-}
+    @FXML
+    private void handleMarkReady() {
 
-@FXML
-private void selectOrder() {
+        // Ali: Check if selectedOrder and ordersManagement are initialized
+        if (selectedOrder == null || cafeShop == null) {
+            dialog.show("Error", "No order selected or order system not initialized", null);
+            return;
+        }
 
-    if (selectedOrder != null) {
         try {
-            LoadFXML.loadOrderOverlay(
-                cafeShop,
-                selectedOrder,
-                this::refreshOrders
-            );
-        } catch (IOException e) {
-            dialog.show("Loading Error", "Failed to load order details", e);
+            cafeShop.getOrdersManagement()
+                    .updateOrderStatus(selectedOrder.getOrderID(), OrderStatus.READY);
+            closeOverlay();
+            getFufilledOrders();
+            getPendingOrders();
+        } catch (InvalidModifyingException e) {
+            dialog.show("Error", "Failed to update order status", e);
         }
     }
-}
+
+    @FXML
+    private void selectOrder() {
+
+        if (selectedOrder != null) {
+            try {
+                LoadFXML.loadOrderOverlay(
+                        cafeShop,
+                        selectedOrder,
+                        this::refreshOrders
+                );
+            } catch (IOException e) {
+                dialog.show("Loading Error", "Failed to load order details", e);
+            }
+        }
+    }
 
     public void refreshOrders() {
-    Platform.runLater(() -> {
-        orderListView.getItems().clear();
-        List<CustomerOrder> orders = cafeShop.getPendingOrders();
-        orderListView.getItems().addAll(orders);
-    });
-}
+        Platform.runLater(() -> {
+            orderListView.getItems().clear();
+            List<CustomerOrder> orders = cafeShop.getPendingOrders();
+            orderListView.getItems().addAll(orders);
+        });
+    }
 
 
     @FXML
-    private void handleCompleteOrder(){
-    System.out.println("complete order clicked");
-    System.out.println(selectedOrder);
-    try {
-    if (selectedOrder == null) {
-        throw new NullPointerException("No order selected.");
-    }
-    selectedOrder.changeOrderStatus(OrderStatus.READY);
-    cafeShop.getOrdersManagement().fulfilledOrder(selectedOrder);
-    if (selectedOrder.getOrderStatus() != OrderStatus.READY) {
-        throw new OrderStatusChangeException("Could not change status for order ID: " + selectedOrder.getOrderID());
+    private void handleCompleteOrder() {
+        System.out.println("complete order clicked");
+        System.out.println(selectedOrder);
+        try {
+            if (selectedOrder == null) {
+                throw new NullPointerException("No order selected.");
+            }
+            selectedOrder.changeOrderStatus(OrderStatus.READY);
+            cafeShop.getOrdersManagement().fulfilledOrder(selectedOrder);
+            if (selectedOrder.getOrderStatus() != OrderStatus.READY) {
+                throw new OrderStatusChangeException("Could not change status for order ID: " + selectedOrder.getOrderID());
+            }
+
+            getPendingOrders(); // Refresh list
+        } catch (OrderStatusChangeException e) {
+            dialog.show("Status Change Error", e.getMessage(), e);
+        } catch (NullPointerException e) {
+            dialog.show("Null Pointer", "Unexpected error: " + e.getMessage(), e);
+        }
+
     }
 
-        getPendingOrders(); // Refresh list
-    } catch (OrderStatusChangeException e) {
-        dialog.show("Status Change Error", e.getMessage(), e);
-    } catch (NullPointerException e) {
-        dialog.show("Null Pointer","Unexpected error: " + e.getMessage(), e);
-    }
-
-    }
     @FXML
-    private void handleQuit() throws IOException{
-    try {
-        new LoadFXML(
-            cafeShop,    // Your Cafe facade instance
-            primaryStage,     // pass existing stage
-            FxmlView.LOGIN,   //access enum
-            800,            // Width
-            600             // Height
-        ).load();
-    } catch (IOException e) {
-        // Handle error (show dialog, log, etc.)
-        e.printStackTrace();
+    private void handleQuit() throws IOException {
+        try {
+            new LoadFXML(
+                    cafeShop,    // Your Cafe facade instance
+                    primaryStage,     // pass existing stage
+                    FxmlView.LOGIN,   //access enum
+                    800,            // Width
+                    600             // Height
+            ).load();
+        } catch (IOException e) {
+            // Handle error (show dialog, log, etc.)
+            e.printStackTrace();
         }
 
 
     }
 
 
+    @FXML
+    private void getPendingOrders() {
+        orderTypeToggle = false;
 
-@FXML
-private void getPendingOrders() {
-    orderTypeToggle = false;
-    
 
-    changeStatusButton.setVisible(true);
+        changeStatusButton.setVisible(true);
 
-    fulfilledOrdersButton.setStyle("-fx-background-color: transparent; -fx-text-fill: black;");
-    pendingOrdersButton.setStyle("-fx-background-color: lightgreen; -fx-text-fill: black;");
+        fulfilledOrdersButton.setStyle("-fx-background-color: transparent; -fx-text-fill: black;");
+        pendingOrdersButton.setStyle("-fx-background-color: lightgreen; -fx-text-fill: black;");
 
-    orderListView.getItems().clear();
-    List<CustomerOrder> pending = cafeShop.getPendingOrders();
-    
-
-    if (pending == null || pending.isEmpty()) {
         orderListView.getItems().clear();
-        // Optionally: show a placeholder label instead of injecting strings into a typed list
-        return;
-    }
+        List<CustomerOrder> pending = cafeShop.getPendingOrders();
+
+
+        if (pending == null || pending.isEmpty()) {
+            orderListView.getItems().clear();
+            // Optionally: show a placeholder label instead of injecting strings into a typed list
+            return;
+        }
 
 
         orderListView.getItems().clear();
         orderListView.getItems().addAll(pending); // Add full CustomerOrder objects
-}
+    }
 
 
+    @FXML
+    private void getFufilledOrders() {
+        changeStatusButton.setVisible(false);
+
+        orderTypeToggle = true;
+        fulfilledOrdersButton.setStyle("-fx-background-color: lightgreen; -fx-text-fill: black;");
+        pendingOrdersButton.setStyle("-fx-background-color: transparent; -fx-text-fill: black;");
+
+        orderListView.getItems().clear();
+        List<CustomerOrder> orders = cafeShop.getOrderHistory();
+        orderListView.getItems().addAll(orders);
+    }
+
+    @FXML
+    public void initialize() {
+        orderListView.setCellFactory(param -> new ListCell<>() {
+            @Override
+            protected void updateItem(CustomerOrder item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(empty || item == null ? null : item.shortSummary());
+            }
+        });
+        // Simplified selection listener - just stores selection
+        orderListView.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+            selectedOrder = newVal;
+        });
+    }
 
 
-
-@FXML
-private void getFufilledOrders() {
-    changeStatusButton.setVisible(false);
-
-    orderTypeToggle = true;
-    fulfilledOrdersButton.setStyle("-fx-background-color: lightgreen; -fx-text-fill: black;");
-    pendingOrdersButton.setStyle("-fx-background-color: transparent; -fx-text-fill: black;");
-
-    orderListView.getItems().clear();
-    List<CustomerOrder> orders = cafeShop.getOrderHistory();
-    orderListView.getItems().addAll(orders);
-}
-
-@FXML
-public void initialize() {
-    orderListView.setCellFactory(param -> new ListCell<>() {
-        @Override
-        protected void updateItem(CustomerOrder item, boolean empty) {
-            super.updateItem(item, empty);
-            setText(empty || item == null ? null : item.shortSummary());
-        }
-    });
-    // Simplified selection listener - just stores selection
-    orderListView.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
-        selectedOrder = newVal;
-    });
-}
-
-
-
-public void initAfterInjection() {
-    getPendingOrders(); // now safe to call
-}
+    public void initAfterInjection() {
+        getPendingOrders(); // now safe to call
+    }
 
 }
 
