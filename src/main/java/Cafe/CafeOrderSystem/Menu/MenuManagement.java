@@ -117,19 +117,6 @@ public class MenuManagement {
      * @param price the new price for the size
      * @throws InvalidModifyingException if the ingredient map or price is invalid
      */
-    // public void modifyBeverageSize(int beverageIdx, BeverageSize size,
-    //                                Map<Ingredients, Integer> ingredientCost, double price){
-
-    //     validateIngredientCost(ingredientCost);
-    //     validatePrice(price);
-    //     BeverageItem beverageItem = getBeverageItem(beverageIdx);
-    //     BeverageItem modifiedItem = beverageModifier.modifyItemSize(size, ingredientCost,
-    //             beverageItem, price);
-    //     cafeMenu.removeBeverageItem(beverageIdx);
-    //     cafeMenu.addNewBeverageItem(modifiedItem);
-    // }
-
-    //TREVOR: I added these so I could do more streamlined adding and removing, also to normalize the two
     public void modifyBeverageSize(int beverageIdx, BeverageSize size,
                                Map<Ingredients, Integer> ingredientCost, double price) {
     validateIngredientCost(ingredientCost);
@@ -256,17 +243,17 @@ public void modifyPastryItem(int pastriesIdx,
     }
 
     private void getAddOnForBeverage(Map<BeverageItem, List<CustomItem>> items,
-                                     List<CustomItem> addOnItems){
-        for (BeverageItem beverage : items.keySet()) {
+                                     List<CustomItem> addOnItems) {
+        items.keySet().forEach(beverage -> {
             List<CustomItem> addOns = new ArrayList<>();
 
-            for (CustomItem customItem : addOnItems) {
-                if (customItem.applicableTo().equals(beverage.type())){
-                    addOns.add(customItem);
+            addOnItems.forEach(addOn -> {
+                if (addOn.applicableTo().contains(beverage.type())){
+                    addOns.add(addOn);
                 }
-            }
+            });
 
             items.put(beverage, addOns);
-        }
+        });
     }
 }

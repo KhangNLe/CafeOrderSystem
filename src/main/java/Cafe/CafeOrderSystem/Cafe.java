@@ -30,8 +30,8 @@ public class Cafe {
         cafeShop = ParserManagement.initializeCafeParser();
         menuManagement = createMenuManagement();
         employees = getEmployeeAccounts();
-        ordersManagement = createOrdersManagement();
         cafeInventory = createInventoryManagement();
+        ordersManagement = createOrdersManagement();
 
     }
 
@@ -68,7 +68,7 @@ public class Cafe {
     }
 
     
-    public Inventory getInventoryManagment(){
+    public Inventory getInventoryManagement(){
         return cafeInventory;
     }
 
@@ -91,7 +91,7 @@ public class Cafe {
                 ordersParser.getOrdersHistoryParser()
         );
 
-        return new  OrdersManagement(orders);
+        return new  OrdersManagement(orders, cafeInventory);
     }
 
     private EmployeesAuthentication getEmployeeAccounts(){
@@ -103,9 +103,8 @@ public class Cafe {
 
     private Inventory createInventoryManagement(){
         IngredientList ingredientList = cafeShop.getParserType(IngredientList.class);
-        Inventory returnInv = new Inventory(ingredientList);
 
-        return returnInv;
+        return new Inventory(ingredientList);
     }
 
 }

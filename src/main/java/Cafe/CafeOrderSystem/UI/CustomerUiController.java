@@ -1,53 +1,79 @@
 package Cafe.CafeOrderSystem.UI;
 
 import Cafe.CafeOrderSystem.Cafe;
-import Cafe.CafeOrderSystem.Menu.CafeMenu;
+import Cafe.CafeOrderSystem.CatalogItems.BeverageSize;
+import Cafe.CafeOrderSystem.CatalogItems.Ingredients;
+import Cafe.CafeOrderSystem.Exceptions.InvalidInputException;
+import Cafe.CafeOrderSystem.Inventory.Ingredients.IngredientItem;
+import Cafe.CafeOrderSystem.Inventory.Inventory;
 import Cafe.CafeOrderSystem.Menu.Items.BeverageItem;
 import Cafe.CafeOrderSystem.Menu.Items.PastriesItem;
 import Cafe.CafeOrderSystem.Menu.MenuManagement;
+import Cafe.CafeOrderSystem.Orders.OrderItem;
+import Cafe.CafeOrderSystem.Orders.OrdersManagement;
 import Cafe.CafeOrderSystem.utility.FxmlView;
 import Cafe.CafeOrderSystem.utility.LoadFXML;
 import javafx.application.Platform;
-import javafx.scene.control.ListCell;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.scene.Scene;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
-// WORK ON IT
+import Cafe.CafeOrderSystem.Menu.Items.CustomItem;
+
 public class CustomerUiController {
     private Cafe cafeShop;
+    private Stage primaryStage;
+
     @FXML private Button checkoutButton;
     @FXML private Button logoutButton;
+    @FXML private Button clearOrderButton;
     @FXML private ListView<String> beverageListView;
-    @FXML private ListView<PastriesItem> pastriesListView;
+    @FXML private ListView<String> pastriesListView;
+    @FXML private ListView<String> cartListView;
+    @FXML private TextField customerNameField;
+    @FXML private Pane customizationOverlay;
+    @FXML private VBox customizationPane;
+    @FXML private VBox customizationOptionsContainer;
+    @FXML private Label customizationBeverageName;
+    @FXML private Label customizationTotalLabel;
 
+    private BeverageItem currentBeverage;
+    private BeverageSize currentSize;
+    private List<CustomItem> selectedCustomizations = new ArrayList<>();
+    private double currentCustomizationPrice;
+    private final Map<BeverageItem, List<CustomItem>> cartItemCustomizations = new HashMap<>();
 
+    private ObservableList<String> cartItems = FXCollections.observableArrayList();
+    private List<Object> cartItemObjects = new ArrayList<>(); // Stores actual items
+    private final Map<BeverageItem, BeverageSize> cartItemSizes = new HashMap<>(); // For beverages
+    private List<Integer> cartItemQuantities = new ArrayList<>();
+    private double cartTotal = 0.0;
+    private String currentOrderId;
 
-    private Stage primaryStage;
+    private Inventory inventory;
+
 
     public void setFacade(Cafe cafeShop) {
         this.cafeShop = cafeShop;
+        this.inventory = cafeShop.getInventoryManagement();
     }
 
     public void setPrimaryStage(Stage stage) {
         this.primaryStage = stage;
     }
 
-
     @FXML
     public void initialize() {
         Platform.runLater(() -> {
-            beverageListView.setCellFactory(lv -> new ListCell<String>() {
+            beverageListView.setCellFactory(lv -> new ListCell<>() {
                 @Override
                 protected void updateItem(String item, boolean empty) {
                     super.updateItem(item, empty);
@@ -55,22 +81,88 @@ public class CustomerUiController {
                 }
             });
 
-            // Display beverages and pastries when the UI is initialized
-            displayBeverages();
+            pastriesListView.setCellFactory(lv -> new ListCell<>() {
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    setText(empty || item == null ? null : item);
+                }
+            });
+
+            cartListView.setCellFactory(lv -> new ListCell<>() {
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    setText(empty || item == null ? null : item);
+                }
+            });
+
+            // Set up cart list
+            cartListView.setItems(cartItems);
+
+            // Load initial data
+            Platform.runLater(() -> {
+                displayBeveragesWithCustomizations();
+                displayPastries();
+            });
         });
     }
 
+    private void displayPastries() {
+        MenuManagement menuManagement = cafeShop.getCafeMenuManagement();
+        List<PastriesItem> pastries = menuManagement.getPastriesItems();
+
+        pastriesListView.getItems().clear();
+        for (PastriesItem pastry : pastries) {
+            String summary = pastry.getShortSummary();
+            if (!isPastryAvailable(pastry)) {
+                summary += " (Out of Stock)";
+            }
+            pastriesListView.getItems().add(summary);
+        }
+    }
+
+
+    private void displayBeveragesWithCustomizations() {
+        MenuManagement menuManagement = cafeShop.getCafeMenuManagement();
+        Map<BeverageItem, List<CustomItem>> beveragesWithCustomizations =
+                menuManagement.getBeverageWithCustomizeOption();
+
+        beverageListView.getItems().clear();
+        for (BeverageItem beverage : beveragesWithCustomizations.keySet()) {
+            String summary = beverage.getShortSummary();
+            boolean available = isBeverageAvailable(beverage, beverage.cost().keySet().iterator().next(),
+                    new ArrayList<>());
+
+            if (!available) {
+                summary += " (Out of Stock)";
+            }
+            beverageListView.getItems().add(summary);
+        }
+    }
+
+
 
     @FXML
-    private void handleListClick(MouseEvent event) {
+    private void handleBeverageListClick(MouseEvent event) {
 
         if (event.getClickCount() == 2) { // double-click
 
-            String selected = beverageListView.getSelectionModel().getSelectedItem();
+            String selectedSummary = beverageListView.getSelectionModel().getSelectedItem();
 
-            if (selected != null) {
+            if (selectedSummary != null) {
 
-                System.out.println("Double-Clicked: " + selected);
+                System.out.println("Double-Clicked: " + selectedSummary);
+
+                MenuManagement menuManagement = cafeShop.getCafeMenuManagement();
+                Map<BeverageItem, List<CustomItem>> beveragesWithCustomizations =
+                        menuManagement.getBeverageWithCustomizeOption();
+
+                beveragesWithCustomizations.keySet().stream()
+                        .filter(b -> b.getShortSummary().equals(selectedSummary))
+                        .findFirst().ifPresent(selectedBeverage -> handleBeverageSelection(selectedBeverage,
+                                beveragesWithCustomizations.get(selectedBeverage)));
+
 
             }
 
@@ -79,22 +171,336 @@ public class CustomerUiController {
     }
 
 
+    private void handleBeverageSelection(BeverageItem beverage, List<CustomItem> customizations) {
+        // TODO: Validate Function for Menu Item if Out of Order
+        this.currentBeverage = beverage;
 
+        System.out.println("Selected beverage: " + beverage.name());
+        System.out.println("Available customizations: " + customizations.size());
 
-    public void displayBeverages() {
-        // Get the list of beverage items from the cafe menu management
-        MenuManagement menuManagement = cafeShop.getCafeMenuManagement();
+        // Step 1: Select size
+        BeverageSize size = showSizeSelectionDialog(beverage);
+        if (size == null) return;
+        this.currentSize = size;
 
-        List<BeverageItem> observableBeverages = menuManagement.getBeverageItems();
-
-        for (BeverageItem beverage : observableBeverages) {
-            beverageListView.getItems().add(beverage.getShortSummary());
+        if (!isBeverageAvailable(beverage, size, customizations)) {
+            showAlert("Out of Stock",
+                    "Sorry, we don't have enough ingredients for " + beverage.name() +
+                            " (" + size + "). Please choose another item.");
+            return;
         }
 
+        // Step 2: Show customization dialog if available
+        if (!customizations.isEmpty()) {
+            System.out.println("Showing customization dialog with " + customizations.size() + " options");
+            showCustomizationDialog(beverage, size, customizations);
+        } else {
+            System.out.println("No customizations available for this beverage");
+            addBeverageToCart(beverage, size, new ArrayList<>());
+        }
     }
 
 
-    // ADD: Validate Function for Menu Item if Out of Order
+
+    private BeverageSize showSizeSelectionDialog(BeverageItem beverage) {
+        List<BeverageSize> availableSizes = new ArrayList<>(beverage.cost().keySet());
+        ChoiceDialog<BeverageSize> dialog = new ChoiceDialog<>(availableSizes.getFirst(), availableSizes);
+
+        dialog.setTitle("Select Size");
+        dialog.setHeaderText("Select size for " + beverage.name());
+        dialog.setContentText("Choose size:");
+
+        return dialog.showAndWait().orElse(null);
+    }
+
+    private List<CustomItem> getCustomizationsForItem(BeverageItem item) {
+        return cartItemCustomizations.getOrDefault(item, null);
+    }
+
+    private void showCustomizationDialog(BeverageItem beverage, BeverageSize size,
+                                         List<CustomItem> availableCustomizations) {
+        customizationBeverageName.setText(beverage.name() + " (" + size + ")");
+        customizationOptionsContainer.getChildren().clear();
+        selectedCustomizations.clear();
+
+        // Calculate base price
+        double basePrice = beverage.cost().get(size).price();
+        currentCustomizationPrice = basePrice;
+
+        // Create checkboxes for each customization
+        for (CustomItem custom : availableCustomizations) {
+            CheckBox checkBox = new CheckBox(custom.name() + " (+$" + custom.additionalPrice() + ")");
+            checkBox.setUserData(custom);
+            checkBox.selectedProperty().addListener((obs, wasSelected, isSelected) -> {
+                if (isSelected) {
+                    selectedCustomizations.add(custom);
+                    currentCustomizationPrice += custom.additionalPrice();
+                } else {
+                    selectedCustomizations.remove(custom);
+                    currentCustomizationPrice -= custom.additionalPrice();
+                }
+                customizationTotalLabel.setText(String.format("Total: $%.2f", currentCustomizationPrice));
+            });
+            customizationOptionsContainer.getChildren().add(checkBox);
+        }
+
+        customizationTotalLabel.setText(String.format("Total: $%.2f", currentCustomizationPrice));
+        customizationOverlay.setVisible(true);
+        customizationPane.setVisible(true);
+    }
+
+    @FXML
+    private void handlePastryListClick(MouseEvent event) {
+        if (event.getClickCount() == 2) { // double-click
+            String selectedSummary = pastriesListView.getSelectionModel().getSelectedItem();
+
+            if (selectedSummary != null) {
+                MenuManagement menuManagement = cafeShop.getCafeMenuManagement();
+                List<PastriesItem> pastries = menuManagement.getPastriesItems();
+
+                pastries.stream()
+                        .filter(p -> p.getShortSummary().equals(selectedSummary))
+                        .findFirst()
+                        .ifPresent(this::handlePastrySelection);
+            }
+        }
+    }
+
+    @FXML
+    private void handleCartItemClick(MouseEvent event) {
+        if (event.getClickCount() == 2) { // Double-click
+            int selectedIndex = cartListView.getSelectionModel().getSelectedIndex();
+            if (selectedIndex >= 0) {
+                removeCartItem(selectedIndex);
+            }
+        }
+    }
+
+    @FXML
+    private void handleAddCustomizedToCart() {
+        if (currentBeverage != null && currentSize != null) {
+            addBeverageToCart(currentBeverage, currentSize, selectedCustomizations);
+            closeCustomizationOverlay();
+        }
+    }
+
+    @FXML
+    private void closeCustomizationOverlay() {
+        customizationOverlay.setVisible(false);
+        customizationPane.setVisible(false);
+    }
+
+    private void handlePastrySelection(PastriesItem pastry) {
+        if (!isPastryAvailable(pastry)) {
+            showAlert("Out of Stock",
+                    "Sorry, we don't have enough ingredients for " + pastry.name() +
+                            ". Please choose another item.");
+            return;
+        }
+        addPastryToCart(pastry);
+    }
+
+    private void addPastryToCart(PastriesItem pastry) {
+        // Create display string
+        String display = "1 x " + pastry.name() + " - $" + String.format("%.2f", pastry.cost().price());
+
+        // Add to ALL cart tracking lists
+        cartItemObjects.add(pastry);
+        cartItemQuantities.add(1); // Default quantity of 1
+        cartTotal += pastry.cost().price();
+        updateCartDisplay();
+    }
+
+    private void addBeverageToCart(BeverageItem beverage, BeverageSize size,
+                                   List<CustomItem> customizations) {
+        // Calculate base price
+        double basePrice = beverage.cost().get(size).price();
+
+        // Calculate customization additions
+        double customizationTotal = customizations.stream()
+                .mapToDouble(CustomItem::additionalPrice)
+                .sum();
+
+        // Create display string
+        StringBuilder display = new StringBuilder();
+        display.append("1 x ").append(beverage.name()).append(" (").append(size).append(")");
+
+        if (!customizations.isEmpty()) {
+            display.append(" with ");
+            display.append(customizations.stream()
+                    .map(c -> c.name() + " (+$" + c.additionalPrice() + ")")
+                    .collect(Collectors.joining(", ")));
+        }
+
+        cartItemCustomizations.put(beverage, new ArrayList<>(customizations));
+
+        display.append(" - $").append(String.format("%.2f", basePrice + customizationTotal));
+
+        // Add to cart tracking lists
+        cartItemObjects.add(beverage);
+        cartItemSizes.put(beverage, size);
+        cartItemQuantities.add(1);
+        cartTotal += basePrice + customizationTotal;
+        updateCartDisplay();
+    }
+
+
+    private boolean isBeverageAvailable(BeverageItem beverage, BeverageSize size,
+                                        List<CustomItem> customizations) {
+        // Get base ingredients for the size
+        Map<Ingredients, Integer> requiredIngredients = new HashMap<>(
+                beverage.cost().get(size).ingredients()
+        );
+
+        // Add customization ingredients
+        for (CustomItem custom : customizations) {
+            if (custom.ingredients() != null) {
+                custom.ingredients().forEach((ingredient, amount) ->
+                        requiredIngredients.merge(ingredient, amount, Integer::sum)
+                );
+            }
+        }
+
+        // Check each ingredient
+        for (Map.Entry<Ingredients, Integer> entry : requiredIngredients.entrySet()) {
+            IngredientItem stockItem = findIngredientItem(entry.getKey());
+            if (stockItem == null || stockItem.getAmount() < entry.getValue()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean isPastryAvailable(PastriesItem pastry) {
+        Map<Ingredients, Integer> requiredIngredients = pastry.cost().ingredients();
+
+        for (Map.Entry<Ingredients, Integer> entry : requiredIngredients.entrySet()) {
+            IngredientItem stockItem = findIngredientItem(entry.getKey());
+            if (stockItem == null || stockItem.getAmount() < entry.getValue()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void removeCartItem(int index) {
+        // Show confirmation dialog
+        Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmation.setTitle("Remove Item");
+        confirmation.setHeaderText("Remove this item from your order?");
+        confirmation.setContentText("This will remove the selected item from your cart.");
+
+        Optional<ButtonType> result = confirmation.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            // Remove from all tracking lists
+            if (index < cartItemObjects.size()) {
+                Object item = cartItemObjects.get(index);
+
+                // Calculate amount to subtract from total
+                double itemPrice = 0;
+                if (item instanceof BeverageItem beverage) {
+                    BeverageSize size = cartItemSizes.get(beverage);
+                    itemPrice = beverage.cost().get(size).price();
+
+                    // Add customization costs
+                    List<CustomItem> customizations = cartItemCustomizations.get(beverage);
+                    if (customizations != null) {
+                        itemPrice += customizations.stream()
+                                .mapToDouble(CustomItem::additionalPrice)
+                                .sum();
+                    }
+
+
+                    cartItemSizes.remove( beverage);
+                    cartItemCustomizations.remove(beverage);
+                }
+                else if (item instanceof PastriesItem pastry) {
+                    itemPrice = pastry.cost().price();
+                }
+
+                // Remove from all lists
+                cartItemObjects.remove(index);
+
+                cartItemQuantities.remove(index);
+
+
+                // Update total
+                cartTotal -= itemPrice;
+                updateCartDisplay();
+            }
+        }
+    }
+
+    private IngredientItem findIngredientItem(Ingredients ingredient) {
+        try {
+            for (int i = 0; ; i++) {
+                IngredientItem item = inventory.getList().getObject(i);
+                if (item.getIngredient().equals(ingredient)) {
+                    return item;
+                }
+            }
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    private void updateCartDisplay() {
+        cartItems.clear();
+        cartTotal = 0.0;
+
+        for (int i = 0; i < cartItemObjects.size(); i++) {
+            Object item = cartItemObjects.get(i);
+            int quantity = cartItemQuantities.get(i);
+            double price;
+            String displayName;
+
+            if (item instanceof BeverageItem beverage) {
+                BeverageSize size = cartItemSizes.get(beverage);
+                price = beverage.cost().get(size).price();
+                displayName = beverage.name() + " (" + size + ")";
+
+                // Add customizations to display
+                List<CustomItem> customizations = getCustomizationsForItem(beverage);
+                if (!customizations.isEmpty()) {
+                    displayName += " with " + customizations.stream()
+                            .map(CustomItem::name)
+                            .collect(Collectors.joining(", "));
+                    price += customizations.stream()
+                            .mapToDouble(CustomItem::additionalPrice)
+                            .sum();
+                }
+            } else {
+                PastriesItem pastry = (PastriesItem) item;
+                price = pastry.cost().price();
+                displayName = pastry.name();
+            }
+
+            double itemTotal = price * quantity;
+            cartTotal += itemTotal;
+
+            cartItems.add(String.format("%d x %s - $%.2f",
+                    quantity, displayName, itemTotal));
+        }
+
+        checkoutButton.setText(String.format("Checkout ($%.2f)", cartTotal));
+    }
+
+
+    @FXML
+    private void handleClearOrder() {
+        // Show confirmation dialog
+        Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmation.setTitle("Clear Order");
+        confirmation.setHeaderText("Clear current order?");
+        confirmation.setContentText("This will remove all items from your cart.");
+
+        Optional<ButtonType> result = confirmation.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            clearCart();
+        }
+    }
+
+
 
     @FXML
     private void handleLogOut() throws IOException {
@@ -105,7 +511,7 @@ public class CustomerUiController {
                     primaryStage,     // pass existing stage
                     FxmlView.HELLO,   //access enum
                     800,            // Width
-                    600             // Height
+                    600            // Height
             ).load();
         } catch (IOException e) {
             // Handle error (show dialog, log, etc.)
@@ -115,7 +521,95 @@ public class CustomerUiController {
 
     @FXML
     private void handleCheckout() {
+        // Checks if the checkout button is clicked
         System.out.println("Checkout clicked!");
+
+        List<OrderItem> potentialOrderItems = new ArrayList<>();
+
+        // Validate name field
+        String customerName = customerNameField.getText().trim();
+        if (customerName.isEmpty()) {
+            showAlert("Name Required", "Please fill in your name");
+            return;
+        }
+
+        // Checks if the cart is empty
+        if (cartItems.isEmpty()) {
+            showAlert("Empty Cart", "Your cart is empty. Please add items before checkout.");
+            return;
+        }
+        OrdersManagement ordersManagement = cafeShop.getOrdersManagement();
+
+        try {
+            String orderId = ordersManagement.createNewOrder(customerName);
+
+            for (int i = 0; i < cartItemObjects.size(); i++) {
+                Object item = cartItemObjects.get(i);
+                int quantity = cartItemQuantities.get(i);
+
+                if (item instanceof BeverageItem beverage) {
+                    for (int q = 0; q < quantity; q++) {
+                        BeverageSize size = cartItemSizes.get(beverage);
+                        List<CustomItem> customizations = getCustomizationsForItem(beverage);
+
+                        OrderItem orderItem = ordersManagement.createBeverageItem(beverage, size,
+                                customizations);
+
+                        potentialOrderItems.add(orderItem);
+                        ordersManagement.addItemIntoOrder(orderId, orderItem);
+                    }
+                }
+                else if (item instanceof PastriesItem pastriesItem) {
+                    for (int q = 0; q < quantity; q++) {
+                        OrderItem orderItem = ordersManagement.createPastriesItem(
+                                pastriesItem);
+
+                        potentialOrderItems.add(orderItem);
+                        ordersManagement.addItemIntoOrder(orderId, orderItem);
+                    }
+                }
+            }
+
+            // 3. Finalize the order
+            ordersManagement.finalizeActiveOrder(orderId);
+
+            showAlert("Success", "Order #" + orderId + " placed successfully!\nTotal: $" + String.format("%.2f", cartTotal));
+
+            clearCart();
+
+        } catch (InvalidInputException e){
+            ordersManagement.returnIngredientsToInventory(potentialOrderItems);
+            showAlert("Missing Item", e.getMessage());
+        } catch (Exception e) {
+            showAlert("Order Error", "An error occurred while placing your order: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    private void clearCart() {
+        cartItems.clear();
+        cartItemObjects.clear();
+        cartItemSizes.clear();
+        cartItemQuantities.clear();
+        cartItemCustomizations.clear();
+        cartTotal = 0.0;
+
+        // Reset the checkout button text
+        checkoutButton.setText(String.format("Checkout ($%.2f)", cartTotal));
+
+        // Clear any selection state
+        currentBeverage = null;
+        currentSize = null;
+        selectedCustomizations.clear();
+    }
+
+
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
 }

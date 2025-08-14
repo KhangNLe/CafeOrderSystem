@@ -5,6 +5,8 @@ import Cafe.CafeOrderSystem.Inventory.Ingredients.IngredientItem;
 import Cafe.CafeOrderSystem.Inventory.Ingredients.IngredientList;
 import Cafe.CafeOrderSystem.JsonParser.ItemsParser;
 
+import java.util.*;
+
 public class Inventory  {
     private IngredientList inventoryQuant;
 
@@ -24,11 +26,11 @@ public class Inventory  {
      * @return
      */
     public boolean modifyInventory(int changeAmount, IngredientItem desiredIngr){
-        if(!inventoryQuant.modifyQuantity(desiredIngr, changeAmount)){
-            return false; //error message
-        }
+        return inventoryQuant.modifyQuantity(desiredIngr, changeAmount);
+    }
 
-        return true; //successful modification
+    public boolean modifyInventory(Ingredients ingredient, int amount){
+        return inventoryQuant.modifyQuantity(ingredient, amount);
     }
 
     /**

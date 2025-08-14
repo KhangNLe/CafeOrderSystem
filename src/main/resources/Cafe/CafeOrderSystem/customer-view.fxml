@@ -2,19 +2,77 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.scene.effect.DropShadow?>
 <BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="Cafe.CafeOrderSystem.UI.CustomerUiController">
     <top>
         <Label text="Place Your Order" style="-fx-font-size: 20; -fx-padding: 10;"/>
     </top>
     <center>
-        <ListView fx:id="beverageListView" layoutX="20" layoutY="20" prefWidth="300" prefHeight="400" onMouseClicked="#handleListClick"/>
+        <HBox spacing="20">
+            <!-- Left side: TabPane with Beverages and Pastries -->
+            <TabPane prefWidth="400" prefHeight="400">
+                <Tab text="Beverages" closable="false">
+                    <VBox spacing="10">
+                        <Label text="Menu Items (Double-click to customize)"/>
+                        <ListView fx:id="beverageListView" prefWidth="380" prefHeight="370"
+                                  onMouseClicked="#handleBeverageListClick"/>
+                    </VBox>
+                </Tab>
+                <Tab text="Pastries" closable="false">
+                    <VBox spacing="10">
+                        <Label text="Menu Items (Double-click to add to Cart)"/>
+                        <ListView fx:id="pastriesListView" prefWidth="380" prefHeight="370"
+                                  onMouseClicked="#handlePastryListClick"/>
+                    </VBox>
+                </Tab>
+            </TabPane>
+
+            <!-- Right side: Cart -->
+            <VBox spacing="10" prefWidth="400">
+                <Label text="Your Cart (Double-click to remove items)"/>
+                <ListView fx:id="cartListView" prefWidth="380" prefHeight="350"
+                          onMouseClicked="#handleCartItemClick"/>
+            </VBox>
+        </HBox>
     </center>
     <bottom>
-        <HBox spacing="10" alignment="CENTER"> <!-- 10px between buttons -->
-            <Button text="Checkout" fx:id="checkoutButton" onAction="#handleCheckout"/>
-            <Button text="LOG OUT" fx:id="logoutButton" onAction="#handleLogOut"/>
-        </HBox>
+        <VBox spacing="10" alignment="CENTER">
+            <!-- Name field -->
+            <HBox spacing="10" alignment="CENTER">
+                <Label text="Your Name:"/>
+                <TextField fx:id="customerNameField" promptText="Enter your name" prefWidth="200"/>
+            </HBox>
+            <!-- Action buttons -->
+            <HBox spacing="10" alignment="CENTER">
+                <Button text="Clear Order" fx:id="clearOrderButton" onAction="#handleClearOrder"
+                        style="-fx-background-color: #ffcccc; -fx-padding: 5 15;"/>
+                <Button text="Checkout ($0.00)" fx:id="checkoutButton" onAction="#handleCheckout"
+                        style="-fx-padding: 5 15;"/>
+                <Button text="LOG OUT" fx:id="logoutButton" onAction="#handleLogOut"
+                        style="-fx-padding: 5 15;"/>
+            </HBox>
+        </VBox>
     </bottom>
 
+    <Pane fx:id="customizationOverlay" visible="false" style="-fx-background-color: rgba(0,0,0,0.5);">
+        <VBox fx:id="customizationPane" alignment="CENTER"
+              style="-fx-background-color: white; -fx-padding: 20; -fx-spacing: 10;">
+            <effect>
+                <DropShadow radius="10" color="rgba(0,0,0,0.5)"/>
+            </effect>
+            <Label text="Customize Your Drink" style="-fx-font-size: 16; -fx-font-weight: bold;"/>
+            <Label fx:id="customizationBeverageName"/>
+            <Separator/>
+            <ScrollPane fitToWidth="true" maxHeight="200">
+                <VBox fx:id="customizationOptionsContainer" spacing="5"/>
+            </ScrollPane>
+            <Separator/>
+            <Label fx:id="customizationTotalLabel" style="-fx-font-weight: bold;"/>
+            <HBox spacing="10" alignment="CENTER">
+                <Button text="Add to Cart" onAction="#handleAddCustomizedToCart"/>
+                <Button text="Cancel" onAction="#closeCustomizationOverlay"/>
+            </HBox>
+        </VBox>
+    </Pane>
 </BorderPane>

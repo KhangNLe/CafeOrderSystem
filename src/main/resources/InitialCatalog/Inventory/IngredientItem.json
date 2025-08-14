@@ -1,13 +1,11 @@
 [ {
   "id" : "I-01",
   "ingredient" : "BUTTER",
-  "amount" : 25,
-  "name" : "BUTTER"
+  "amount" : 17
 }, {
   "id" : "I-02",
   "ingredient" : "FLOUR",
-  "amount" : 25,
-  "name" : "FLOUR"
+  "amount" : 20
 }, {
   "id" : "I-03",
   "ingredient" : "CHOCOLATE_CHIP",
@@ -26,8 +24,7 @@
 }, {
   "id" : "I-06",
   "ingredient" : "STRAWBERRY",
-  "amount" : 26,
-  "name" : "STRAWBERRY"
+  "amount" : 22
 }, {
   "id" : "I-07",
   "ingredient" : "OATMEAL",
@@ -46,8 +43,7 @@
 }, {
   "id" : "I-10",
   "ingredient" : "MILK",
-  "amount" : 30,
-  "name" : "MILK"
+  "amount" : 24
 }, {
   "id" : "I-11",
   "ingredient" : "OAT_MILK",
@@ -61,8 +57,7 @@
 }, {
   "id" : "I-13",
   "ingredient" : "SUGAR_FREE_SYRUP",
-  "amount" : 25,
-  "name" : "SUGAR_FREE_SYRUP"
+  "amount" : 21
 }, {
   "id" : "I-14",
   "ingredient" : "TEA_LEAVES_BLACK",
@@ -71,8 +66,7 @@
 }, {
   "id" : "I-15",
   "ingredient" : "TEA_LEAVES_GREEN",
-  "amount" : 25,
-  "name" : "TEA_LEAVES_GREEN"
+  "amount" : 19
 }, {
   "id" : "I-16",
   "ingredient" : "TEA_LEAVES_HERBAL",
@@ -81,8 +75,7 @@
 }, {
   "id" : "I-17",
   "ingredient" : "COFFEE_BEAN",
-  "amount" : 25,
-  "name" : "COFFEE_BEAN"
+  "amount" : 21
 }, {
   "id" : "I-18",
   "ingredient" : "DECAF_COFFEE_BEAN",

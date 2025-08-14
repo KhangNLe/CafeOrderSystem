@@ -22,6 +22,10 @@ public record PastriesItem(
         return sb.toString();
     }
 
+    public String getShortSummary() {
+        return String.format("%s (%s)", this.name, this.type);
+    }
+
     public PastriesItem copyOf() {
         return new PastriesItem(id, name, type, cost.copyOf());
     }

@@ -7,14 +7,12 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 import Cafe.CafeOrderSystem.Cafe;
-import Cafe.CafeOrderSystem.CatalogItems.Ingredients;
 import Cafe.CafeOrderSystem.Inventory.Ingredients.IngredientItem;
 import Cafe.CafeOrderSystem.Menu.Items.BeverageItem;
 import Cafe.CafeOrderSystem.Menu.Items.PastriesItem;
 import Cafe.CafeOrderSystem.Orders.CustomerOrder;
 import Cafe.CafeOrderSystem.UI.BaristaUiController;
 import Cafe.CafeOrderSystem.UI.CustomerUiController;
-import Cafe.CafeOrderSystem.UI.HelloApplication;
 import Cafe.CafeOrderSystem.UI.HelloController;
 import Cafe.CafeOrderSystem.UI.IngredientOverlayController;
 import Cafe.CafeOrderSystem.UI.LoginController;
@@ -26,8 +24,6 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuItem;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -191,6 +187,7 @@ public class LoadFXML {
             overlayController.setMenuItemData(menuItem, stage, refreshCallback);  // Pass menuItem instead of controller
         }
     }
+<<<<<<< HEAD
         if (controller instanceof NewItemController) {
         NewItemController overlayController = (NewItemController) controller;
         
@@ -204,6 +201,16 @@ public class LoadFXML {
         // Apply custom configuration if provided
         if (controllerConfigurator != null) {
             controllerConfigurator.accept(overlayController);
+=======
+         if (controller instanceof NewItemController) {
+            NewItemController c = (NewItemController) controller;
+            c.setStage(stage);
+            c.setIngredientList(cafe.getInventoryManagement().getList());
+            if (refreshCallback != null) c.setRefreshCallback(refreshCallback);
+            // Make it a real overlay dialog:
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initStyle(StageStyle.UNDECORATED);
+>>>>>>> 5de3dd91f68586d9f9f36c3907d29e36424c3bf6
         }
 }
          
